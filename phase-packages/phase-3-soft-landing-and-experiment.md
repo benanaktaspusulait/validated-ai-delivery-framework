@@ -1,9 +1,11 @@
 # Phase 3 - Soft Landing and Experiment
 
+Operating mode: Warning Mode and Recommendation Mode. Touch developer workflow with comments and warnings, but do not block PRs.
+
 ## Purpose
 
 ```text
-Start touching developer workflow with comments and warnings, but do not block PRs.
+Introduce soft, non-blocking guidance and validate that it helps without harming psychological safety.
 ```
 
 ## Duration
@@ -51,154 +53,13 @@ Psychological safety baseline is at least 3.5.
 ## Actions
 
 ```text
-Week 7: Enable PR Comment Bot for AI-assisted PRs over 300 changed lines and missing AI metadata.
-Week 8: Start experiment mode: show risk warnings to 50% of eligible AI-assisted PRs and keep 50% as control.
-Week 9: Run psychological safety pulse.
-Week 10: Analyse A/B test results for review time, rework and defect signals.
-Ship the Developer in-PR view and PR comment experience.
+Week 7: Enable the PR Comment Bot for AI-assisted PRs over 300 changed lines and missing AI metadata (warn only).
+Week 8: Start experiment mode: show risk warnings to 50% of eligible AI-assisted PRs, keep 50% as control.
+Week 9: Re-run the psychological safety pulse and compare against the Phase 0 baseline.
+Week 10: Analyse A/B results for review time, rework and defect signals.
+Run the Human Validation Cost calibration study and record the new confidence label.
+Ship the developer in-PR view; route review-debt alerts to the platform Slack/Teams channel.
 ```
-
-## Technical Specifications
-
-### Soft-recommendation surface (warn only, never block)
-
-```text
-Add PR warnings (large PR, missing metadata, high-risk path).
-Add recommendation engine output as PR comments.
-Add review debt alerts to the platform channel.
-Start Net AI Delivery Value reporting in the team view.
-```
-
-Recommendation mapping (surface as guidance, not enforcement):
-
-| Signal | Recommendation |
-|---|---|
-| AI Review Debt high | Reduce AI WIP limit next sprint |
-| PR > 300 LOC | Split PR or add second reviewer |
-| High-risk domain change | Require senior + security review |
-| Defect rate rising | Pause AI expansion for affected team |
-| Low ownership confidence | Require explainable review |
-| High prompt iteration count | Re-refine story before coding |
-| High coverage but low mutation score | Improve test quality gate |
-| Low data confidence | Use metric for trend only, not decision |
-
-### Experiment mode design
-
-```text
-Randomly assign 50% of eligible AI-assisted PRs to receive soft warnings.
-Keep the other 50% as a control group.
-Compare warning and control outcomes after 2 sprints.
-Measure PR split rate, review wait time, defect linkage and developer feedback.
-Use results to tune policies before Phase 4 enforcement.
-```
-
-Constraints:
-
-```text
-Experiment mode stays team-level and non-punitive.
-It validates whether a policy improves outcomes, not whether one developer outperforms another.
-```
-
-### Human Validation Cost calibration study
-
-```text
-Run a 2-week calibration study with the pilot reviewers.
-Reviewers log actual review time for AI-assisted and comparable non-AI PRs.
-Use the study to tune the timestamp-based estimation rules from Phase 2.
-After calibration, record the new confidence label for Human Validation Cost.
-```
-
-### Psychological safety pulse (re-run, compare against the Phase 0 baseline)
-
-```text
-Re-run the same six-question psychological safety pulse defined in Phase 0 and compare the result against the recorded baseline.
-```
-
-Action rule:
-
-```text
-If the average score is below 3.5, pause metric expansion and run a team retro before adding any enforcement.
-```
-
-### Suggested warning copy
-
-```text
-Large AI-assisted PR: "This AI-assisted PR is large. Consider splitting it or adding a second reviewer."
-Missing metadata: "Please record AI assistance metadata so the team can learn from delivery trends. This is not used for individual scoring."
-High-risk path: "This change touches a high-risk area. A senior or security reviewer is recommended."
-```
-
-### Developer View (lightweight, in-PR)
-
-```text
-Surface inside the GitHub PR and a small panel, never a large personal dashboard.
-Show only: Is this PR AI-assisted? Is metadata missing? Is the PR large? Is the risk score high?
-Is a second reviewer suggested? Is test coverage low? Does AI-generated output need explanation?
-```
-
-Example PR comment:
-
-```text
-This PR is AI-assisted and high risk.
-Reason:
-- 420 lines changed
-- payment domain
-- reviewer load is high
-Recommended actions:
-- split into smaller PRs
-- request a senior reviewer
-- add additional test coverage
-```
-
-Intended developer experience:
-
-```text
-"This tool is not tracking me; it is helping me merge my PR more safely."
-No individual scoring is shown to anyone, including managers.
-```
-
-Alert fatigue threshold:
-
-```text
-If PR bot comments exceed 20% of PRs or more than 10 actionable alerts per week for one team, review thresholds.
-If developers describe the bot as pressure or surveillance, disable or soften warnings before continuing.
-```
-
-### Measurement confidence at this phase
-
-```text
-Layer: quality linkage added (defects, rework, coverage signals) plus calibrated review cost.
-Confidence: medium. Defect linkage and review effort are estimated, not exact.
-Use: soft warnings and experiment learning only.
-```
-
-Note on MVP quality linkage: coverage and CI signals are Stage 2+. For the MVP, quality linkage is based on **Jira defects** linked to merged PRs and story/component identifiers.
-
-### Test Strategy and Observability
-
-Test strategy:
-
-```text
-Unit-test PR Comment Bot logic: ensure correct mapping of recommendation severity to comment priority.
-Integration-test experiment-mode assignment: verify random assignment correctness and persistence for a single PR.
-Regression-test A/B analysis reproducibility: ensure identical input metrics produce consistent A/B reports.
-Unit-test alert-fatigue counters: verify increments on comment delivery and reset on new sprint.
-End-to-end test: simulate high-risk PR and verify Slack/Teams notification and PR comment delivery.
-```
-
-Observability:
-
-```text
-Emit pr_bot_comments_total by recommendation_type and team.
-Emit experiment_assignment_total by group (treatment/control).
-Emit alert_fatigue_hits_total when team-level thresholds are exceeded.
-Track time_to_comment from webhook receipt to PR comment publication.
-Monitor notification_delivery_success_rate for the platform channel.
-```
-
-### Notification Delivery
-
-Review-debt alerts and high-risk notifications are delivered to the `#ai-delivery-platform` Slack/Teams channel.
 
 ## Deliverables
 
@@ -212,6 +73,7 @@ Psychological safety pulse report
 Human Validation Cost calibration result
 Updated warning copy and threshold recommendations
 Developer in-PR view and PR comment experience
+PR-bot and experiment-mode tests and observability counters
 ```
 
 ## Exit Criteria
@@ -245,12 +107,13 @@ Tune thresholds before Phase 4.
 Proceed to Phase 4 only if soft recommendations improve or preserve quality without damaging psychological safety.
 ```
 
-## Master Reference Map
+## Reference Docs
 
 ```text
-Section 7.5  - Recommendation engine
-Section 9.6  - Lightweight experiment mode (MVP non-goals boundary)
-Section 10.4 - Human Validation Cost calibration mechanism
-Section 19.2 - Psychological safety pulse
-Section 20   - Platform rollout model: Phase 2 soft recommendations and experiment mode
+docs/risk-policy-engine.md       - recommendation mapping surfaced as PR comments
+docs/ui-ux-spec.md               - developer in-PR view and comment experience
+docs/psychological-safety.md     - pulse questions and gating rule
+docs/metrics-catalogue.md        - Human Validation Cost (calibrated this phase); MVP quality linkage is Jira-defect-based
+docs/testing-and-observability.md - Phase 3 tests and signals
+Master framework: sections 7.5, 9.6, 10.4, 19.2, 20
 ```

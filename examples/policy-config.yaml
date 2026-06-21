@@ -1,0 +1,84 @@
+# Policy engine configuration (Phase 4).
+# Defines the guardrails enabled in Enforcement Mode and the security controls.
+# See docs/risk-policy-engine.md for evaluation rules and confidence gating.
+#
+# Confidence gate: only rules backed by metrics with Data Confidence Score >= 70
+# may use a blocking action. All others warn only.
+
+policies:
+  ai_metadata_required:
+    enabled: true
+    applies_to: pull_request
+    failure_mode: block
+
+  large_ai_pr_warning:
+    enabled: true
+    threshold_changed_lines: 300
+    action: warn_and_recommend_split
+
+  high_risk_ai_pr_review:
+    enabled: true
+    risk_threshold: 10
+    required_reviewers:
+      - senior_engineer
+      - code_owner
+
+  security_sensitive_change:
+    enabled: true
+    paths:
+      - "**/auth/**"
+      - "**/security/**"
+      - "**/payment/**"
+      - "**/terraform/**"
+    required_reviewers:
+      - appsec
+      - senior_engineer
+
+  ai_review_debt_control:
+    enabled: true
+    if_review_debt_age_exceeds: "2x_normal_pr_wait_time"
+    action: reduce_ai_wip_limit
+
+  emergency_override:
+    enabled: true
+    label: emergency-fix
+    requires_reason: true
+    action: allow_with_audit_log
+
+# Security-sensitive ownership: the Security Lead owns this path map.
+security:
+  sensitive_paths:
+    - pattern: "**/auth/**"
+      required_reviewers:
+        - appsec
+        - code_owner
+    - pattern: "**/payment/**"
+      required_reviewers:
+        - senior_engineer
+        - domain_owner
+
+security_controls:
+  prompt_sensitive_data_scanning:
+    enabled: true
+    mode: comment_only          # MVP scans PR title/body/comments only; never blocks; never stores raw matches
+    sensitive_patterns:
+      - "password"
+      - "secret"
+      - "api_key"
+      - "token"
+      - "auth"
+      - "internal"
+      - "pii"
+
+# Declarative rule form used by the Policy Settings UI.
+rules:
+  - if: ai_assisted == true and changed_lines > 300
+    action: warn_and_request_split
+  - if: ai_assisted == true and domain == payment
+    action: require_senior_reviewer
+  - if: security_sensitive_files_changed == true
+    action: require_appsec_review
+  - if: ai_review_debt_age > 2x_normal
+    action: reduce_ai_wip_limit
+  - if: metadata_missing == true
+    action: block_merge

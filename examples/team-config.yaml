@@ -1,0 +1,61 @@
+# Self-service team configuration (Phase 5).
+# A new team submits this file to be initialised in Observation Mode.
+# See docs/risk-policy-engine.md and docs/governance-and-privacy.md for field semantics.
+
+team:
+  id: payments-team
+  name: Payments Team
+  domain_criticality: high
+  senior_engineers: 3
+  mid_engineers: 4
+  junior_engineers: 2
+
+repositories:
+  - provider: github
+    owner: example-org
+    name: payments-api
+
+risk:
+  sensitive_paths:
+    - "src/main/**/payment/**"
+    - "src/main/**/auth/**"
+    - "infra/**"
+  high_risk_threshold: 10
+  codebase_familiarity_required_for_low_risk: medium
+  high_churn_window_days: 30
+  cross_team_contract_paths:
+    - "openapi/**"
+    - "proto/**"
+
+security:
+  sensitive_paths:
+    - pattern: "**/auth/**"
+      required_reviewers:
+        - appsec
+        - code_owner
+    - pattern: "**/payment/**"
+      required_reviewers:
+        - senior_engineer
+        - domain_owner
+
+wip:
+  dynamic_ai_wip_enabled: true
+  min_limit: 2
+  max_limit: 12
+  high_risk_penalty_enabled: true
+
+policies:
+  ai_metadata_required: true
+  large_pr_warning_threshold_lines: 300
+  high_risk_requires_senior_review: true
+  emergency_override_label: emergency-fix
+  override_reason_required: true
+  prompt_sensitive_data_scanning: true
+
+data:
+  detailed_retention_months: 12
+  aggregate_retention_months: 24
+  raw_prompt_storage: disabled
+
+notifications:
+  slack_channel: "#payments-delivery-health"

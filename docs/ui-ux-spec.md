@@ -1,0 +1,95 @@
+# UI / UX Specification
+
+Canonical reference for the product surface: role-based views, screens, states and navigation. Read-only screens are built in Phase 2, the developer in-PR view in Phase 3, Policy Settings and Playbook in Phase 4, and the executive/multi-team/RBAC surface in Phase 5.
+
+## Principle
+
+The platform is a control plane, not only a report screen. It collects data, computes metrics, runs risk and policy rules, and pushes warnings or blocks back into GitHub and CI.
+
+## Role-based views
+
+```text
+Platform Team view  - operate the system: integrations, data confidence, policy violations, rollout pace.
+Engineering Manager / Tech Lead view - team delivery health and risky PRs.
+Executive view      - Net AI Delivery Value, adoption, risk and ROI summary (no PR-level detail).
+Developer view      - lightweight, in-PR guidance only. No personal dashboard.
+```
+
+## Screens and when they ship
+
+| Screen | Introduced | Purpose |
+|---|---|---|
+| Admin login + integration connect + team mapping | Phase 1 | Set up SSO, GitHub, Jira and team-to-repo mapping |
+| Overview Dashboard | Phase 2 | Core metric cards with status and confidence |
+| Team Dashboard | Phase 2 | Per-team comparison of adoption, debt, defects, value, risk |
+| Pull Request Risk View | Phase 2 | Per-PR AI flag, size, risk, signal, recommendation |
+| Metrics Detail View | Phase 2 | Drill-down: inputs, baseline, confidence label |
+| Developer in-PR view | Phase 3 | In-PR guidance and comment bot |
+| Policy Settings | Phase 4 | Rule editor mapping to CI/GitHub Checks |
+| Recommendations / Playbook | Phase 4 | Problem -> action -> owner |
+| Executive Summary | Phase 5 | Leadership ROI/risk/adoption summary |
+| Multi-team navigation + RBAC | Phase 5 | Scale across teams with role-scoped access |
+
+Full navigation (enterprise): Dashboard, Teams, Pull Requests, Metrics, Risks, Policies, Recommendations, Integrations, Reports, Settings. Settings includes RBAC via Keycloak so each role sees only the right view.
+
+## Example: Overview card row
+
+| Metric | Current | Trend | Status |
+|---|---|---|---|
+| AI-assisted PR Rate | 34% | up | Healthy |
+| AI Review Debt | 12 PRs | up | Warning |
+| Estimated Net AI Delivery Value | £4,800 | up | Good, confidence shown |
+| Post-merge Defect Rate | 1.2x baseline | up | Watch |
+| Data Confidence | 82% | flat | Good |
+
+## Example: Pull Request Risk row
+
+| PR | AI | LOC | Risk | Signal | Recommendation |
+|---|---|---:|---|---|---|
+| Add payment retry logic | Yes | 420 | High | Large AI PR + payment domain | Split PR + senior reviewer |
+| Update docs | Yes | 80 | Low | None | Normal review |
+| Auth token refactor | Yes | 260 | Critical | Security-sensitive files | AppSec review required |
+
+## Developer in-PR view
+
+```text
+Surface inside the GitHub PR and a small panel, never a large personal dashboard.
+Show only: Is this PR AI-assisted? Is metadata missing? Is the PR large? Is the risk score high?
+Is a second reviewer suggested? Is test coverage low? Does AI-generated output need explanation?
+```
+
+Example PR comment:
+
+```text
+This PR is AI-assisted and high risk.
+Reason:
+- 420 lines changed
+- payment domain
+- reviewer load is high
+Recommended actions:
+- split into smaller PRs
+- request a senior reviewer
+- add additional test coverage
+```
+
+```text
+Intended experience: "This tool is not tracking me; it is helping me merge my PR more safely."
+No individual scoring is shown to anyone, including managers.
+```
+
+## UI guardrails
+
+```text
+Team-level by default. No individual developer ranking, leaderboard or "who uses AI most" view.
+Every metric shows its data confidence. Never present an estimate as a precise fact.
+Wrong: "AI delivery value: £12,400."
+Right: "Estimated AI delivery value: £12,400. Data confidence: Medium."
+```
+
+## Empty and low-confidence states
+
+```text
+Insufficient data:        "Not enough data yet. Continue collecting for N more sprints."
+Data Confidence < 70:     "Directional only. Not suitable for policy enforcement."
+Low AI metadata coverage: "AI usage declaration coverage is below threshold. Improve metadata before interpreting AI impact."
+```

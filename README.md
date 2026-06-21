@@ -1,60 +1,66 @@
 # Validated AI Delivery Framework v1.8
 
-This repository contains the Validated AI Delivery Framework v1.8 documentation set.
+A platform-team-owned control plane for measuring, governing and improving AI-assisted software delivery. This repository is the documentation set for building it.
 
-Use this file as the entry point. The phase documents are the operational source of truth for implementation. The master framework remains the product thesis, high-level architecture, metric catalogue, roadmap and reference map.
+Read this file first, then start Phase 0. The phase packages are the implementation source of truth; `docs/` holds the canonical technical references; `examples/` holds copyable artefacts; the master framework holds the thesis.
 
-## Document Map
+## Where to go
 
-| Document | Purpose |
+| If you want to... | Read |
 |---|---|
-| [validated-ai-delivery-framework-v1.8.md](validated-ai-delivery-framework-v1.8.md) | Master reference, product thesis, metric catalogue and architecture overview |
-| [phase-packages/README.md](phase-packages/README.md) | Stage-gate overview and phase-package navigation |
-| [phase-packages/phase-0-groundwork-and-legal-assurance.md](phase-packages/phase-0-groundwork-and-legal-assurance.md) | Legal, privacy, HR, cultural readiness and PR template registration |
-| [phase-packages/phase-1-data-architecture-and-raw-collection.md](phase-packages/phase-1-data-architecture-and-raw-collection.md) | Raw data collection, connectors, event store, schema and Data Confidence Score |
-| [phase-packages/phase-2-metrics-and-risk-engine.md](phase-packages/phase-2-metrics-and-risk-engine.md) | Read-only metrics, risk scoring, dashboard states and metric confidence |
-| [phase-packages/phase-3-soft-landing-and-experiment.md](phase-packages/phase-3-soft-landing-and-experiment.md) | Warning Mode, PR comment bot, experiment mode and calibration |
-| [phase-packages/phase-4-automated-guardrails.md](phase-packages/phase-4-automated-guardrails.md) | Enforcement Mode, GitHub checks, metadata blocker, policy engine and Emergency Override |
-| [phase-packages/phase-5-enterprise-rollout.md](phase-packages/phase-5-enterprise-rollout.md) | Enterprise rollout, self-service onboarding, governance forum, RBAC and retention purge |
-| [TODO.md](TODO.md) | Outstanding implementation gaps, tracked per phase |
+| Understand why this exists (thesis, positioning, roadmap) | [validated-ai-delivery-framework-v1.8.md](validated-ai-delivery-framework-v1.8.md) |
+| Know what we are building (product definition) | [PRD.md](PRD.md) |
+| Stand a team up quickly | [quick-start.md](quick-start.md) |
+| Answer common questions | [faq.md](faq.md) |
+| Implement, in order, with gates | [phase-packages/README.md](phase-packages/README.md) |
+| Look up a technical spec | [docs/](docs/) |
+| Copy a template or config | [examples/](examples/) |
+| See what is still open | [TODO.md](TODO.md) |
 
-## Implementation Phases
+## Reference docs (`docs/`)
+
+| Doc | Scope |
+|---|---|
+| [architecture.md](docs/architecture.md) | System flow, reference stack, collector interface, reliability |
+| [data-model.md](docs/data-model.md) | Schema, indexes, cost config, retention, migration ownership |
+| [data-confidence.md](docs/data-confidence.md) | Confidence scoring, decision rule, presentation tiers |
+| [metrics-catalogue.md](docs/metrics-catalogue.md) | Core metrics, Cognitive Load Index, validity guardrails |
+| [risk-policy-engine.md](docs/risk-policy-engine.md) | Risk scoring, policy engine, Dynamic AI WIP, playbook |
+| [ui-ux-spec.md](docs/ui-ux-spec.md) | Role-based views, screens, states, navigation |
+| [governance-and-privacy.md](docs/governance-and-privacy.md) | Non-negotiable rules, privacy, retention, escalation |
+| [psychological-safety.md](docs/psychological-safety.md) | Pulse questions and gating rules |
+| [rollout-operating-model.md](docs/rollout-operating-model.md) | Operating modes, RACI, pause criteria, roadmap |
+| [testing-and-observability.md](docs/testing-and-observability.md) | Per-phase test and observability requirements |
+
+## Implementation phases
 
 | Phase | Name | Operating mode |
 |---:|---|---|
 | 0 | Groundwork and Legal Assurance | Readiness only |
-| 1 | Data Architecture and Raw Collection | Observation Mode |
-| 2 | Metrics and Risk Engine | Observation Mode |
-| 3 | Soft Landing and Experiment | Warning Mode and Recommendation Mode |
-| 4 | Automated Guardrails | Enforcement Mode |
-| 5 | Enterprise Rollout | Staged rollout across modes |
+| 1 | Data Architecture and Raw Collection | Observation |
+| 2 | Metrics and Risk Engine | Observation |
+| 3 | Soft Landing and Experiment | Warning / Recommendation |
+| 4 | Automated Guardrails | Enforcement |
+| 5 | Enterprise Rollout | Staged |
 
-## Operating Modes
+Operating-mode definitions and the per-phase confidence roadmap are in [docs/rollout-operating-model.md](docs/rollout-operating-model.md).
 
-```text
-Observation Mode = collect and calculate only; no developer-facing warnings or blocks.
-Warning Mode = non-blocking PR comments and soft guidance.
-Recommendation Mode = team-level recommendations and playbooks.
-Enforcement Mode = calibrated blocking checks with Emergency Override.
-```
-
-## Non-Negotiable Rules
+## Non-negotiable rules
 
 ```text
-No individual AI productivity ranking.
-No personal productivity dashboard.
-No "who uses AI most" view.
-No performance-review export.
+No individual AI productivity ranking, personal dashboard, "who uses AI most" view or performance-review export.
 No raw prompt storage in MVP.
 No hard enforcement before Phase 4.
 No blocking enforcement from metrics with Data Confidence Score < 70.
 No causal claims stronger than the data supports.
 ```
 
-## Start Here
+Full governance detail: [docs/governance-and-privacy.md](docs/governance-and-privacy.md).
+
+## Start here
 
 ```text
 1. Read phase-packages/README.md.
-2. Start Phase 0 from phase-packages/phase-0-groundwork-and-legal-assurance.md.
+2. Start Phase 0 (phase-packages/phase-0-groundwork-and-legal-assurance.md).
 3. Do not begin Phase 1 until Phase 0 exit criteria have passed.
 ```

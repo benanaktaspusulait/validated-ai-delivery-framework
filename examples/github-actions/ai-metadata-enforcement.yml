@@ -1,0 +1,60 @@
+# AI Metadata Enforcement
+# Activated in Phase 4 (Enforcement Mode). Blocks merge when AI metadata is missing.
+# The emergency-fix label always bypasses the check and is recorded in the policy audit log.
+
+name: AI Metadata Enforcement
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate-ai-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Allow emergency override
+        id: emergency_override
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(label => label.name);
+            const hasOverride = labels.includes("emergency-fix");
+            if (hasOverride) {
+              core.notice("Emergency override: AI metadata is not required for this PR. Record the override in the policy audit log.");
+              core.setOutput("skip_metadata_check", "true");
+              return;
+            }
+            core.setOutput("skip_metadata_check", "false");
+
+      - name: Check PR body for AI metadata
+        if: steps.emergency_override.outputs.skip_metadata_check != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.pull_request.body || "";
+            const hasNoAI = body.includes("[x] No AI assistance used") || body.includes("[X] No AI assistance used");
+            const aiOptions = [
+              "AI used for code suggestions",
+              "AI used for test generation",
+              "AI used for documentation",
+              "AI used for refactoring",
+              "AI used for debugging or explanation"
+            ];
+            const hasAI = aiOptions.some(option =>
+              body.includes(`[x] ${option}`) || body.includes(`[X] ${option}`)
+            );
+            const confidenceOptions = ["Low", "Medium", "High"];
+            const hasConfidence = confidenceOptions.some(option =>
+              body.includes(`[x] ${option}`) || body.includes(`[X] ${option}`)
+            );
+            if (!hasNoAI && !hasAI) {
+              core.setFailed("AI assistance metadata is required. Select either 'No AI assistance used' or one or more AI usage categories.");
+            }
+            if (hasAI && !hasConfidence) {
+              core.setFailed("AI assistance confidence is required when AI assistance is selected.");
+            }

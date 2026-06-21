@@ -1,9 +1,11 @@
 # Phase 1 - Data Architecture and Raw Collection
 
+Operating mode: Observation Mode. Collect source data without interpreting it, warning developers or blocking PRs.
+
 ## Purpose
 
 ```text
-Collect source data without interpreting it, warning developers or blocking PRs.
+Collect source data reliably. No metrics, warnings or blocks.
 ```
 
 ## Duration
@@ -51,353 +53,12 @@ Pilot repositories and Jira projects are identified.
 ## Actions
 
 ```text
-Week 1: Install GitHub App and store pull_request, pull_request_review and pull_request_review_comment events as raw JSON in the event store.
+Week 1: Install the GitHub App and store pull_request, pull_request_review and pull_request_review_comment events as raw JSON in raw_events.
 Week 2: Connect Jira and collect issue, issue link and sprint/team metadata.
 Week 3: Build ETL to populate pull_requests and review_analytics from raw events.
 Build the Data Confidence Score batch job for each metric.
 Expose /api/v1/teams even if the response is initially sparse.
 Stand up the admin shell: SSO login plus the integration connect screen (GitHub org, Jira project, team-to-repo mapping).
-```
-
-## Technical Specifications
-
-### Target architecture (scope for this phase: source systems through event store and operational database)
-
-```text
-Source Systems
-  GitHub / GitLab
-  Jira / Azure DevOps
-        ↓
-Connectors / Collectors
-        ↓
-Event Store / Operational Database   <- Phase 1 ends here
-        ↓
-Metrics Engine                       <- Phase 2
-```
-
-### MVP connector scope
-
-```text
-Required: GitHub + Jira.
-Do not start with IDE telemetry. It increases privacy, consent and change-management complexity.
-```
-
-GitHub collection (Epic 1):
-
-```text
-Collect PR metadata.
-Collect PR review timestamps.
-Collect changed files and changed lines.
-Collect labels.
-Parse AI metadata from the PR template.
-Parse AI assistance confidence.
-Store webhook events.
-Capture emergency override labels.
-```
-
-Connector reliability requirements:
-
-```text
-Handle provider rate limits with backoff and retry.
-Handle pagination explicitly for list APIs.
-Support webhook replay without duplicating records.
-Use provider + event_type + external_id + source_timestamp as the idempotency key where possible.
-Write webhook events to raw_events before processing.
-Move failed processing to retry, then dead-letter after configured attempts.
-Run nightly reconciliation comparing provider source counts against local counts.
-Support backfill for the pilot team's previous 30 days of PR and Jira data.
-```
-
-Jira collection (Epic 2):
-
-```text
-Collect issues.
-Link Jira issues to PRs.
-Identify post-merge defects.
-Map severity.
-Map sprint/team.
-```
-
-### Database schema to create in this phase
-
-```sql
-CREATE TABLE raw_events (
-  id UUID PRIMARY KEY,
-  provider TEXT NOT NULL,
-  event_type TEXT NOT NULL,
-  external_id TEXT,
-  idempotency_key TEXT,
-  source_timestamp TIMESTAMPTZ,
-  payload JSONB NOT NULL,
-  received_at TIMESTAMPTZ DEFAULT now(),
-  processing_status TEXT DEFAULT 'pending',
-  processing_error TEXT
-);
-
-CREATE TABLE teams (
-  id UUID PRIMARY KEY,
-  name TEXT NOT NULL,
-  domain_criticality TEXT NOT NULL DEFAULT 'medium',
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE TABLE repositories (
-  id UUID PRIMARY KEY,
-  team_id UUID REFERENCES teams(id),
-  provider TEXT NOT NULL,
-  external_id TEXT NOT NULL,
-  name TEXT NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE TABLE pull_requests (
-  id UUID PRIMARY KEY,
-  repository_id UUID REFERENCES repositories(id),
-  external_id TEXT NOT NULL,
-  title TEXT,
-  author_id TEXT,
-  created_at_source TIMESTAMPTZ,
-  merged_at_source TIMESTAMPTZ,
-  closed_at_source TIMESTAMPTZ,
-  changed_files INT,
-  changed_lines INT,
-  ai_assisted BOOLEAN DEFAULT false,
-  ai_usage_types TEXT[],
-  ai_assistance_confidence TEXT,
-  ownership_confidence_score NUMERIC,
-  codebase_familiarity TEXT,
-  change_freshness_score NUMERIC,
-  ownership_boundary_risk TEXT,
-  risk_score NUMERIC,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE TABLE review_analytics (
-  id UUID PRIMARY KEY,
-  pull_request_id UUID REFERENCES pull_requests(id),
-  first_review_at TIMESTAMPTZ,
-  approved_at TIMESTAMPTZ,
-  comments_count INT DEFAULT 0,
-  threads_count INT DEFAULT 0,
-  reviewer_count INT DEFAULT 0,
-  reviewer_load INT,
-  estimated_review_hours NUMERIC,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE TABLE jira_issues (
-  id UUID PRIMARY KEY,
-  external_key TEXT NOT NULL,
-  issue_type TEXT,
-  severity TEXT,
-  status TEXT,
-  linked_pull_request_id UUID REFERENCES pull_requests(id),
-  created_at_source TIMESTAMPTZ,
-  resolved_at_source TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE TABLE metric_snapshots (
-  id UUID PRIMARY KEY,
-  team_id UUID REFERENCES teams(id),
-  sprint_id TEXT,
-  metric_name TEXT NOT NULL,
-  metric_value NUMERIC,
-  data_confidence TEXT,
-  data_confidence_score INT,
-  confidence_issue TEXT,
-  calculation_version TEXT,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE TABLE recommendations (
-  id UUID PRIMARY KEY,
-  team_id UUID REFERENCES teams(id),
-  pull_request_id UUID REFERENCES pull_requests(id),
-  recommendation_type TEXT NOT NULL,
-  severity TEXT NOT NULL,
-  message TEXT NOT NULL,
-  status TEXT DEFAULT 'open',
-  created_at TIMESTAMPTZ DEFAULT now(),
-  resolved_at TIMESTAMPTZ
-);
-
-CREATE UNIQUE INDEX idx_raw_events_idempotency
-ON raw_events(idempotency_key)
-WHERE idempotency_key IS NOT NULL;
-```
-
-Note: `metric_snapshots` is created now but is only populated with the Data Confidence Score in this phase. Metric values arrive in Phase 2.
-
-Raw event retention:
-
-```text
-Raw events follow the detailed-data retention policy unless legal/privacy requires shorter retention.
-Sensitive raw payload fields must be redacted or excluded before storage where possible.
-```
-
-Identifier handling:
-
-```text
-Implement the identifier-handling rules approved in Phase 0: pseudonymise developer identifiers where possible, restrict raw author/reviewer-level access to platform administrators and data stewards, and expose team-level views only to managers.
-```
-
-### Cost-input configuration
-
-Define the cost parameters used for Net AI Delivery Value calculation (Phase 2). These are read from the central configuration service or environment variables.
-
-```yaml
-cost_config:
-  blended_hourly_rate:
-    description: "Average hourly cost of an engineer (salary + benefits + overhead)"
-    type: currency
-    example: 70.0
-  reviewer_hourly_cost:
-    description: "Hourly cost specifically for peer reviews (often uses blended rate)"
-    type: currency
-    example: 70.0
-  senior_opportunity_cost_rate:
-    description: "Hourly rate used to value saved senior capacity"
-    type: currency
-    example: 110.0
-  tooling_cost_allocation_per_pr:
-    description: "Fixed allocation of AI tool licensing and infrastructure per PR"
-    type: currency
-    example: 20.0
-```
-
-### API surface for this phase
-
-```yaml
-/api/v1/teams:
-  get:
-    description: List teams and AI delivery health summaries (may be sparse in Phase 1)
-
-/api/v1/webhooks/github:
-  post:
-    description: Receive GitHub webhook events
-
-/api/v1/webhooks/jira:
-  post:
-    description: Receive Jira webhook events
-```
-
-### Data Confidence Score methodology (implement the batch job here)
-
-```text
-Data Confidence Score = 100 - (Derivation Penalty + Coverage Penalty + Timeliness Penalty)
-```
-
-Derivation penalty:
-
-| Source method | Penalty |
-|---|---:|
-| Direct instrumented source | 0 |
-| Derived from timestamps | 15 |
-| Derived from linked data | 25 |
-| Manual input | 40 |
-
-Coverage penalty:
-
-| Coverage state | Penalty |
-|---|---:|
-| All expected events captured | 0 |
-| Minor gaps under 5% | 5 |
-| Significant gaps from 5-20% | 15 |
-| Major gaps over 20% | 30 |
-
-Timeliness penalty:
-
-| Freshness | Penalty |
-|---|---:|
-| Real-time | 0 |
-| Under 1 hour delay | 5 |
-| Under 1 day delay | 10 |
-| Over 1 day delay | 20 |
-
-Worked example:
-
-```text
-Review debt from GitHub timestamps with minor webhook gaps and under 1 hour delay:
-100 - (15 + 5 + 5) = 75
-```
-
-Each metric must carry both a 0-100 score and a label so downstream phases can apply the decision rule (below 70 = no hard enforcement).
-
-### Recommended implementation stack
-
-```text
-Backend: Java 21 + Quarkus
-Frontend: React / Next.js (introduced from Phase 2)
-Database: PostgreSQL (TimescaleDB optional for metric time series)
-Queue: Kafka or RabbitMQ for collector event processing
-Auth: Keycloak (SSO) with role-based access
-Integrations: GitHub App, Jira REST API
-Deployment: Docker Compose for the pilot, Kubernetes for enterprise
-```
-
-### Collector Interface Boundary
-
-To support multi-provider environments (GitLab, Azure DevOps) in future stages, the collector follows an interface-driven design.
-
-```text
-Interface: SourceConnector
-- authenticate()
-- subscribeWebhooks()
-- fetchBackfill(days: int)
-- parsePayload(rawBody: json) -> List<NormalizedEvent>
-
-Normalization Layer:
-- Maps provider-specific fields (e.g., GH 'pull_request.user' vs GitLab 'object_attributes.author_id') to the platform schema.
-- Decouples the database schema from vendor-specific payload structures.
-```
-
-```text
-Treat the first version as an internal platform tool, not a multi-tenant SaaS.
-Defer tenant isolation, billing and SOC2-grade controls until after the pilot proves value.
-```
-
-### Platform setup flow (admin, MVP)
-
-```text
-1. Platform admin signs in via Keycloak / SSO.
-2. Admin installs the GitHub App on the pilot organisation.
-3. Admin connects Jira via API token or OAuth.
-4. Admin maps teams: Team -> GitHub repositories -> Jira project.
-5. Data collection begins. No developer-facing UI is exposed yet.
-```
-
-The connect-and-map screen is the only UI in this phase. Dashboards arrive in Phase 2.
-
-### Test Strategy and Observability
-
-Test strategy:
-
-```text
-Unit-test GitHub and Jira payload parsers with recorded fixtures.
-Integration-test webhook receipt -> raw_events write -> normalized table update.
-Regression-test webhook replay idempotency using duplicate provider events.
-Backfill-test the previous 30 days of PR and Jira data for the pilot team.
-Failure-test retry, dead-letter and processing_error paths.
-```
-
-Observability:
-
-```text
-Emit collector_events_received_total by provider and event_type.
-Emit collector_processing_failures_total by provider and error class.
-Emit raw_events_dead_letter_total and retry_attempts_total.
-Emit source_reconciliation_gap_percent nightly.
-Track webhook lag from source_timestamp to received_at.
-Alert when reconciliation gap exceeds 5% or webhook lag exceeds 1 hour.
-```
-
-### Measurement confidence at this phase
-
-```text
-Layer: observable delivery metrics from GitHub and Jira.
-Confidence: high. These are direct source events (timestamps, counts, sizes, labels).
-Use: safe to display as factual once the Data Confidence Score is at least 75.
 ```
 
 ## Deliverables
@@ -449,13 +110,13 @@ Do not proceed to metrics interpretation until source data is reliable.
 Proceed to Phase 2 only when the platform team trusts the raw data layer and can explain the Data Confidence Score.
 ```
 
-## Master Reference Map
+## Reference Docs
 
 ```text
-Section 6   - Platform architecture overview
-Section 7.1 - Connectors and MVP connector recommendation
-Section 16  - Recommended MVP data model
-Section 17  - API design for the platform tool
-Section 18  - Data confidence rules and calculation methodology
-Section 21  - MVP backlog: Epic 1 (GitHub) and Epic 2 (Jira)
+docs/architecture.md             - system flow, reference stack, collector interface, connector reliability
+docs/data-model.md               - full schema, cost_config, retention and identifier handling
+docs/data-confidence.md          - Data Confidence Score methodology and decision rule
+docs/api-spec.md                 - Phase 1 webhook and teams endpoints
+docs/testing-and-observability.md - Phase 1 collector tests and signals
+Master framework: sections 6, 7.1, 16, 17, 18, 21
 ```

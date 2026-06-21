@@ -1,22 +1,53 @@
-# Frequently Asked Questions (FAQ)
+# FAQ
 
-### Q: Is this tool being used to monitor my individual productivity?
-**A:** No. The platform is designed for team-level insights and system-level governance. Individual developer rankings or leaderboards are strictly prohibited and technically disabled in the UI.
+Grouped by audience. See [docs/](docs/) for full detail and [README.md](README.md) for navigation.
 
-### Q: What is "AI-assisted PR Rate"?
-**A:** It is the percentage of Pull Requests that have been declared as using AI assistance (via metadata) or inferred as using AI based on configured patterns.
+## For developers
 
-### Q: Why is my PR being blocked?
-**A:** PRs are typically only blocked in later phases if required AI metadata is missing. You can always use the `emergency-fix` label to override this if there is a production urgency. All overrides are audited.
+**Is this tool monitoring my individual productivity?**
+No. The platform reports at team and system level only. Individual rankings, personal dashboards and "who uses AI most" views are prohibited and disabled in the UI. AI usage metadata is used for team-level learning, never performance scoring.
 
-### Q: What is the "Data Confidence Score"?
-**A:** It represents how much we trust the data for a specific metric. A score below 70 means the metric should be used for trend analysis only and not for hard decision-making or enforcement.
+**Why is my PR being blocked?**
+Only in Enforcement Mode (Phase 4) and usually only when required AI metadata is missing. Add the metadata, or use the `emergency-fix` label for genuine production urgency. Every override is audited but is not held against you.
 
-### Q: How is "Net AI Delivery Value" calculated?
-**A:** It is the estimated time saved by AI (Gross Value) minus the cost of human validation (review time), rework, defects, and tooling. It provides an economic view of AI adoption.
+**Do you store my code or prompts?**
+No. The platform stores metadata and derived metrics only. Raw code and raw prompt content are never stored.
 
-### Q: What should I do if the PR Bot gives a wrong recommendation?
-**A:** Recommendations are guidance. If you feel a recommendation is incorrect, please provide feedback in the `#ai-delivery-feedback` channel so we can tune the thresholds.
+**The PR bot gave a recommendation I disagree with.**
+Recommendations are guidance, not orders. Post in `#ai-delivery-feedback` so thresholds can be tuned.
 
-### Q: Does the platform store my raw code or prompts?
-**A:** No. The platform only stores metadata and derived metrics. Raw code and raw prompt content are not stored to ensure privacy and security.
+## For engineering managers and tech leads
+
+**What does "AI-assisted PR Rate" mean?**
+The share of PRs declared (via metadata) or inferred as AI-assisted. For MVP it is metadata-driven.
+
+**How should I use these metrics in 1:1s?**
+You should not. They are team/process-health signals. Using them for individual performance triggers the misuse escalation in [docs/governance-and-privacy.md](docs/governance-and-privacy.md).
+
+**How is "Net AI Delivery Value" calculated?**
+Estimated time saved minus validation, rework, defect and tooling costs, plus redirected senior capacity. It is an estimate shown with a confidence label. Method: [docs/metrics-catalogue.md](docs/metrics-catalogue.md).
+
+**Can the platform prove AI made us faster?**
+No, and it will not claim to. It produces decision-grade signals under matched comparison, not causal proof. See the validity guardrails in [docs/metrics-catalogue.md](docs/metrics-catalogue.md).
+
+## For platform admins
+
+**How do I onboard a team?**
+Follow [quick-start.md](quick-start.md). New teams start in Observation Mode.
+
+**What is the "Data Confidence Score"?**
+A 0-100 reliability score per metric. Below 70 means trend-only, no enforcement. Method: [docs/data-confidence.md](docs/data-confidence.md).
+
+**When can a policy block a merge?**
+Only when its backing metric has Data Confidence Score >= 70, and only from Phase 4. Lower-confidence signals warn only.
+
+## For security and compliance
+
+**How is sensitive data in PRs handled?**
+A comment-only scanner flags possible sensitive patterns in PR text without storing raw matches; prefer existing provider secret scanning. Detail: [docs/risk-policy-engine.md](docs/risk-policy-engine.md).
+
+**What is the data retention policy?**
+Detailed analytics for 12 months, aggregated trends for 24 months, no raw prompt content. Detail: [docs/governance-and-privacy.md](docs/governance-and-privacy.md).
+
+**How are incidents linked to AI-assisted PRs?**
+Incident-to-Jira-to-PR linkage creates candidates for human review, never automatic blame. Detail: [docs/governance-and-privacy.md](docs/governance-and-privacy.md).

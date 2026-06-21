@@ -1,10 +1,11 @@
 # Phase 0 - Groundwork and Legal Assurance
 
+Operating mode: Readiness only. No production code is built in this phase.
+
 ## Purpose
 
 ```text
 Remove legal, privacy and cultural risks before any developer activity data is collected.
-No production code is built in this phase.
 ```
 
 ## Duration
@@ -54,161 +55,13 @@ Initial product owner or Platform Lead assigned.
 ## Actions
 
 ```text
-Complete legal/privacy review for pull_request and review analytics data.
+Complete legal/privacy review for the data scope in docs/governance-and-privacy.md.
 Obtain HR or People approval for the "no individual performance use" policy.
 Select one pilot team of 4-6 engineers doing real but non-critical product work.
-Register, but do not activate, AI-Metadata-Required branch protection for pilot repositories.
-Add the AI usage PR template to pilot repositories.
-Run a 30-minute pilot-team briefing explaining purpose, data usage and psychological safety guardrails.
-```
-
-## Technical Specifications
-
-### Data scope submitted to legal/privacy review
-
-Only these data categories are in scope for Phase 0 approval. No prompt content is collected.
-
-```text
-Repository and team metadata.
-Pull request metadata: title, author handle, timestamps, changed files, changed lines, labels.
-Review analytics: first-review time, approval time, comment and thread counts, reviewer count.
-AI usage metadata declared in the PR template.
-```
-
-Identifier handling:
-
-```text
-Data Steward must approve identifier handling.
-Developer identifiers should be pseudonymised where possible.
-Access to raw author/reviewer-level data must be limited to platform administrators and data stewards.
-Managers should receive team-level views only.
-```
-
-### Data retention defaults (must be documented and approved)
-
-```text
-Retain detailed PR and review analytics for 12 months.
-Retain aggregated team-level trend metrics for 24 months.
-Do not retain raw prompt content unless the organisation has explicit consent, legal basis and security controls.
-Prefer derived prompt safety signals over raw prompt storage.
-```
-
-### Data Steward accountabilities established here
-
-```text
-Define data retention periods and enforce data minimisation.
-Ensure GDPR, CCPA and local privacy compliance.
-Manage data export and deletion requests.
-Sign off the first data sources (GitHub, Jira) before Phase 1.
-Approve prompt metadata retention policies.
-Approve developer identifier handling and access controls.
-```
-
-### Pilot Team Agreement
-
-The signed pilot agreement includes:
-
-```text
-Scope
-Repositories
-Data collected
-Data not collected
-No individual performance use
-Escalation path
-Opt-out or escalation route
-Phase timeline
-Named owners
-```
-
-### AI usage PR template (added to pilot repositories)
-
-```markdown
-## AI Assistance
-
-- [ ] No AI assistance used
-- [ ] AI used for code suggestions
-- [ ] AI used for test generation
-- [ ] AI used for documentation
-- [ ] AI used for refactoring
-- [ ] AI used for debugging or explanation
-
-## AI Assistance Confidence
-
-- [ ] Low
-- [ ] Medium
-- [ ] High
-
-## Ownership Confirmation
-
-- [ ] I understand the submitted changes
-- [ ] I can explain and support this change in production
-- [ ] I have reviewed AI-assisted output manually
-- [ ] Tests have been added or updated where appropriate
-- [ ] I have added or checked edge-case coverage where risk is material
-```
-
-Psychological safety note to include in the template:
-
-```text
-AI usage metadata is used for team-level delivery learning and governance. It is not used for individual performance scoring.
-```
-
-Branch protection is registered but not enforced in Phase 0:
-
-```text
-Create the AI-Metadata-Required check definition but leave failure_mode disabled.
-Enforcement begins in Phase 4, not before.
-```
-
-### Non-negotiable cultural principles (must be stated to the pilot team)
-
-```text
-No individual AI productivity ranking.
-No use in performance reviews.
-Team-level reporting by default.
-Blameless retrospectives.
-Transparent data usage policy.
-Developers can challenge metric interpretation.
-AI usage disclosure must not be punished.
-```
-
-### Psychological safety baseline pulse (run once for a baseline)
-
-Questions, scored 1 (strongly disagree) to 5 (strongly agree):
-
-```text
-I feel safe declaring AI usage in my work.
-I feel safe challenging AI-generated output.
-I feel safe saying I do not understand AI-generated code.
-Our team reviews AI-assisted code carefully.
-AI metrics are used to improve the system, not blame individuals.
-I do not feel pressured to use AI when it is not helpful.
-```
-
-Baseline rule:
-
-```text
-Record the baseline average.
-If baseline < 3.5, do not start data collection.
-Address culture and trust before Phase 1.
-```
-
-### Manager misuse escalation
-
-If a manager attempts to use individual AI metrics for performance scoring:
-
-```text
-1. Pause expansion for that team.
-2. Notify Platform Lead and HR/People Lead.
-3. Re-brief the manager and team.
-4. Remove individual-level exports from that manager's access.
-5. Resume only after misuse risk is addressed.
-```
-
-### Pilot-team briefing message
-
-```text
-We are not measuring individual productivity. We are validating whether the system can use AI safely.
+Register, but do not activate, AI-Metadata-Required branch protection for pilot repositories (enforcement begins in Phase 4).
+Add the PR template (examples/pr-template.md) to pilot repositories.
+Run a 30-minute pilot-team briefing covering purpose, data usage and the non-negotiable cultural rules.
+Record the psychological safety baseline (docs/psychological-safety.md).
 ```
 
 ## Deliverables
@@ -259,12 +112,11 @@ Run a culture-repair retro before re-attempting if the safety baseline is the bl
 Proceed to Phase 1 only after legal/privacy and HR or People approval are written down and stored with the Phase 0 exit report.
 ```
 
-## Master Reference Map
+## Reference Docs
 
 ```text
-Section 12.6  - Data Steward responsibilities and retention defaults
-Section 13    - AI usage tagging strategy and PR template
-Section 19    - Cultural adoption guardrails and psychological safety pulse
-Section 20    - Platform rollout model: Phase 0 readiness check
-Section 31    - AI-assisted delivery onboarding checklist (for the pilot briefing)
+docs/governance-and-privacy.md - data scope, identifier handling, retention, non-negotiable rules, manager-misuse escalation
+docs/psychological-safety.md   - pulse questions, baseline rule, briefing message
+examples/pr-template.md        - AI usage PR template
+Master framework: sections 12.6, 13, 19, 20, 31
 ```
