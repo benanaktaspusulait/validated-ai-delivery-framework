@@ -89,6 +89,30 @@ AI ROI = (Estimated Gross AI Time Saving Value + Counterfactual Value) / Total A
 
 Every Net AI Delivery Value view must show estimated value, confidence label, input assumptions and baseline method. Counterfactual value is directional; cap it at the estimated gross AI time saving until stronger evidence exists, and never use self-reported counterfactual value for hard enforcement. Cost inputs come from `cost_config` (see `docs/data-model.md`).
 
+Worked example (one matched PR cohort):
+
+```text
+Manual baseline effort: 20 hours
+AI-assisted effort: 12 hours
+Blended hourly rate: GBP 70
+Estimated gross AI time saving value: (20 - 12) x 70 = GBP 560
+
+Senior review: 3 hours x GBP 110 = 330
+Rework: 1.5 hours x GBP 70 = 105
+Tooling allocation: 20
+Defect cost: 0
+Senior opportunity cost: 55
+Adoption friction: 15
+Counterfactual value: 120
+
+Estimated Net AI Delivery Value = 560 - 330 - 105 - 20 - 0 - 55 - 15 + 120 = GBP 155
+Confidence: Medium. Method: historical matched-PR baseline plus review-cost proxy.
+```
+
+```text
+Read it as: AI created positive value here, but the result depends heavily on whether the saved senior capacity was genuinely redirected to higher-value work.
+```
+
 ## Cognitive Load Index
 
 ```text

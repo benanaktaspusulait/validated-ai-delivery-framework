@@ -139,6 +139,20 @@ Show the reason for the WIP recommendation to the team.
 Review penalty thresholds monthly during pilot rollout.
 ```
 
+Worked examples (Base limit, then adjusted):
+
+| Team | Composition | Base limit | Situation | Adjusted recommendation |
+|---|---|---:|---|---:|
+| A | 3 senior, 4 mid, 2 junior | (3x2)+(4x1)+(2x0.5) = 11 | Healthy: defects and review debt near baseline | ~11 (round down on any quality risk) |
+| B | 2 senior, 3 mid, 1 junior | (2x2)+(3x1)+(1x0.5) = 7.5 | Review debt ratio 1.6, defects near baseline | 7.5 - (0.6 x 0.3) ≈ 7.3 → 7 |
+| C | 1 senior, 4 mid, 3 junior | (1x2)+(4x1)+(3x0.5) = 7.5 | Defect ratio 1.8 and review debt ratio 1.4: both high | High-risk penalty: 7.5 x 0.7 x (1 - 0.8/10) ≈ 4.8 → 4 |
+
+```text
+Read the base limit as "concurrent AI-assisted PRs the team can absorb at healthy seniority".
+The high-risk multiplicative penalty (team C) only triggers when defect AND review-debt deviations are both elevated.
+Always round down when quality risk is rising, and never below the team's configured minimum.
+```
+
 ## Recommendation mapping
 
 Surfaced as PR comments (Phase 3) and in the Playbook view (Phase 4). Recommendations are guidance, not enforcement.

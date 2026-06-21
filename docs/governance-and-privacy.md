@@ -43,6 +43,32 @@ Do not retain raw prompt content unless the organisation has explicit consent, l
 Prefer derived prompt safety signals over raw prompt storage.
 ```
 
+## Legal basis and anonymisation
+
+Legal basis (to be confirmed per jurisdiction with counsel; this is guidance, not legal advice):
+
+| Regime | Likely basis | Implication |
+|---|---|---|
+| GDPR (EU/UK) | Legitimate interest in engineering governance, balanced against developer rights | Requires data minimisation, transparency, a documented balancing test and honoured access/erasure requests |
+| CCPA/CPRA (California) | Processing of employee-related data with notice | Requires disclosure of categories collected and purpose, and honouring deletion requests where applicable |
+| Local employment law | Varies; often requires works-council or representative consultation | May require consultation before processing developer activity data |
+
+```text
+Purpose limitation: data is processed for team-level delivery governance only. Individual performance use is prohibited and is a basis violation, not just a policy breach.
+Transparency: developers are told what is collected (data scope above), why, and that it is never used to rank them.
+Data subject rights: export and deletion requests are handled by the Data Steward within the legal window.
+```
+
+Anonymisation and pseudonymisation methods:
+
+```text
+Pseudonymisation: replace provider identities with a stable platform identifier; keep the mapping in an access-controlled store separate from analytics tables.
+Aggregation: dashboards present team-level figures; suppress any view that would resolve to a single identifiable person (small-group suppression).
+Minimisation: collect only the fields the metrics need (see data scope); never collect code or prompt content.
+Irreversibility at rest: where individual linkage is no longer needed for operations, drop the mapping so remaining data is effectively anonymous.
+Access control: raw author/reviewer-level data is restricted to platform administrators and data stewards; managers and executives see aggregates only.
+```
+
 ## Data Steward accountabilities
 
 ```text

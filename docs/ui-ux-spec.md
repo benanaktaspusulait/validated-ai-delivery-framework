@@ -32,6 +32,22 @@ Developer view      - lightweight, in-PR guidance only. No personal dashboard.
 
 Full navigation (enterprise): Dashboard, Teams, Pull Requests, Metrics, Risks, Policies, Recommendations, Integrations, Reports, Settings. Settings includes RBAC via Keycloak so each role sees only the right view.
 
+## What is visible by phase
+
+| Phase | Visible to operators | Visible to developers |
+|---|---|---|
+| 0 | Nothing live; PR template registered in repos | PR template in new PRs (no enforcement) |
+| 1 | Admin connect + team-mapping screen; connector health | Nothing |
+| 2 | Overview, Team, PR Risk, Metrics Detail (read-only, with confidence labels) | Nothing |
+| 3 | The above plus recommendations and experiment results | In-PR panel and comment bot (warnings, never blocks) |
+| 4 | The above plus Policy Settings, Playbook, override audit, Dynamic AI WIP | In-PR guidance plus blocking checks with emergency override |
+| 5 | The above plus Executive Summary, multi-team navigation, RBAC, integrations | Same in-PR experience; never a personal dashboard |
+
+```text
+Information accumulates: each phase adds surface area, never removing the confidence labelling or the team-level-only rule.
+Developers never gain a personal dashboard at any phase.
+```
+
 ## Example: Overview card row
 
 | Metric | Current | Trend | Status |

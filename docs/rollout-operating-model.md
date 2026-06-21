@@ -65,6 +65,37 @@ Run a blameless retro if the issue affects team trust.
 Resume only after the Platform Lead can explain what changed.
 ```
 
+## If a mode transition fails
+
+A transition is moving a team to a more active mode (Observation to Warning, or Warning to Enforcement). Treat the move as reversible.
+
+Rollback signals:
+
+```text
+Psychological safety score drops by a meaningful margin (for example, a fall of 30% or to below 3.5).
+Developers begin hiding AI usage or describe the tooling as surveillance.
+Review time on warned/enforced PRs rises materially without a quality gain.
+Alert volume exceeds 10 actionable alerts per team per week (alert fatigue).
+A backing metric falls below Data Confidence Score 70 while it is driving enforcement.
+Any production emergency fix is delayed by a platform block.
+```
+
+Stop and revert criteria:
+
+```text
+On any rollback signal, immediately downgrade the affected team to the previous mode (Enforcement to Warning, or Warning to Observation).
+Use the fast reversal paths in docs/disaster-recovery.md: per-team downgrade or the global enforcement-off switch.
+Keep the emergency-fix override available throughout.
+```
+
+Recovery:
+
+```text
+Run a blameless retro to find the cause (thresholds, copy, communication or data quality).
+Fix the cause and re-communicate before attempting the transition again.
+Re-enter the higher mode only after the original gate criteria pass again.
+```
+
 ## Quarterly AI Delivery Governance Review
 
 Attendees:
