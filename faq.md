@@ -24,11 +24,22 @@ The share of PRs declared (via metadata) or inferred as AI-assisted. For MVP it 
 **How should I use these metrics in 1:1s?**
 You should not. They are team/process-health signals. Using them for individual performance triggers the misuse escalation in [docs/governance-and-privacy.md](docs/governance-and-privacy.md).
 
-**How is "Net AI Delivery Value" calculated?**
-Estimated time saved minus validation, rework, defect and tooling costs, plus redirected senior capacity. It is an estimate shown with a confidence label. Method: [docs/metrics-catalogue.md](docs/metrics-catalogue.md).
+**How is delivery value reported (the old "Net AI Delivery Value")?**
+It has been replaced by the Validated Delivery Trend (VDT): a correlational signal comparing AI-assisted and matched non-AI PRs over time, shown as a 90-day trend, never a single value. It does not claim AI caused the difference. Method: [docs/metrics-catalogue.md](docs/metrics-catalogue.md).
 
 **Can the platform prove AI made us faster?**
 No, and it will not claim to. It produces decision-grade signals under matched comparison, not causal proof. See the validity guardrails in [docs/metrics-catalogue.md](docs/metrics-catalogue.md).
+
+## For executives (CFO and board)
+
+**How should this be presented to a CFO or the board?**
+Present the AI Signal Trend (VDT), not a "Net AI Value" figure. Show the 90-day trend with its mandatory disclaimer. If the signal has risen for three consecutive months and psychological safety stays high, that is a strong qualitative case to continue investing. The number is never declared as an accounting line item.
+
+**Why not just give us a single ROI number?**
+A single ROI number would imply causation the data cannot support; differences can come from team maturity, task mix or other factors. A defensible signal that you can stand behind in an audit is worth more than a precise-looking number you cannot. Combine VDT with developer surveys for decisions.
+
+**What would justify pausing or stopping AI investment?**
+A sustained negative VDT signal (below -0.5 over the window) together with rising review debt or falling psychological safety. See [docs/rollout-operating-model.md](docs/rollout-operating-model.md).
 
 ## For platform admins
 
@@ -36,10 +47,10 @@ No, and it will not claim to. It produces decision-grade signals under matched c
 Follow [quick-start.md](quick-start.md). New teams start in Observation Mode.
 
 **What is the "Data Confidence Score"?**
-A 0-100 reliability score per metric. Below 70 means trend-only, no enforcement. Method: [docs/data-confidence.md](docs/data-confidence.md).
+A 0-100 reliability score per metric, computed from four factors: data volume, freshness, completeness and statistical stability. Bands: 90+ High (may block), 70-89 Medium (warn only), below 70 Low (hidden, data-steward alert only). Method: [docs/data-confidence.md](docs/data-confidence.md).
 
 **When can a policy block a merge?**
-Only when its backing metric has Data Confidence Score >= 70, and only from Phase 4. Lower-confidence signals warn only.
+Only when its backing metric is in the High band (Data Confidence Score >= 90), and only from Phase 4. Metrics at 70-89 may warn but not block; below 70 they are withheld and any dependent policy is auto-disabled until confidence recovers.
 
 ## For security and compliance
 

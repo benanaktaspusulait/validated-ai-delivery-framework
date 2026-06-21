@@ -9,7 +9,7 @@ Canonical definitions for every metric the platform computes. Implemented in Pha
 2. AI Review Debt / AI Review Debt Age Ratio
 3. Post-Merge Defect Rate / Weighted Defect Rate
 4. Human Validation Cost
-5. Net AI Delivery Value
+5. Validated Delivery Trend (VDT) — correlational; replaces the absolute "Net AI Delivery Value" framing
 ```
 
 ### 1. AI-assisted PR Rate
@@ -69,48 +69,58 @@ Fallback proxy = approval timestamp - first review timestamp
 
 Engagement signals (comments, change requests, threads, multiple rounds) raise the estimate; approval without comments lowers confidence. Directional for MVP; calibrate via the Phase 3 study. Never use for individual performance measurement.
 
-### 5. Net AI Delivery Value
+### 5. Validated Delivery Trend (VDT)
+
+VDT replaces the earlier "Net AI Delivery Value" metric. It makes no causal or absolute-ROI claim. It reports the correlational difference, over time, between AI-assisted and comparable non-AI PRs.
 
 ```text
-Estimated Net AI Delivery Value =
-  Estimated Gross AI Time Saving Value
-- Human Validation Cost
-- Rework Cost
-- Defect Cost
-- Tooling Operational Cost
-- Senior Opportunity Cost
-- Adoption Friction Cost
-+ Counterfactual Value of Redirected Cognitive Capacity
-
-Estimated Gross AI Time Saving Value = (Estimated Manual Baseline Effort - AI-assisted Effort) x Blended Hourly Rate
-
-AI ROI = (Estimated Gross AI Time Saving Value + Counterfactual Value) / Total AI Delivery Cost
+Do not say: "AI made us X% faster" or "AI saved GBP N".
+Do say: "Over the last 90 days, the delivery trend for AI-assisted PRs moved in direction X relative to comparable non-AI PRs."
 ```
 
-Every Net AI Delivery Value view must show estimated value, confidence label, input assumptions and baseline method. Counterfactual value is directional; cap it at the estimated gross AI time saving until stronger evidence exists, and never use self-reported counterfactual value for hard enforcement. Cost inputs come from `cost_config` (see `docs/data-model.md`).
-
-Worked example (one matched PR cohort):
+Method (matched cohorts only; see the validity guardrails below):
 
 ```text
-Manual baseline effort: 20 hours
-AI-assisted effort: 12 hours
-Blended hourly rate: GBP 70
-Estimated gross AI time saving value: (20 - 12) x 70 = GBP 560
+Sign convention: each difference is improvement-oriented, so a positive number always means "AI-assisted is better".
 
-Senior review: 3 hours x GBP 110 = 330
-Rework: 1.5 hours x GBP 70 = 105
-Tooling allocation: 20
-Defect cost: 0
-Senior opportunity cost: 55
-Adoption friction: 15
-Counterfactual value: 120
+Lead Time Difference (LT_Diff)   = mean non-AI lead time - mean AI-assisted lead time
+Defect Difference (Defect_Diff)  = non-AI defect rate   - AI-assisted defect rate
 
-Estimated Net AI Delivery Value = 560 - 330 - 105 - 20 - 0 - 55 - 15 + 120 = GBP 155
-Confidence: Medium. Method: historical matched-PR baseline plus review-cost proxy.
+Signal Score = (LT_Diff / NonAI_LT_StdDev) + (Defect_Diff / NonAI_Defect_StdDev)
 ```
 
+Each difference is normalised by the non-AI standard deviation, so the signal is expressed in standard-deviation units and is comparable across teams and cohorts.
+
+| Signal Score | Reading | Action |
+|---:|---|---|
+| > 0.5 | Positive signal: the trend suggests AI is reducing lead time and/or defects | Continue; reinforce what is working |
+| -0.5 to 0.5 | Neutral: no statistically meaningful difference, or insufficient data | Keep observing; do not claim an effect |
+| < -0.5 | Negative signal: the trend suggests AI PRs take longer or carry more defects | Investigate; consider intervention |
+
+Worked example (matched cohort, last 90 days):
+
 ```text
-Read it as: AI created positive value here, but the result depends heavily on whether the saved senior capacity was genuinely redirected to higher-value work.
+Lead time: mean non-AI 34h, mean AI 28h, non-AI StdDev 12h -> LT_Diff = 6h,   normalised 6/12   = 0.5
+Defects:   non-AI 0.22/PR, AI 0.18/PR, non-AI StdDev 0.08   -> Defect_Diff = 0.04, normalised 0.04/0.08 = 0.5
+Signal Score = 0.5 + 0.5 = 1.0  ->  positive signal
+Reading: over this window, AI-assisted PRs trend toward shorter lead time and fewer defects than comparable non-AI PRs. This is a correlation, not proof.
+```
+
+Reporting and visualisation rules:
+
+```text
+VDT must never be shown as a single dashboard KPI number.
+It is presented only as a 90-day moving-average line chart.
+Every VDT chart carries this mandatory disclaimer:
+"This chart shows a correlational trend. Observed differences may be caused by team maturity, changes in task mix, or other external factors. It cannot be used as a causal return-on-investment (ROI) calculation. Management decisions should combine this signal with qualitative evidence such as developer surveys."
+```
+
+Directional cost context (optional, never a board KPI):
+
+```text
+A monetary estimate (time saved minus validation, rework, defect and tooling cost, using cost_config) may be computed for internal context only.
+It is directional, carries the same disclaimer, and is never reported as an accounting figure or a causal ROI.
+How to present this to leadership without overclaiming: see the CFO / board guidance in faq.md.
 ```
 
 ## Cognitive Load Index
@@ -162,7 +172,7 @@ Sample-size rules:
 
 ```text
 Do not interpret AI vs non-AI defect comparisons with fewer than 20 comparable PRs per cohort.
-Do not use Net AI Delivery Value for investment decisions until at least 2-3 sprints of data exist.
+Do not read the Validated Delivery Trend (VDT) for investment decisions until at least 2-3 sprints of data exist.
 Do not draw trend conclusions from a single sprint.
 ```
 
