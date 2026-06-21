@@ -210,6 +210,18 @@ CREATE TABLE metric_snapshots (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
+CREATE TABLE recommendations (
+  id UUID PRIMARY KEY,
+  team_id UUID REFERENCES teams(id),
+  pull_request_id UUID REFERENCES pull_requests(id),
+  recommendation_type TEXT NOT NULL,
+  severity TEXT NOT NULL,
+  message TEXT NOT NULL,
+  status TEXT DEFAULT 'open',
+  created_at TIMESTAMPTZ DEFAULT now(),
+  resolved_at TIMESTAMPTZ
+);
+
 CREATE UNIQUE INDEX idx_raw_events_idempotency
 ON raw_events(idempotency_key)
 WHERE idempotency_key IS NOT NULL;
@@ -228,6 +240,30 @@ Identifier handling:
 
 ```text
 Implement the identifier-handling rules approved in Phase 0: pseudonymise developer identifiers where possible, restrict raw author/reviewer-level access to platform administrators and data stewards, and expose team-level views only to managers.
+```
+
+### Cost-input configuration
+
+Define the cost parameters used for Net AI Delivery Value calculation (Phase 2). These are read from the central configuration service or environment variables.
+
+```yaml
+cost_config:
+  blended_hourly_rate:
+    description: "Average hourly cost of an engineer (salary + benefits + overhead)"
+    type: currency
+    example: 70.0
+  reviewer_hourly_cost:
+    description: "Hourly cost specifically for peer reviews (often uses blended rate)"
+    type: currency
+    example: 70.0
+  senior_opportunity_cost_rate:
+    description: "Hourly rate used to value saved senior capacity"
+    type: currency
+    example: 110.0
+  tooling_cost_allocation_per_pr:
+    description: "Fixed allocation of AI tool licensing and infrastructure per PR"
+    type: currency
+    example: 20.0
 ```
 
 ### API surface for this phase
@@ -298,6 +334,22 @@ Queue: Kafka or RabbitMQ for collector event processing
 Auth: Keycloak (SSO) with role-based access
 Integrations: GitHub App, Jira REST API
 Deployment: Docker Compose for the pilot, Kubernetes for enterprise
+```
+
+### Collector Interface Boundary
+
+To support multi-provider environments (GitLab, Azure DevOps) in future stages, the collector follows an interface-driven design.
+
+```text
+Interface: SourceConnector
+- authenticate()
+- subscribeWebhooks()
+- fetchBackfill(days: int)
+- parsePayload(rawBody: json) -> List<NormalizedEvent>
+
+Normalization Layer:
+- Maps provider-specific fields (e.g., GH 'pull_request.user' vs GitLab 'object_attributes.author_id') to the platform schema.
+- Decouples the database schema from vendor-specific payload structures.
 ```
 
 ```text

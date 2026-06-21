@@ -240,6 +240,49 @@ Metrics with Data Confidence Score below 70 are trend-only and must not drive an
 Store metric value, data_confidence_score and confidence_issue in metric_snapshots.
 ```
 
+### API surface for this phase
+
+```yaml
+/api/v1/teams/{teamId}/metrics:
+  get:
+    description: Retrieve metrics for a specific team (AI-assisted rate, review debt, etc.)
+    parameters:
+      - name: teamId
+        in: path
+        required: true
+        type: string
+
+/api/v1/pull-requests/{prId}/risk:
+  get:
+    description: Retrieve detailed risk analysis for a specific PR
+    parameters:
+      - name: prId
+        in: path
+        required: true
+        type: string
+
+/api/v1/teams/{teamId}/recommendations:
+  get:
+    description: List active recommendations for a team (read-only in this phase)
+    parameters:
+      - name: teamId
+        in: path
+        required: true
+        type: string
+```
+
+### Cost-input configuration reference
+
+The metrics engine (specifically Net AI Delivery Value calculation) consumes the `cost_config` defined in Phase 1.
+
+```yaml
+Usage:
+  - Estimated Gross AI Time Saving Value: uses blended_hourly_rate
+  - Human Validation Cost: uses reviewer_hourly_cost
+  - Tooling Operational Cost: uses tooling_cost_allocation_per_pr
+  - Senior Opportunity Cost: uses senior_opportunity_cost_rate
+```
+
 ### Test Strategy and Observability
 
 Test strategy:

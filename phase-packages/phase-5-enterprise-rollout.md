@@ -132,6 +132,37 @@ No team moves directly into guardrail enforcement.
 Use the AI-assisted delivery onboarding checklist for developers new to a team using AI.
 ```
 
+#### AI-Assisted Delivery Onboarding Checklist
+
+Refer to the master document (Section 31) for the full checklist. Key items for the self-service package:
+- [ ] Platform SSO/RBAC access granted.
+- [ ] Team-to-repository mapping confirmed.
+- [ ] AI usage declaration guidelines reviewed with the team.
+- [ ] "No-punitive-use" guarantee acknowledged by the Engineering Manager.
+- [ ] Emergency override process understood by all developers.
+
+### Test Strategy and Observability
+
+Test strategy:
+
+```text
+Unit-test retention purge logic: verify detailed data is deleted and aggregates are preserved at the 12/24 month boundaries.
+Integration-test RBAC enforcement: verify that CTO, EM, and Developer roles see only the intended data levels.
+Integration-test self-service onboarding: verify that submitting a new team-config.yaml correctly initializes a team in observation mode.
+Regression-test onboarding failure paths: ensure invalid repo mappings or missing Jira keys block onboarding with a clear error.
+Load-test multi-team dashboards with 50+ concurrent team views.
+```
+
+Observability:
+
+```text
+Emit retention_purge_records_deleted_total by table and team.
+Emit rbac_access_denied_total by role and resource.
+Emit onboarding_success_rate and onboarding_failure_reason_total.
+Track dashboard_load_latency_p95 for multi-team views.
+Monitor support_ticket_volume_total (integrated with Jira/Zendesk if possible).
+```
+
 ### Retention purge job
 
 ```text

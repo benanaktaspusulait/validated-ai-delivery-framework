@@ -107,6 +107,22 @@ policies:
     action: allow_with_audit_log
 ```
 
+### API surface for this phase
+
+```yaml
+/api/v1/policies:
+  get:
+    description: List all configured policies
+  post:
+    description: Create or update a policy rule
+
+/api/v1/policy-overrides:
+  get:
+    description: List policy override events for auditing
+  post:
+    description: Record a new policy override (called by CI/CD when emergency-fix is used)
+```
+
 Every policy must keep an exception path. Emergency production fixes must not be blocked by missing AI metadata, but every override is recorded, reviewed and trend-monitored.
 
 Sensitive path ownership rules:
@@ -391,6 +407,7 @@ Unit-test policy rule evaluation, confidence gates and Emergency Override handli
 Integration-test GitHub Actions metadata enforcement against sample PR bodies.
 Integration-test high-risk reviewer assignment with representative changed-file sets.
 Regression-test that low-confidence defect data cannot reduce Dynamic AI WIP or block a PR.
+Regression-test confirming the Dynamic AI WIP recommendation consumes only Data Confidence Score >= 70 metrics end to end.
 Exercise metadata_missing behaviour separately from inferred metric confidence because metadata completeness can block in Enforcement Mode.
 ```
 

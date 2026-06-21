@@ -172,6 +172,34 @@ Confidence: medium. Defect linkage and review effort are estimated, not exact.
 Use: soft warnings and experiment learning only.
 ```
 
+Note on MVP quality linkage: coverage and CI signals are Stage 2+. For the MVP, quality linkage is based on **Jira defects** linked to merged PRs and story/component identifiers.
+
+### Test Strategy and Observability
+
+Test strategy:
+
+```text
+Unit-test PR Comment Bot logic: ensure correct mapping of recommendation severity to comment priority.
+Integration-test experiment-mode assignment: verify random assignment correctness and persistence for a single PR.
+Regression-test A/B analysis reproducibility: ensure identical input metrics produce consistent A/B reports.
+Unit-test alert-fatigue counters: verify increments on comment delivery and reset on new sprint.
+End-to-end test: simulate high-risk PR and verify Slack/Teams notification and PR comment delivery.
+```
+
+Observability:
+
+```text
+Emit pr_bot_comments_total by recommendation_type and team.
+Emit experiment_assignment_total by group (treatment/control).
+Emit alert_fatigue_hits_total when team-level thresholds are exceeded.
+Track time_to_comment from webhook receipt to PR comment publication.
+Monitor notification_delivery_success_rate for the platform channel.
+```
+
+### Notification Delivery
+
+Review-debt alerts and high-risk notifications are delivered to the `#ai-delivery-platform` Slack/Teams channel.
+
 ## Deliverables
 
 ```text
