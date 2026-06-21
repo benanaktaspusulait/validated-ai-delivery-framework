@@ -95,6 +95,19 @@ Store webhook events.
 Capture emergency override labels.
 ```
 
+Connector reliability requirements:
+
+```text
+Handle provider rate limits with backoff and retry.
+Handle pagination explicitly for list APIs.
+Support webhook replay without duplicating records.
+Use provider + event_type + external_id + source_timestamp as the idempotency key where possible.
+Write webhook events to raw_events before processing.
+Move failed processing to retry, then dead-letter after configured attempts.
+Run nightly reconciliation comparing provider source counts against local counts.
+Support backfill for the pilot team's previous 30 days of PR and Jira data.
+```
+
 Jira collection (Epic 2):
 
 ```text
@@ -108,6 +121,19 @@ Map sprint/team.
 ### Database schema to create in this phase
 
 ```sql
+CREATE TABLE raw_events (
+  id UUID PRIMARY KEY,
+  provider TEXT NOT NULL,
+  event_type TEXT NOT NULL,
+  external_id TEXT,
+  idempotency_key TEXT,
+  source_timestamp TIMESTAMPTZ,
+  payload JSONB NOT NULL,
+  received_at TIMESTAMPTZ DEFAULT now(),
+  processing_status TEXT DEFAULT 'pending',
+  processing_error TEXT
+);
+
 CREATE TABLE teams (
   id UUID PRIMARY KEY,
   name TEXT NOT NULL,
@@ -183,9 +209,29 @@ CREATE TABLE metric_snapshots (
   calculation_version TEXT,
   created_at TIMESTAMPTZ DEFAULT now()
 );
+
+CREATE UNIQUE INDEX idx_raw_events_idempotency
+ON raw_events(idempotency_key)
+WHERE idempotency_key IS NOT NULL;
 ```
 
 Note: `metric_snapshots` is created now but is only populated with the Data Confidence Score in this phase. Metric values arrive in Phase 2.
+
+Raw event retention:
+
+```text
+Raw events follow the detailed-data retention policy unless legal/privacy requires shorter retention.
+Sensitive raw payload fields must be redacted or excluded before storage where possible.
+```
+
+Identifier handling:
+
+```text
+Data Steward must approve identifier handling.
+Developer identifiers should be pseudonymised where possible.
+Access to raw author/reviewer-level data must be limited to platform administrators and data stewards.
+Managers should receive team-level views only.
+```
 
 ### API surface for this phase
 
@@ -274,6 +320,29 @@ Defer tenant isolation, billing and SOC2-grade controls until after the pilot pr
 
 The connect-and-map screen is the only UI in this phase. Dashboards arrive in Phase 2.
 
+### Test Strategy and Observability
+
+Test strategy:
+
+```text
+Unit-test GitHub and Jira payload parsers with recorded fixtures.
+Integration-test webhook receipt -> raw_events write -> normalized table update.
+Regression-test webhook replay idempotency using duplicate provider events.
+Backfill-test the previous 30 days of PR and Jira data for the pilot team.
+Failure-test retry, dead-letter and processing_error paths.
+```
+
+Observability:
+
+```text
+Emit collector_events_received_total by provider and event_type.
+Emit collector_processing_failures_total by provider and error class.
+Emit raw_events_dead_letter_total and retry_attempts_total.
+Emit source_reconciliation_gap_percent nightly.
+Track webhook lag from source_timestamp to received_at.
+Alert when reconciliation gap exceeds 5% or webhook lag exceeds 1 hour.
+```
+
 ### Measurement confidence at this phase
 
 ```text
@@ -294,6 +363,8 @@ Raw event store
 Normalized pull_requests and review_analytics tables
 Initial Data Confidence Score job
 Admin SSO login and integration connect/team-mapping screen
+Collector integration tests, webhook replay test and 30-day backfill evidence
+Collector observability counters and reconciliation dashboard
 ```
 
 ## Exit Criteria
@@ -302,6 +373,8 @@ Admin SSO login and integration connect/team-mapping screen
 At least 90% of PRs opened in the last 30 days exist in the database with title, author, files and timestamps.
 Average Data Confidence Score is at least 75.
 /api/v1/teams responds successfully.
+Webhook replay does not duplicate raw_events or normalized records.
+Nightly source reconciliation gap is below 5%.
 No PR warnings or blockers have been enabled.
 ```
 

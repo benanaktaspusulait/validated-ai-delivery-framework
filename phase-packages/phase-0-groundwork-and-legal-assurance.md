@@ -75,6 +75,15 @@ Review analytics: first-review time, approval time, comment and thread counts, r
 AI usage metadata declared in the PR template.
 ```
 
+Identifier handling:
+
+```text
+Data Steward must approve identifier handling.
+Developer identifiers should be pseudonymised where possible.
+Access to raw author/reviewer-level data must be limited to platform administrators and data stewards.
+Managers should receive team-level views only.
+```
+
 ### Data retention defaults (must be documented and approved)
 
 ```text
@@ -92,6 +101,23 @@ Ensure GDPR, CCPA and local privacy compliance.
 Manage data export and deletion requests.
 Sign off the first data sources (GitHub, Jira) before Phase 1.
 Approve prompt metadata retention policies.
+Approve developer identifier handling and access controls.
+```
+
+### Pilot Team Agreement
+
+The signed pilot agreement includes:
+
+```text
+Scope
+Repositories
+Data collected
+Data not collected
+No individual performance use
+Escalation path
+Opt-out or escalation route
+Phase timeline
+Named owners
 ```
 
 ### AI usage PR template (added to pilot repositories)
@@ -162,7 +188,21 @@ I do not feel pressured to use AI when it is not helpful.
 Baseline rule:
 
 ```text
-Record the baseline average. If the baseline is already below 3.5, address culture before Phase 1.
+Record the baseline average.
+If baseline < 3.5, do not start data collection.
+Address culture and trust before Phase 1.
+```
+
+### Manager misuse escalation
+
+If a manager attempts to use individual AI metrics for performance scoring:
+
+```text
+1. Pause expansion for that team.
+2. Notify Platform Lead and HR/People Lead.
+3. Re-brief the manager and team.
+4. Remove individual-level exports from that manager's access.
+5. Resume only after misuse risk is addressed.
 ```
 
 ### Pilot-team briefing message

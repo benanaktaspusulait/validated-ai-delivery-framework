@@ -90,6 +90,17 @@ risk:
     - "openapi/**"
     - "proto/**"
 
+security:
+  sensitive_paths:
+    - pattern: "**/auth/**"
+      required_reviewers:
+        - appsec
+        - code_owner
+    - pattern: "**/payment/**"
+      required_reviewers:
+        - senior_engineer
+        - domain_owner
+
 wip:
   dynamic_ai_wip_enabled: true
   min_limit: 2
@@ -167,6 +178,17 @@ Data confidence improvement actions
 
 The review focuses on system learning, not individual developer performance.
 
+Manager misuse escalation:
+
+```text
+If a manager attempts to use individual AI metrics for performance scoring:
+1. Pause expansion for that team.
+2. Notify Platform Lead and HR/People Lead.
+3. Re-brief the manager and team.
+4. Remove individual-level exports from that manager's access.
+5. Resume only after misuse risk is addressed.
+```
+
 ### Incident integration
 
 ```text
@@ -177,7 +199,8 @@ The review focuses on system learning, not individual developer performance.
 ```
 
 ```text
-Do not assume a nearby AI-assisted PR caused the incident. Provide candidates for review, not automatic blame.
+Incident linkage creates candidates for human review, not automatic blame or automatic defect attribution.
+Do not assume a nearby AI-assisted PR caused the incident.
 ```
 
 ### Maturity bands (descriptive, never a ranking)

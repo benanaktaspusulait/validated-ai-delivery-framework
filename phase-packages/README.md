@@ -24,6 +24,15 @@ Each phase is a mini-project with clear entry criteria, exit criteria, fail crit
 | 4 | Automated Guardrails | 4 weeks | Dynamic AI WIP plus metadata blocker | Positive Net AI Delivery Value in pilot | [phase-4-automated-guardrails.md](phase-4-automated-guardrails.md) |
 | 5 | Enterprise Rollout | Continuous | Self-service onboarding package | Open to wider teams | [phase-5-enterprise-rollout.md](phase-5-enterprise-rollout.md) |
 
+## Operating Modes
+
+```text
+Observation Mode = collect and calculate only; no developer-facing warnings or blocks.
+Warning Mode = non-blocking PR comments and soft guidance.
+Recommendation Mode = team-level recommendations and playbooks.
+Enforcement Mode = calibrated blocking checks with Emergency Override.
+```
+
 ## Product Surface (UI)
 
 The platform is a control plane, not only a report screen. It collects data, computes metrics, runs risk and policy rules, and pushes warnings or blocks back into GitHub and CI.
@@ -41,14 +50,15 @@ MVP screens are built progressively across the phases:
 
 | Screen | Introduced |
 |---|---|
-| Overview Dashboard | Phase 2 |
+| Admin login, integration connect, team mapping | Phase 1 |
+| Read-only Overview | Phase 2 |
 | Team Dashboard | Phase 2 |
-| Pull Request Risk View | Phase 2 |
-| Metrics Detail View | Phase 2 |
-| Developer in-PR view | Phase 3 |
+| PR Risk View | Phase 2 |
+| Metrics Detail | Phase 2 |
+| Developer in-PR view and PR comment bot | Phase 3 |
 | Policy Settings | Phase 4 |
 | Recommendations / Playbooks | Phase 4 |
-| Executive summary | Phase 5 |
+| Executive Summary, multi-team navigation, RBAC, self-service onboarding | Phase 5 |
 
 Reference stack (see Phase 1 for detail):
 
@@ -59,15 +69,25 @@ Built first as an internal platform tool, not a multi-tenant SaaS.
 
 ## Measurement Confidence Roadmap
 
-The product claims decision-grade operational signals, not laboratory-exact causation. Directly measurable data is shown as fact, estimates carry a confidence label, and weak signals are trend-only.
+The product produces decision-grade operational signals, not laboratory-grade causal proof. Directly measurable data is shown as fact, estimates carry a confidence label, and weak signals are trend-only.
 
 | Phase | Measurement layer | Confidence |
 |---:|---|---|
 | 1 | Observable delivery metrics (GitHub/Jira events) | High |
 | 2 | AI usage metadata plus computed metrics and risk | Medium-high (estimates labelled) |
 | 3 | Quality linkage plus calibrated review cost | Medium |
-| 4 | Enforcement on metrics at confidence >= 70 | Decision-grade only |
+| 4 | Enforcement on metrics with Data Confidence Score >= 70 | Decision-grade only |
 | 5 | Advanced intelligence (telemetry, trust calibration) | Variable, labelled |
+
+## Developer Experience Boundaries
+
+```text
+Developers do not get a personal productivity dashboard.
+Developer interaction happens mainly inside PRs.
+No individual leaderboard.
+No "who uses AI most" view.
+No performance-review export.
+```
 
 ## Stage-Gate Rule
 ```text
@@ -94,6 +114,14 @@ Deliverable rules:
 The exit report is a 2-page decision summary for platform, engineering and leadership stakeholders.
 The data dictionary records schema, source, ownership, confidence and retention changes.
 The config changes file records policy, threshold, connector and team-configuration updates.
+```
+
+## Implementation Readiness Checks
+
+```text
+Every phase with implementation work must include test evidence.
+Every production-facing collector, metric job, policy rule and dashboard state must expose observability signals.
+Phase gates cannot pass on narrative confidence alone; they require source-data checks, calculation checks or policy regression checks appropriate to the phase.
 ```
 
 ## Weekly RACI

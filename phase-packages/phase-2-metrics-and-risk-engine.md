@@ -46,13 +46,13 @@ Culture and people: pilot-team lead reality-check of the read-only dashboard. No
 ```text
 Phase 1 exit criteria passed.
 Core PR and review analytics tables are populated.
-Data confidence is at least 75.
+Data Confidence Score is at least 75.
 ```
 
 ## Actions
 
 ```text
-Week 4: Implement fn_ai_pr_rate(), fn_review_debt_ratio() and fn_defect_rate_weighted().
+Week 4: Implement fn_ai_pr_rate(), fn_review_debt_ratio(), fn_defect_rate_weighted(), fn_human_validation_cost_estimate() and fn_net_ai_delivery_value_estimate().
 Week 5: Implement risk score using PR size, security path regex and codebase familiarity based on 6-month commit counts.
 Week 6: Prepare read-only executive and team dashboards.
 Enable Net AI Delivery Value with cost inputs read from configuration.
@@ -63,6 +63,18 @@ Build the read-only role-based screens: Overview, Team, Pull Request Risk and Me
 ## Technical Specifications
 
 ### Five core metrics
+
+The five core MVP metrics are:
+
+```text
+1. AI-assisted PR Rate
+2. AI Review Debt / AI Review Debt Age Ratio
+3. Post-Merge Defect Rate / Weighted Defect Rate
+4. Human Validation Cost
+5. Net AI Delivery Value
+```
+
+Supporting metrics such as PR Size Risk, Review Load, Policy Violations and Cognitive Load Index help interpret the five core metrics but are not reclassified as core MVP metrics.
 
 AI-assisted PR Rate:
 
@@ -107,16 +119,25 @@ Human Validation Cost:
 
 ```text
 Human Validation Cost = Review Hours x Reviewer Hourly Cost
-Review Hours (MVP proxy) = approval timestamp - first review timestamp
+
+Estimated Review Hours =
+  Base Review Estimate
++ Comment Thread Factor
++ Change Request Factor
++ Re-review Round Factor
++ PR Size Factor
++ Risk Factor
+
+Fallback proxy = approval timestamp - first review timestamp
 ```
 
-Engagement signals raise the estimate: comments left, changes requested, review threads opened, multiple review rounds. Approval without comments lowers confidence. Treat this metric as directional for MVP and calibrate it in Phase 3.
+Engagement signals raise the estimate: comments left, changes requested, review threads opened, multiple review rounds. Approval without comments lowers confidence. Treat this metric as directional for MVP, display it with Data Confidence Score and calibrate it in Phase 3. It must not be used for individual performance measurement.
 
 Net AI Delivery Value:
 
 ```text
-Net AI Delivery Value =
-  Gross AI Time Saving Value
+Estimated Net AI Delivery Value =
+  Estimated Gross AI Time Saving Value
 - Human Validation Cost
 - Rework Cost
 - Defect Cost
@@ -125,16 +146,16 @@ Net AI Delivery Value =
 - Adoption Friction Cost
 + Counterfactual Value of Redirected Cognitive Capacity
 
-Gross AI Time Saving Value = (Estimated Manual Baseline Effort - AI-assisted Effort) x Blended Hourly Rate
+Estimated Gross AI Time Saving Value = (Estimated Manual Baseline Effort - AI-assisted Effort) x Blended Hourly Rate
 ```
 
 Show AI ROI alongside it:
 
 ```text
-AI ROI = (Gross AI Time Saving Value + Counterfactual Value) / Total AI Delivery Cost
+AI ROI = (Estimated Gross AI Time Saving Value + Counterfactual Value) / Total AI Delivery Cost
 ```
 
-Counterfactual value is directional only in this phase. Cap it at the estimated gross AI time saving until stronger evidence exists, and never use self-reported counterfactual value for hard enforcement.
+Every Net AI Delivery Value view must show estimated value, confidence label, input assumptions and baseline method. Counterfactual value is directional only in this phase. Cap it at the estimated gross AI time saving until stronger evidence exists, and never use self-reported counterfactual value for hard enforcement.
 
 ### Risk scoring
 
@@ -215,14 +236,38 @@ Compare AI and non-AI PRs within similar buckets: small feature, medium feature,
 
 ```text
 Surface each metric's confidence label next to the value.
-Metrics below 70 confidence are trend-only and must not drive any future enforcement.
+Metrics with Data Confidence Score below 70 are trend-only and must not drive any future enforcement.
 Store metric value, data_confidence_score and confidence_issue in metric_snapshots.
+```
+
+### Test Strategy and Observability
+
+Test strategy:
+
+```text
+Unit-test the five core metric functions with fixed input fixtures.
+Unit-test AI Contextual Risk Score factors and boundary values.
+Regression-test Human Validation Cost fallback proxy and confidence downgrade behaviour.
+Regression-test Estimated Net AI Delivery Value display metadata: confidence label, input assumptions and baseline method.
+Integration-test metric_snapshots writes, calculation_version changes and API response shapes.
+Sample-test 50 PRs manually against computed AI-assisted PR Rate.
+```
+
+Observability:
+
+```text
+Emit metric_calculations_total by metric_name, calculation_version and result.
+Emit metric_calculation_failures_total by metric_name and error class.
+Emit low_confidence_metrics_total when Data Confidence Score < 70.
+Emit dashboard_empty_state_total by metric and reason.
+Track metric freshness lag from source event to snapshot creation.
+Alert when a core metric has no successful calculation for more than 24 hours.
 ```
 
 ### Role-based read-only UI (MVP screens 1-4)
 
 ```text
-Overview Dashboard: AI-assisted PR rate, AI Review Debt, Net AI Delivery Value, post-merge defect rate, Human Validation Cost, Data Confidence Score.
+Overview Dashboard: AI-assisted PR rate, AI Review Debt, Estimated Net AI Delivery Value, post-merge defect rate, Human Validation Cost, Data Confidence Score.
 Team Dashboard: per-team comparison of adoption, review debt, defect trend, net value and risk band.
 Pull Request Risk View: per-PR AI flag, LOC, files, critical-path flag, reviewer load, Cognitive Load Index, risk score, triggered signal, recommended action.
 Metrics Detail View: drill-down for any metric showing its inputs, baseline and confidence label.
@@ -234,7 +279,7 @@ Example Overview card row:
 |---|---|---|---|
 | AI-assisted PR Rate | 34% | up | Healthy |
 | AI Review Debt | 12 PRs | up | Warning |
-| Net AI Delivery Value | £4,800 | up | Good |
+| Estimated Net AI Delivery Value | £4,800 | up | Good, confidence shown |
 | Post-merge Defect Rate | 1.2x baseline | up | Watch |
 | Data Confidence | 82% | flat | Good |
 
@@ -251,20 +296,33 @@ UI guardrails:
 ```text
 Team-level by default. No individual developer ranking, leaderboard or "who uses AI most" view.
 Every metric shows its data confidence. Never present an estimate as a precise fact.
-Wrong: "AI saved £12,400 this sprint."
+Wrong: "AI delivery value: £12,400."
 Right: "Estimated AI delivery value: £12,400. Data confidence: Medium."
 ```
 
-### Seven robust MVP metrics (prioritise for display)
+Dashboard empty and low-confidence states:
 
 ```text
-1. AI-assisted PR Rate        (metadata-driven)
-2. AI Review Debt             (open AI PRs awaiting review)
-3. AI Review Debt Age Ratio   (AI wait time / non-AI wait time)
-4. PR Size Risk               (changed lines + files + critical paths)
-5. Review Load                (open PRs per reviewer)
-6. Post-Merge Defect Linkage  (bugs linked to a merged PR's component/story/release)
-7. Policy Violations          (missing metadata, large PR, missing reviewer, coverage drop)
+If a metric has insufficient data:
+"Not enough data yet. Continue collecting for N more sprints."
+
+If Data Confidence Score < 70:
+"Directional only. Not suitable for policy enforcement."
+
+If AI metadata coverage is low:
+"AI usage declaration coverage is below threshold. Improve metadata before interpreting AI impact."
+```
+
+### Supporting dashboard signals (not core MVP metrics)
+
+These supporting signals help explain the five core metrics. They do not replace the five core MVP metrics listed above.
+
+```text
+1. PR Size Risk               (changed lines + files + critical paths)
+2. Review Load                (open PRs per reviewer)
+3. Policy Violations          (missing metadata, large PR, missing reviewer, coverage drop)
+4. Cognitive Load Index       (review effort compared to comparable non-AI PRs)
+5. Post-Merge Defect Linkage  (bugs linked to a merged PR's component/story/release)
 ```
 
 ### Measurement confidence tiers
@@ -280,19 +338,36 @@ Right: "Estimated AI delivery value: £12,400. Data confidence: Medium."
 ```text
 AI-assisted work may cluster in easy tasks, which can make AI look faster than it is.
 To reduce this distortion, compare AI and non-AI PRs within matched cohorts:
-- similar story points
-- similar domain / criticality
-- similar PR size
-- similar developer seniority
 - same team
-- across several sprints, not a single sprint
+- similar PR size
+- similar story type
+- similar domain criticality
+- similar complexity bucket
+- similar time window
+```
+
+Sample-size rules:
+
+```text
+Do not interpret AI-assisted vs non-AI defect comparisons with fewer than 20 comparable PRs per cohort.
+Do not use Net AI Delivery Value for investment decisions until at least 2-3 sprints of data exist.
+Do not use trend conclusions from a single sprint.
+```
+
+Outlier handling:
+
+```text
+Use median for baseline review wait time.
+Winsorise or separately flag extreme PRs.
+Large incident-driven PRs should not define normal AI delivery behaviour.
 ```
 
 Product promise language:
 
 ```text
-The system does not claim exact causation. It produces decision-grade operational signals about
-the speed, review load, quality risk and economic impact of AI-assisted delivery.
+The platform produces decision-grade operational signals, not laboratory-grade causal proof.
+Use: "AI-assisted work is associated with X under matched comparison."
+Avoid: "AI caused X."
 ```
 
 ### Measurement confidence at this phase
@@ -316,6 +391,8 @@ Net AI Delivery Value calculator
 Cognitive Load Index calculation
 Overview, Team, Pull Request Risk and Metrics Detail read-only screens
 Measurement confidence tiering applied to every metric
+Metric function unit tests, API integration tests and manual 50-PR sample validation
+Metric-engine observability counters and freshness alert
 ```
 
 ## Exit Criteria

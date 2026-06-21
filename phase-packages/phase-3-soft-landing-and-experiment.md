@@ -164,6 +164,13 @@ Intended developer experience:
 No individual scoring is shown to anyone, including managers.
 ```
 
+Alert fatigue threshold:
+
+```text
+If PR bot comments exceed 20% of PRs or more than 10 actionable alerts per week for one team, review thresholds.
+If developers describe the bot as pressure or surveillance, disable or soften warnings before continuing.
+```
+
 ### Measurement confidence at this phase
 
 ```text

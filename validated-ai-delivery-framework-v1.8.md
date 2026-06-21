@@ -524,6 +524,16 @@ policies:
 
 Policy enforcement must include an exception path. Emergency production fixes should not be blocked by missing AI metadata, but every override must be recorded, reviewed and trend-monitored.
 
+Confidence gate:
+
+```text
+Only metrics with Data Confidence Score >= 70 may trigger blocking enforcement.
+Metrics below 70 may warn only.
+Metrics below 50 are trend-only and not decision-grade.
+```
+
+This applies to policy engine decisions, Dynamic AI WIP Limit changes, defect-based risk penalties and executive reporting. Metadata completeness checks may still block in Enforcement Mode because they validate required process input rather than inferred delivery quality.
+
 Emergency override retrospective rule:
 
 ```text
@@ -562,6 +572,16 @@ Examples:
 ---
 
 ## 8. Role-Based Dashboard Model
+
+Phase-based UI progression:
+
+| Phase | Product surface introduced |
+|---:|---|
+| 1 | Admin login, integration connect, team mapping |
+| 2 | Read-only Overview, Team Dashboard, PR Risk View, Metrics Detail |
+| 3 | Developer in-PR view and PR comment bot |
+| 4 | Policy Settings, Recommendations / Playbooks |
+| 5 | Executive Summary, multi-team navigation, RBAC, self-service onboarding |
 
 ## 8.1 Platform Team View
 
@@ -677,6 +697,27 @@ security_controls:
       - "internal"
       - "pii"
 ```
+
+MVP prompt leakage scanner scope:
+
+```text
+Check PR title, PR body and PR comments only.
+Do not inspect or store raw AI tool prompts in MVP.
+Add a PR comment when a pattern may indicate sensitive data.
+Do not block on scanner output until the rule has been validated.
+Do not store raw matches.
+```
+
+Use existing provider or specialist secret scanning where available:
+
+```text
+GitHub secret scanning
+Gitleaks
+TruffleHog
+Snyk
+```
+
+The platform references these controls rather than building a full secret scanner in the MVP.
 
 AI output bias indicators:
 
@@ -910,17 +951,27 @@ AI-assisted PRs should be compared against similar non-AI PRs, not against all P
 Human Validation Cost = Review Hours x Reviewer Hourly Cost
 ```
 
-Review hours can be estimated using:
+Human Validation Cost is estimated, not directly measured, unless the organisation has explicit active review-time telemetry with consent and legal approval.
+
+MVP proxy:
 
 ```text
-review_approval_time - first_review_start_time
+Estimated Review Hours =
+  Base Review Estimate
++ Comment Thread Factor
++ Change Request Factor
++ Re-review Round Factor
++ PR Size Factor
++ Risk Factor
 ```
 
-or, more pragmatically for MVP:
+Fallback proxy:
 
 ```text
 First review timestamp to approval timestamp
 ```
+
+The fallback proxy can overestimate or underestimate effort because elapsed review time is not the same as active review time.
 
 Recommended data confidence:
 
@@ -952,13 +1003,21 @@ review_engagement_signals:
 
 This proxy should improve directional accuracy without requiring IDE telemetry in the MVP.
 
+Display rule:
+
+```text
+Human Validation Cost is directional until calibrated in Phase 3.
+It must be displayed with Data Confidence Score.
+It must not be used for individual performance measurement.
+```
+
 ---
 
 ## 10.5 Net AI Delivery Value
 
 ```text
-Net AI Delivery Value =
-Gross AI Time Saving Value
+Estimated Net AI Delivery Value =
+Estimated Gross AI Time Saving Value
 - Human Validation Cost
 - Rework Cost
 - Defect Cost
@@ -971,7 +1030,7 @@ Gross AI Time Saving Value
 Where:
 
 ```text
-Gross AI Time Saving Value =
+Estimated Gross AI Time Saving Value =
 Estimated Manual Baseline Effort - AI-assisted Effort
 x Blended Hourly Rate
 ```
@@ -990,7 +1049,7 @@ Separate ROI view:
 
 ```text
 AI ROI =
-(Gross AI Time Saving Value + Counterfactual Value)
+(Estimated Gross AI Time Saving Value + Counterfactual Value)
 / Total AI Delivery Cost
 
 Total AI Delivery Cost =
@@ -1022,6 +1081,16 @@ Net value answers: "Did this create economic value after costs?"
 ROI answers: "How efficiently did AI convert cost into value?"
 ```
 
+Display rule:
+
+```text
+Every Net AI Delivery Value view must show:
+- Estimated value
+- Data confidence label
+- Input assumptions
+- Baseline method
+```
+
 Counterfactual value estimation methods:
 
 | Method | How it works | Confidence | MVP recommendation |
@@ -1033,7 +1102,7 @@ Survey-based formula:
 
 ```text
 Counterfactual Value =
-AI Saved Senior Hours
+Estimated AI-saved senior hours
 x Percentage Redirected to Higher-Value Work
 x Senior Blended Hourly Rate
 ```
@@ -1062,7 +1131,7 @@ Cap counterfactual value at the estimated gross AI time saving until stronger ev
 Manual baseline effort: 20 hours
 AI-assisted effort: 12 hours
 Blended hourly rate: £70
-Gross saving: (20 - 12) x £70 = £560
+Estimated gross AI time saving value: (20 - 12) x £70 = £560
 
 Senior review: 3 hours x £110 = £330
 Rework: 1.5 hours x £70 = £105
@@ -1072,7 +1141,9 @@ Opportunity cost: £55
 Adoption friction: £15
 Counterfactual value: £120
 
-Net AI Delivery Value = £560 - £330 - £105 - £20 - £0 - £55 - £15 + £120 = £155
+Estimated Net AI Delivery Value = £560 - £330 - £105 - £20 - £0 - £55 - £15 + £120 = £155
+Confidence: Medium
+Method: historical matched PR baseline + review cost proxy
 ```
 
 Interpretation:
@@ -1225,8 +1296,15 @@ Base AI WIP Limit
 Where:
 
 ```text
-Defect Rate Baseline Deviation = Current AI defect rate ratio - 1
-Review Debt Age Deviation = Current AI review debt ratio - 1
+Current AI Defect Rate Ratio =
+Current AI-assisted weighted defect rate / comparable non-AI weighted defect baseline
+
+Defect Rate Baseline Deviation = Current AI Defect Rate Ratio - 1
+
+Current AI Review Debt Ratio = AI Review Debt Age Ratio
+
+Review Debt Age Deviation = Current AI Review Debt Ratio - 1
+
 Team Seniority Ratio = Senior engineers / Total engineers
 ```
 
@@ -1259,8 +1337,8 @@ The standard formula is intentionally simple, but it can be too forgiving when m
 Trigger:
 
 ```text
-If Defect Rate Baseline Deviation > 1.5
-AND Review Debt Age Deviation > 1.2
+If Current AI Defect Rate Ratio > 1.5
+AND Current AI Review Debt Ratio > 1.2
 THEN apply high-risk penalty
 ```
 
@@ -1351,6 +1429,7 @@ Escalate unclear or risky AI output
 
 ```text
 Define sensitive paths
+Own security-sensitive path reviewer requirements
 Define data classification policy
 Review high-risk AI-generated changes
 Monitor SAST/DAST and IP/licence findings
@@ -1449,6 +1528,11 @@ on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   validate-ai-metadata:
     runs-on: ubuntu-latest
@@ -1524,6 +1608,11 @@ on:
   pull_request:
     types: [opened, synchronize, labeled]
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   assign-reviewers:
     runs-on: ubuntu-latest
@@ -1535,14 +1624,21 @@ jobs:
       - name: Calculate simple risk score
         id: risk
         run: |
-          CHANGED_LINES=$(git diff --numstat origin/${{ github.base_ref }}...HEAD | awk '{added+=$1; deleted+=$2} END {print added+deleted+0}')
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          BASE_REF="origin/${{ github.base_ref }}"
+          CHANGED_LINES=$(git diff --numstat "$BASE_REF"...HEAD | awk '{added+=$1; deleted+=$2} END {print added+deleted+0}')
           RISK=0
           if [ "$CHANGED_LINES" -gt 300 ]; then RISK=$((RISK+5)); fi
-          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '(auth|security|payment|terraform|infra)' ; then RISK=$((RISK+5)); fi
+          if git diff --name-only "$BASE_REF"...HEAD | grep -E '(auth|security|payment|terraform|infra)' ; then RISK=$((RISK+5)); fi
           echo "risk=$RISK" >> $GITHUB_OUTPUT
+          if [ "$RISK" -ge 10 ]; then
+            echo "high_risk=true" >> $GITHUB_OUTPUT
+          else
+            echo "high_risk=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Add warning comment for high risk PR
-        if: steps.risk.outputs.risk >= 10
+        if: steps.risk.outputs.high_risk == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -1559,6 +1655,19 @@ jobs:
 ## 16. Recommended MVP Data Model
 
 ```sql
+CREATE TABLE raw_events (
+  id UUID PRIMARY KEY,
+  provider TEXT NOT NULL,
+  event_type TEXT NOT NULL,
+  external_id TEXT,
+  idempotency_key TEXT,
+  source_timestamp TIMESTAMPTZ,
+  payload JSONB NOT NULL,
+  received_at TIMESTAMPTZ DEFAULT now(),
+  processing_status TEXT DEFAULT 'pending',
+  processing_error TEXT
+);
+
 CREATE TABLE teams (
   id UUID PRIMARY KEY,
   name TEXT NOT NULL,
@@ -1656,6 +1765,53 @@ CREATE TABLE recommendations (
   created_at TIMESTAMPTZ DEFAULT now(),
   resolved_at TIMESTAMPTZ
 );
+
+CREATE INDEX idx_pull_requests_repository_created
+ON pull_requests(repository_id, created_at_source);
+
+CREATE INDEX idx_pull_requests_ai_assisted
+ON pull_requests(ai_assisted);
+
+CREATE INDEX idx_metric_snapshots_team_metric_created
+ON metric_snapshots(team_id, metric_name, created_at);
+
+CREATE INDEX idx_recommendations_team_status
+ON recommendations(team_id, status);
+
+CREATE INDEX idx_jira_issues_linked_pr
+ON jira_issues(linked_pull_request_id);
+
+CREATE UNIQUE INDEX idx_raw_events_idempotency
+ON raw_events(idempotency_key)
+WHERE idempotency_key IS NOT NULL;
+```
+
+Raw event retention:
+
+```text
+Raw events follow the detailed-data retention policy unless legal/privacy requires shorter retention.
+Sensitive raw payload fields must be redacted or excluded before storage where possible.
+```
+
+Identifier privacy:
+
+```text
+Developer identifiers should be pseudonymised where possible.
+Individual-level identifiers are stored only for operational linkage and access-controlled audit.
+Dashboards aggregate at team level by default.
+No individual ranking or productivity scoring is allowed.
+Access to raw author/reviewer-level data is limited to platform administrators and data stewards.
+Managers receive team-level views only.
+```
+
+Migration ownership:
+
+```text
+All schema changes must update:
+- migration SQL
+- data dictionary
+- affected API schemas
+- phase exit report
 ```
 
 ---
@@ -1707,11 +1863,94 @@ CREATE TABLE recommendations (
     description: Receive Jira webhook events
 ```
 
+### 17.2 Minimal Response Examples
+
+`GET /api/v1/teams`
+
+```json
+{
+  "teams": [
+    {
+      "id": "payments-team",
+      "name": "Payments Team",
+      "ai_assisted_pr_rate": 0.32,
+      "data_confidence_score": 84
+    }
+  ]
+}
+```
+
+`GET /api/v1/teams/{teamId}/metrics`
+
+```json
+{
+  "team_id": "payments-team",
+  "metrics": [
+    {
+      "name": "AI Review Debt Age Ratio",
+      "value": 1.4,
+      "confidence": "medium-high",
+      "confidence_score": 78,
+      "decision_grade": true
+    }
+  ]
+}
+```
+
+`GET /api/v1/pull-requests/{prId}/risk`
+
+```json
+{
+  "pull_request_id": "pr_123",
+  "ai_contextual_risk_score": 11,
+  "signals": ["large_pr", "security_sensitive_path"],
+  "required_reviewers": ["senior_engineer", "code_owner"]
+}
+```
+
+`GET /api/v1/teams/{teamId}/recommendations`
+
+```json
+{
+  "team_id": "payments-team",
+  "recommendations": [
+    {
+      "type": "split_large_ai_prs",
+      "severity": "warning",
+      "message": "Large AI-assisted PRs are associated with longer review waits under matched comparison.",
+      "status": "open"
+    }
+  ]
+}
+```
+
+### 17.3 Test Strategy and Observability Contracts
+
+Test strategy by layer:
+
+```text
+Connectors: parser fixtures, webhook replay idempotency, retry/dead-letter and 30-day backfill.
+Metrics: unit tests for the five core metrics, risk scoring boundaries and confidence downgrades.
+Policies: rule evaluation tests, Emergency Override tests and low-confidence enforcement regression tests.
+APIs: response-shape integration tests for teams, metrics, PR risk and recommendations.
+Dashboards: empty-state and low-confidence-state tests.
+```
+
+Observability by layer:
+
+```text
+Collectors emit event counts, failures, dead-letter counts, reconciliation gap and webhook lag.
+Metric engine emits calculation counts, failures, low-confidence counts and freshness lag.
+Policy engine emits evaluations, warnings, blocks, overrides and false-positive feedback.
+Dashboards emit empty-state counts and low-confidence display counts.
+Alerts must detect connector gaps, metric staleness and alert fatigue before they become rollout risks.
+```
+
 ---
 
 ## 18. Data Confidence Rules
 
-Each metric must carry both a data confidence label and a 0-100 confidence score.
+Each metric must carry both a data confidence label and a 0-100 Data Confidence Score.
 
 | Score | Label | Meaning | Usage |
 |---:|---|---|---|
@@ -1723,7 +1962,7 @@ Each metric must carry both a data confidence label and a 0-100 confidence score
 Decision rule:
 
 ```text
-Metrics below 70 confidence must not trigger hard enforcement automatically.
+Metrics with Data Confidence Score below 70 must not trigger hard enforcement automatically.
 Metrics from 50-69 may trigger review, conversation or trend monitoring.
 Metrics below 50 must be labelled "not suitable for decision-making".
 ```
@@ -1825,9 +2064,11 @@ If average score is below 3.5, pause metric expansion and run a team retro befor
 
 ---
 
-## 20. Platform Rollout Model
+## 20. Operating Mode Rollout Model
 
-### Phase 0: Readiness Check
+Physical implementation phases are defined in [Section 27](#27-implementation-phase-packages) and the `phase-packages/` documents. This section defines runtime operating modes.
+
+### Readiness Gate
 
 ```text
 Confirm platform team owner
@@ -1840,19 +2081,20 @@ Confirm no individual performance usage
 Confirm PR template adoption
 ```
 
-### Phase 1: Observation Only
+### Observation Mode
 
 Duration: 2 sprints
 
 ```text
 Collect data
+Do not show developer-facing PR warnings
 Do not enforce hard policies
-Show team-level dashboard
+Show team-level dashboard only when data is labelled with confidence
 Validate metric definitions
 Gather developer feedback
 ```
 
-### Phase 2: Soft Recommendations
+### Warning Mode and Recommendation Mode
 
 Duration: 2 sprints
 
@@ -1860,7 +2102,7 @@ Duration: 2 sprints
 Add PR warnings
 Add recommendation engine
 Add review debt alerts
-Start Net AI Delivery Value reporting
+Start Estimated Net AI Delivery Value reporting with confidence label and assumptions
 ```
 
 Optional experiment mode:
@@ -1870,12 +2112,12 @@ Randomly assign 50% of eligible AI-assisted PRs to receive soft warnings.
 Keep the other 50% as a control group.
 Compare warning and control outcomes after 2 sprints.
 Measure PR split rate, review wait time, defect linkage and developer feedback.
-Use results to tune policies before Phase 3 enforcement.
+Use results to tune policies before Enforcement Mode.
 ```
 
 Experiment mode must remain team-level and non-punitive. It is used to validate whether a policy improves outcomes before enforcement, not to compare individual developers.
 
-### Phase 3: Guardrail Enforcement
+### Enforcement Mode
 
 Duration: after trust is established
 
@@ -1884,9 +2126,12 @@ Require AI metadata
 Require senior review for high-risk PRs
 Warn on large AI PRs
 Apply dynamic AI WIP limits
+Allow Emergency Override
 ```
 
-### Phase 4: Enterprise Rollout
+Only metrics with Data Confidence Score >= 70 may trigger blocking enforcement. Metrics below 70 may warn only. Metrics below 50 are trend-only and not decision-grade.
+
+### Enterprise Rollout Mode
 
 ```text
 Multi-team dashboards
@@ -2059,6 +2304,17 @@ risk:
     - "openapi/**"
     - "proto/**"
 
+security:
+  sensitive_paths:
+    - pattern: "**/auth/**"
+      required_reviewers:
+        - appsec
+        - code_owner
+    - pattern: "**/payment/**"
+      required_reviewers:
+        - senior_engineer
+        - domain_owner
+
 wip:
   dynamic_ai_wip_enabled: true
   min_limit: 2
@@ -2090,12 +2346,12 @@ A pilot is successful if, after 4-6 sprints:
 
 ```text
 1. AI-assisted PRs can be reliably identified.
-2. AI Review Debt can be measured with confidence score >= 70.
+2. AI Review Debt can be measured with Data Confidence Score >= 70.
 3. Post-merge defects can be linked to PRs with acceptable accuracy.
 4. Engineering managers find the recommendations useful.
 5. Developers do not report psychological safety concerns.
 6. At least one actionable improvement is made from the dashboard.
-7. Net AI Delivery Value can be estimated with confidence score >= 70.
+7. Net AI Delivery Value can be estimated with Data Confidence Score >= 70.
 8. Human Validation Cost has been calibrated with a small manual study or accepted as directional.
 ```
 
@@ -2401,6 +2657,17 @@ Data confidence improvement actions
 
 The review should focus on system learning. It should not review individual developer performance.
 
+Manager misuse escalation:
+
+```text
+If a manager attempts to use individual AI metrics for performance scoring:
+1. Pause expansion for that team.
+2. Notify Platform Lead and HR/People Lead.
+3. Re-brief the manager and team.
+4. Remove individual-level exports from that manager's access.
+5. Resume only after misuse risk is addressed.
+```
+
 ---
 
 ## 33. Incident Integration Use Case
@@ -2427,7 +2694,7 @@ MVP implementation:
 4. Update AI-assisted defect metrics only after the incident review confirms contribution.
 ```
 
-This integration should avoid assuming that any nearby AI-assisted PR caused the incident. It provides candidates for review, not automatic blame.
+Incident linkage creates candidates for human review, not automatic blame or automatic defect attribution. Do not assume a nearby AI-assisted PR caused the incident.
 
 ---
 

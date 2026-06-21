@@ -109,6 +109,27 @@ policies:
 
 Every policy must keep an exception path. Emergency production fixes must not be blocked by missing AI metadata, but every override is recorded, reviewed and trend-monitored.
 
+Sensitive path ownership rules:
+
+```yaml
+security:
+  sensitive_paths:
+    - pattern: "**/auth/**"
+      required_reviewers:
+        - appsec
+        - code_owner
+    - pattern: "**/payment/**"
+      required_reviewers:
+        - senior_engineer
+        - domain_owner
+```
+
+```text
+The Security Lead owns the path map.
+The Platform Lead owns wiring the path map into policy checks.
+Risk-sensitive paths add score; security-sensitive ownership rules assign required reviewers.
+```
+
 ### AI Metadata Blocker (GitHub Actions)
 
 ```yaml
@@ -117,6 +138,11 @@ name: AI Metadata Enforcement
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
 
 jobs:
   validate-ai-metadata:
@@ -212,6 +238,11 @@ on:
   pull_request:
     types: [opened, synchronize, labeled]
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   assign-reviewers:
     runs-on: ubuntu-latest
@@ -223,14 +254,21 @@ jobs:
       - name: Calculate simple risk score
         id: risk
         run: |
-          CHANGED_LINES=$(git diff --numstat origin/${{ github.base_ref }}...HEAD | awk '{added+=$1; deleted+=$2} END {print added+deleted+0}')
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          BASE_REF="origin/${{ github.base_ref }}"
+          CHANGED_LINES=$(git diff --numstat "$BASE_REF"...HEAD | awk '{added+=$1; deleted+=$2} END {print added+deleted+0}')
           RISK=0
           if [ "$CHANGED_LINES" -gt 300 ]; then RISK=$((RISK+5)); fi
-          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '(auth|security|payment|terraform|infra)' ; then RISK=$((RISK+5)); fi
+          if git diff --name-only "$BASE_REF"...HEAD | grep -E '(auth|security|payment|terraform|infra)' ; then RISK=$((RISK+5)); fi
           echo "risk=$RISK" >> $GITHUB_OUTPUT
+          if [ "$RISK" -ge 10 ]; then
+            echo "high_risk=true" >> $GITHUB_OUTPUT
+          else
+            echo "high_risk=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Add warning comment for high risk PR
-        if: steps.risk.outputs.risk >= 10
+        if: steps.risk.outputs.high_risk == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -247,6 +285,15 @@ jobs:
 ```text
 Base AI WIP Limit = (Senior x 2) + (Mid x 1) + (Junior x 0.5)
 
+Current AI Defect Rate Ratio =
+Current AI-assisted weighted defect rate / comparable non-AI weighted defect baseline
+
+Defect Rate Baseline Deviation = Current AI Defect Rate Ratio - 1
+
+Current AI Review Debt Ratio = AI Review Debt Age Ratio
+
+Review Debt Age Deviation = Current AI Review Debt Ratio - 1
+
 Dynamic AI WIP Limit =
   Base AI WIP Limit
 - (Defect Rate Baseline Deviation x 0.5)
@@ -259,7 +306,7 @@ Always round down when quality risk is increasing.
 High-risk multiplicative penalty:
 
 ```text
-If Defect Rate Baseline Deviation > 1.5 AND Review Debt Age Deviation > 1.2:
+If Current AI Defect Rate Ratio > 1.5 AND Current AI Review Debt Ratio > 1.2:
 High-Risk Dynamic AI WIP = Base AI WIP Limit x 0.7 x (1 - min(Defect Rate Baseline Deviation, 3) / 10)
 ```
 
@@ -268,6 +315,8 @@ Guardrails:
 ```text
 Never reduce below the configured team minimum automatically.
 Never use low-confidence defect data for automatic high-risk penalties.
+Only metrics with Data Confidence Score >= 70 may trigger blocking enforcement.
+Metrics below 70 may warn only; metrics below 50 are trend-only.
 Show the reason for the WIP recommendation to the team.
 Review penalty thresholds monthly during pilot rollout.
 ```
@@ -290,11 +339,24 @@ security_controls:
 
 ```text
 Implement as a pre-commit hook or GitHub Action comment.
+MVP scanner checks PR title, body and comments only.
+It does not inspect raw prompts from AI tools.
 Scan PR description and comments for sensitive patterns plus email-like and phone-like strings.
 Add a PR comment when a pattern may indicate sensitive data. Do not block the PR. Do not store raw matches.
 Suggested comment:
 "This PR contains text that may contain sensitive data. Please verify before merging. The platform has not stored the raw match."
 ```
+
+Use existing provider secret scanning where available:
+
+```text
+GitHub secret scanning
+Gitleaks
+TruffleHog
+Snyk
+```
+
+The platform should reference these tools rather than building a full secret scanner in MVP.
 
 ### Policy Settings UI
 
@@ -317,7 +379,29 @@ rules:
 ```text
 The Policy Settings screen turns the product from a passive dashboard into a control plane.
 Each rule maps to a CI/CD check or GitHub Check that warns or blocks.
-Only rules backed by metrics at confidence >= 70 may use a blocking action; the rest warn only.
+Only rules backed by metrics with Data Confidence Score >= 70 may use a blocking action; the rest warn only.
+```
+
+### Test Strategy and Observability
+
+Test strategy:
+
+```text
+Unit-test policy rule evaluation, confidence gates and Emergency Override handling.
+Integration-test GitHub Actions metadata enforcement against sample PR bodies.
+Integration-test high-risk reviewer assignment with representative changed-file sets.
+Regression-test that low-confidence defect data cannot reduce Dynamic AI WIP or block a PR.
+Exercise metadata_missing behaviour separately from inferred metric confidence because metadata completeness can block in Enforcement Mode.
+```
+
+Observability:
+
+```text
+Emit policy_evaluations_total by rule, action and result.
+Emit policy_blocks_total, policy_warnings_total and emergency_overrides_total.
+Emit policy_false_positive_reports_total from pilot feedback.
+Emit dynamic_ai_wip_recommendation changes with before, after and reason.
+Alert when actionable policy alerts exceed 10 per team per week or PR bot comments exceed 20% of PRs.
 ```
 
 ### Recommendations / Playbook View
@@ -336,7 +420,7 @@ Surfaces what to do, with an owner, not just that a problem exists:
 
 ```text
 Layer: enforcement based on calibrated thresholds.
-Confidence: only metrics at confidence >= 70 may drive hard enforcement; lower-confidence signals warn only.
+Confidence: only metrics with Data Confidence Score >= 70 may drive hard enforcement; lower-confidence signals warn only.
 Use: selective blocking with an always-available emergency override.
 ```
 
@@ -354,6 +438,8 @@ Override retro notes where applicable
 Prompt leakage comment-mode scanner
 Policy Settings rule-editor screen
 Recommendations / Playbook screen
+Policy test suite and low-confidence enforcement regression tests
+Policy observability counters and alert thresholds
 ```
 
 ## Exit Criteria
