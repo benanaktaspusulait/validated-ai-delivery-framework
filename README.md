@@ -16,6 +16,7 @@ Use this file as the entry point. The phase documents are the operational source
 | [phase-packages/phase-3-soft-landing-and-experiment.md](phase-packages/phase-3-soft-landing-and-experiment.md) | Warning Mode, PR comment bot, experiment mode and calibration |
 | [phase-packages/phase-4-automated-guardrails.md](phase-packages/phase-4-automated-guardrails.md) | Enforcement Mode, GitHub checks, metadata blocker, policy engine and Emergency Override |
 | [phase-packages/phase-5-enterprise-rollout.md](phase-packages/phase-5-enterprise-rollout.md) | Enterprise rollout, self-service onboarding, governance forum, RBAC and retention purge |
+| [TODO.md](TODO.md) | Outstanding implementation gaps, tracked per phase |
 
 ## Implementation Phases
 

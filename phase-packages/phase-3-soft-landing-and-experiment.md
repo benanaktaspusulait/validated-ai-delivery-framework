@@ -110,15 +110,8 @@ After calibration, record the new confidence label for Human Validation Cost.
 
 ### Psychological safety pulse (re-run, compare against the Phase 0 baseline)
 
-Questions, scored 1 (strongly disagree) to 5 (strongly agree):
-
 ```text
-I feel safe declaring AI usage in my work.
-I feel safe challenging AI-generated output.
-I feel safe saying I do not understand AI-generated code.
-Our team reviews AI-assisted code carefully.
-AI metrics are used to improve the system, not blame individuals.
-I do not feel pressured to use AI when it is not helpful.
+Re-run the same six-question psychological safety pulse defined in Phase 0 and compare the result against the recorded baseline.
 ```
 
 Action rule:

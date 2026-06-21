@@ -227,10 +227,7 @@ Sensitive raw payload fields must be redacted or excluded before storage where p
 Identifier handling:
 
 ```text
-Data Steward must approve identifier handling.
-Developer identifiers should be pseudonymised where possible.
-Access to raw author/reviewer-level data must be limited to platform administrators and data stewards.
-Managers should receive team-level views only.
+Implement the identifier-handling rules approved in Phase 0: pseudonymise developer identifiers where possible, restrict raw author/reviewer-level access to platform administrators and data stewards, and expose team-level views only to managers.
 ```
 
 ### API surface for this phase

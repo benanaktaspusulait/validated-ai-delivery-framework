@@ -24,15 +24,6 @@ Each phase is a mini-project with clear entry criteria, exit criteria, fail crit
 | 4 | Automated Guardrails | 4 weeks | Dynamic AI WIP plus metadata blocker | Positive Net AI Delivery Value in pilot | [phase-4-automated-guardrails.md](phase-4-automated-guardrails.md) |
 | 5 | Enterprise Rollout | Continuous | Self-service onboarding package | Open to wider teams | [phase-5-enterprise-rollout.md](phase-5-enterprise-rollout.md) |
 
-## Operating Modes
-
-```text
-Observation Mode = collect and calculate only; no developer-facing warnings or blocks.
-Warning Mode = non-blocking PR comments and soft guidance.
-Recommendation Mode = team-level recommendations and playbooks.
-Enforcement Mode = calibrated blocking checks with Emergency Override.
-```
-
 ## Product Surface (UI)
 
 The platform is a control plane, not only a report screen. It collects data, computes metrics, runs risk and policy rules, and pushes warnings or blocks back into GitHub and CI.
@@ -79,17 +70,8 @@ The product produces decision-grade operational signals, not laboratory-grade ca
 | 4 | Enforcement on metrics with Data Confidence Score >= 70 | Decision-grade only |
 | 5 | Advanced intelligence (telemetry, trust calibration) | Variable, labelled |
 
-## Developer Experience Boundaries
-
-```text
-Developers do not get a personal productivity dashboard.
-Developer interaction happens mainly inside PRs.
-No individual leaderboard.
-No "who uses AI most" view.
-No performance-review export.
-```
-
 ## Stage-Gate Rule
+
 ```text
 At the end of every phase, the Platform Lead and pilot-team Engineering Manager must answer:
 "Would moving to the next phase destabilise the current system?"

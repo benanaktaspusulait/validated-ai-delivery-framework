@@ -181,12 +181,8 @@ The review focuses on system learning, not individual developer performance.
 Manager misuse escalation:
 
 ```text
-If a manager attempts to use individual AI metrics for performance scoring:
-1. Pause expansion for that team.
-2. Notify Platform Lead and HR/People Lead.
-3. Re-brief the manager and team.
-4. Remove individual-level exports from that manager's access.
-5. Resume only after misuse risk is addressed.
+Apply the manager-misuse escalation procedure defined in Phase 0 if individual AI metrics are used for performance scoring.
+The quarterly forum is the standing checkpoint for detecting and acting on that misuse across teams.
 ```
 
 ### Incident integration
