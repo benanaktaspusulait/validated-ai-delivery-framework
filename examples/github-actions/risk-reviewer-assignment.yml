@@ -29,7 +29,7 @@ jobs:
           CHANGED_LINES=$(git diff --numstat "$BASE_REF"...HEAD | awk '{added+=$1; deleted+=$2} END {print added+deleted+0}')
           RISK=0
           if [ "$CHANGED_LINES" -gt 300 ]; then RISK=$((RISK+5)); fi
-          if git diff --name-only "$BASE_REF"...HEAD | grep -E '(auth|security|payment|terraform|infra)' ; then RISK=$((RISK+5)); fi
+          if git diff --name-only "$BASE_REF"...HEAD | grep -qE '(auth|security|payment|terraform|infra)'; then RISK=$((RISK+5)); fi
           echo "risk=$RISK" >> $GITHUB_OUTPUT
           if [ "$RISK" -ge 10 ]; then
             echo "high_risk=true" >> $GITHUB_OUTPUT

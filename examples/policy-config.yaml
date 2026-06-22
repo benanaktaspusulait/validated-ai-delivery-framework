@@ -2,8 +2,9 @@
 # Defines the guardrails enabled in Enforcement Mode and the security controls.
 # See docs/risk-policy-engine.md for evaluation rules and confidence gating.
 #
-# Confidence gate: only rules backed by metrics with Data Confidence Score >= 70
-# may use a blocking action. All others warn only.
+# Confidence gate: only rules backed by metrics with Data Confidence Score >= 90
+# may use a blocking action. Scores 70-89 may warn only. Below 70 the metric is
+# withheld and the rule is auto-disabled.
 
 policies:
   ai_metadata_required:

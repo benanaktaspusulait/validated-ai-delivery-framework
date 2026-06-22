@@ -15,6 +15,10 @@ repositories:
     owner: example-org
     name: payments-api
 
+jira:
+  project_key: PAYMENTS
+  # API token stored in secrets manager, not in this file
+
 risk:
   sensitive_paths:
     - "src/main/**/payment/**"
