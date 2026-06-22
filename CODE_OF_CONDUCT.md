@@ -33,7 +33,7 @@ This Code applies within all project spaces (issues, pull requests, discussions)
 ## Enforcement
 
 ```text
-Reports can be sent privately to the maintainers via the contact channel listed in the repository.
+Reports can be sent privately to the maintainers at ai-delivery-framework@example.com or via the repository's private security advisory.
 All reports are reviewed and investigated promptly and fairly.
 Maintainers will respect the privacy and security of the reporter.
 ```

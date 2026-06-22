@@ -24,8 +24,8 @@ The share of PRs declared (via metadata) or inferred as AI-assisted. For MVP it 
 **How should I use these metrics in 1:1s?**
 You should not. They are team/process-health signals. Using them for individual performance triggers the misuse escalation in [docs/governance-and-privacy.md](docs/governance-and-privacy.md).
 
-**How is delivery value reported (the old "Net AI Delivery Value")?**
-It has been replaced by the Validated Delivery Trend (VDT): a correlational signal comparing AI-assisted and matched non-AI PRs over time, shown as a 90-day trend, never a single value. It does not claim AI caused the difference. Method: [docs/metrics-catalogue.md](docs/metrics-catalogue.md).
+**How is delivery value reported?**
+The original "Net AI Delivery Value" figure (v1.7) has been replaced by the Validated Delivery Trend (VDT): a correlational signal comparing AI-assisted and matched non-AI PRs over time, shown as a 90-day trend, never a single value. It does not claim AI caused the difference. Method: [docs/metrics-catalogue.md](docs/metrics-catalogue.md).
 
 **Can the platform prove AI made us faster?**
 No, and it will not claim to. It produces decision-grade signals under matched comparison, not causal proof. See the validity guardrails in [docs/metrics-catalogue.md](docs/metrics-catalogue.md).

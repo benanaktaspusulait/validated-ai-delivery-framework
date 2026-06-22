@@ -8,12 +8,12 @@ Phase files are gate documents: what is done, by whom, with which criteria. Tech
 
 | Phase | Name | Duration | Mode | Gate | Package |
 |---:|---|---:|---|---|---|
-| 0 | Groundwork and Legal Assurance | 2 weeks | Readiness | Legal and HR sign-off | [phase-0-groundwork-and-legal-assurance.md](phase-0-groundwork-and-legal-assurance.md) |
+| 0 | Groundwork and Legal Assurance | 2 weeks | Readiness | Legal/HR sign-off + safety baseline >= 3.5 | [phase-0-groundwork-and-legal-assurance.md](phase-0-groundwork-and-legal-assurance.md) |
 | 1 | Data Architecture and Raw Collection | 3 weeks | Observation | Data Confidence Score >= 75 | [phase-1-data-architecture-and-raw-collection.md](phase-1-data-architecture-and-raw-collection.md) |
 | 2 | Metrics and Risk Engine | 3 weeks | Observation | Core metrics validated | [phase-2-metrics-and-risk-engine.md](phase-2-metrics-and-risk-engine.md) |
 | 3 | Soft Landing and Experiment | 4 weeks | Warning / Recommendation | Psychological safety > 3.5 | [phase-3-soft-landing-and-experiment.md](phase-3-soft-landing-and-experiment.md) |
 | 4 | Automated Guardrails | 4 weeks | Enforcement | Positive VDT trend | [phase-4-automated-guardrails.md](phase-4-automated-guardrails.md) |
-| 5 | Enterprise Rollout | Continuous | Staged | Open to wider teams | [phase-5-enterprise-rollout.md](phase-5-enterprise-rollout.md) |
+| 5 | Enterprise Rollout | Continuous | Staged | >= 30% teams active, support < 5/wk, all new teams in Observation | [phase-5-enterprise-rollout.md](phase-5-enterprise-rollout.md) |
 
 ## Exit criteria at a glance
 

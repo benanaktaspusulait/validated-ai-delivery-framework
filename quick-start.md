@@ -5,6 +5,10 @@ Stand a team up on the AI Delivery Control Plane. New teams always begin in Obse
 ## Prerequisites
 
 ```text
+Complete Phase 0 (phase-packages/phase-0-groundwork-and-legal-assurance.md) before onboarding:
+  - Legal/privacy approval for developer activity data.
+  - HR/People acknowledgement of "no individual performance use".
+  - Psychological safety baseline recorded and >= 3.5 (docs/psychological-safety.md).
 SSO access to the platform.
 Admin rights on your team's GitHub repositories and Jira projects (for initial setup only).
 A named Engineering Manager who acknowledges the "no individual performance use" guarantee.
@@ -55,4 +59,5 @@ The phase gates in phase-packages/ define the criteria.
 Slack: #ai-delivery-support (help) and #ai-delivery-feedback (false positives, threshold tuning).
 Questions: faq.md
 Concepts and specs: docs/
+Psychological safety: docs/psychological-safety.md
 ```

@@ -8,13 +8,15 @@ Read this file first, then start Phase 0. The phase packages are the implementat
 
 | If you want to... | Read |
 |---|---|
-| Understand why this exists (thesis, positioning, roadmap) | [validated-ai-delivery-framework-v1.8.md](validated-ai-delivery-framework-v1.8.md) |
+| Understand why this exists (thesis, formulas, positioning) | [validated-ai-delivery-framework-v1.8.md](validated-ai-delivery-framework-v1.8.md) |
 | Know what we are building (product definition) | [PRD.md](PRD.md) |
 | Stand a team up quickly | [quick-start.md](quick-start.md) |
 | Answer common questions | [faq.md](faq.md) |
+| Look up a term | [glossary.md](glossary.md) |
 | Implement, in order, with gates | [phase-packages/README.md](phase-packages/README.md) |
 | Look up a technical spec | [docs/](docs/) |
 | Copy a template or config | [examples/](examples/) |
+| Contribute to this repository | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | See what is still open | [TODO.md](TODO.md) |
 
 ## Reference docs (`docs/`)
@@ -31,6 +33,19 @@ Read this file first, then start Phase 0. The phase packages are the implementat
 | [psychological-safety.md](docs/psychological-safety.md) | Pulse questions and gating rules |
 | [rollout-operating-model.md](docs/rollout-operating-model.md) | Operating modes, RACI, pause criteria, roadmap |
 | [testing-and-observability.md](docs/testing-and-observability.md) | Per-phase test and observability requirements |
+
+### Stage 2+ reference docs
+
+| Doc | Scope |
+|---|---|
+| [use-cases.md](docs/use-cases.md) | Adoption scenarios and how the framework applies |
+| [market-landscape.md](docs/market-landscape.md) | Competitor and category analysis |
+| [training-change-management.md](docs/training-change-management.md) | Training material and change-management playbooks |
+| [multi-provider-strategy.md](docs/multi-provider-strategy.md) | GitLab, Azure DevOps, Bitbucket integration design |
+| [costing-pricing.md](docs/costing-pricing.md) | Cost model and pricing hypotheses |
+| [scalability-sla.md](docs/scalability-sla.md) | Scalability targets and SLA definitions |
+| [disaster-recovery.md](docs/disaster-recovery.md) | Disaster recovery and business continuity |
+| [support-model.md](docs/support-model.md) | Support tiers and operational model |
 
 ## Implementation phases
 

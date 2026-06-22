@@ -2239,6 +2239,8 @@ These examples should be reviewed quarterly and updated as team usage patterns e
 
 ## 35. Pricing Hypothesis
 
+> **Note:** The pricing details below are illustrative hypotheses and belong in a separate business-case document (`docs/costing-pricing.md`). They are retained here for completeness but should be moved out of the framework thesis before external distribution.
+
 Potential commercial positioning:
 
 ### Team Plan

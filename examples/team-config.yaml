@@ -58,4 +58,4 @@ data:
   raw_prompt_storage: disabled
 
 notifications:
-  slack_channel: "#payments-delivery-health"
+  slack_channel: "#payments-delivery-health"  # Planned: notification connectors deferred to Stage 2+ (see ROADMAP.md)

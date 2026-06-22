@@ -25,6 +25,8 @@ UI Dashboards / GitHub Checks / Slack-Teams alerts
 
 ## Reference implementation stack
 
+The stack below is illustrative. The framework is technology-agnostic; adopt whatever fits your organisation.
+
 ```text
 Backend: Java 21 + Quarkus
 Frontend: React / Next.js (introduced from Phase 2)
