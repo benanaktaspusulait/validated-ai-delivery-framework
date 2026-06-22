@@ -1,6 +1,7 @@
 package com.vaiddf.core.spi;
 
 import com.vaiddf.core.model.Model;
+import com.vaiddf.core.model.ModelStatus;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,5 @@ public interface ModelRegistry {
     /**
      * Transition model to a new status.
      */
-    Model transitionStatus(String id, Model.Status newStatus);
+    Model transitionStatus(String id, ModelStatus newStatus);
 }

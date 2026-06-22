@@ -1,6 +1,7 @@
 package com.vaiddf.api.resource;
 
 import com.vaiddf.core.model.Model;
+import com.vaiddf.core.model.ModelStatus;
 import com.vaiddf.core.spi.ModelRegistry;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -63,7 +64,7 @@ public class ModelResource {
     @Path("/{id}/deploy")
     public Response deploy(String id) {
         try {
-            Model deployed = registry.transitionStatus(id, Model.Status.DEPLOYED);
+            Model deployed = registry.transitionStatus(id, ModelStatus.DEPLOYED);
             return Response.ok(deployed).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -74,7 +75,7 @@ public class ModelResource {
     @Path("/{id}/rollback")
     public Response rollback(String id) {
         try {
-            Model rolledBack = registry.transitionStatus(id, Model.Status.ROLLED_BACK);
+            Model rolledBack = registry.transitionStatus(id, ModelStatus.ROLLED_BACK);
             return Response.ok(rolledBack).build();
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.NOT_FOUND).build();

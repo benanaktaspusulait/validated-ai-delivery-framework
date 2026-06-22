@@ -1,6 +1,7 @@
 package com.vaiddf.core.spi;
 
 import com.vaiddf.core.model.Model;
+import com.vaiddf.core.model.ModelStatus;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Map;
 
@@ -13,11 +14,11 @@ public class DefaultPolicyEngine implements PolicyEngine {
 
     @Override
     public PolicyResult evaluate(Model model, Map<String, String> context) {
-        if (model.status() == Model.Status.DEPLOYED) {
+        if (model.status() == ModelStatus.DEPLOYED) {
             return PolicyResult.deny(model.name(), "Model is already deployed");
         }
 
-        if (model.status() == Model.Status.DEPRECATED) {
+        if (model.status() == ModelStatus.DEPRECATED) {
             return PolicyResult.deny(model.name(), "Model is deprecated");
         }
 
@@ -25,7 +26,7 @@ public class DefaultPolicyEngine implements PolicyEngine {
             return PolicyResult.allow(model.name());
         }
 
-        if (model.governance().fairnessRequired() && model.status() != Model.Status.APPROVED) {
+        if (model.governance().fairnessRequired() && model.status() != ModelStatus.APPROVED) {
             return PolicyResult.deny(model.name(), "Fairness check required but not completed");
         }
 

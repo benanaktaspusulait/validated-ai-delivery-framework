@@ -21,6 +21,18 @@
             <artifactId>vaiddf-core</artifactId>
         </dependency>
 
+        <!-- Drift extension -->
+        <dependency>
+            <groupId>com.vaiddf</groupId>
+            <artifactId>vaiddf-drift-extension</artifactId>
+        </dependency>
+
+        <!-- Policy engine -->
+        <dependency>
+            <groupId>com.vaiddf</groupId>
+            <artifactId>vaiddf-policy-engine</artifactId>
+        </dependency>
+
         <!-- Quarkus REST -->
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -71,7 +83,6 @@
                             <goal>build</goal>
                             <goal>generate-code</goal>
                             <goal>generate-code-tests</goal>
-                            <goal>native-sources</goal>
                         </goals>
                     </execution>
                 </executions>

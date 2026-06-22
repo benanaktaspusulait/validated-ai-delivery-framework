@@ -20,16 +20,6 @@ public record Model(
     GovernanceConfig governance
 ) {
 
-    public enum Status {
-        DRAFT,
-        REGISTERED,
-        VALIDATING,
-        APPROVED,
-        DEPLOYED,
-        DEPRECATED,
-        ROLLED_BACK
-    }
-
     public record GovernanceConfig(
         boolean driftCheck,
         boolean fairnessRequired,

@@ -1,6 +1,7 @@
 package com.vaiddf.core.spi;
 
 import com.vaiddf.core.model.Model;
+import com.vaiddf.core.model.ModelStatus;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class InMemoryModelRegistry implements ModelRegistry {
             model.id(),
             model.name(),
             model.version(),
-            Model.Status.REGISTERED,
+            ModelStatus.REGISTERED,
             model.registry(),
             Instant.now(),
             Instant.now(),
@@ -81,7 +82,7 @@ public class InMemoryModelRegistry implements ModelRegistry {
     }
 
     @Override
-    public Model transitionStatus(String id, Model.Status newStatus) {
+    public Model transitionStatus(String id, ModelStatus newStatus) {
         Model existing = models.get(id);
         if (existing == null) {
             throw new IllegalArgumentException("Model not found: " + id);
