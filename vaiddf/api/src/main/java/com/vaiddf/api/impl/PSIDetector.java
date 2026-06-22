@@ -1,4 +1,4 @@
-package com.vaiddf.extensions.drift;
+package com.vaiddf.api.impl;
 
 import com.vaiddf.core.model.DriftResult;
 import com.vaiddf.core.spi.DriftDetector;
@@ -7,9 +7,6 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Population Stability Index (PSI) drift detector.
- */
 @ApplicationScoped
 public class PSIDetector implements DriftDetector {
 

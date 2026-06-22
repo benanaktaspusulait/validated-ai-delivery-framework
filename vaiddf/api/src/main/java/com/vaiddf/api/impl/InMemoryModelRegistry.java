@@ -1,19 +1,15 @@
-package com.vaiddf.core.spi;
+package com.vaiddf.api.impl;
 
 import com.vaiddf.core.model.Model;
 import com.vaiddf.core.model.ModelStatus;
+import com.vaiddf.core.spi.ModelRegistry;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * In-memory implementation of ModelRegistry for development and testing.
- * Production should use a persistent implementation (PostgreSQL, etc.).
- */
 @ApplicationScoped
 public class InMemoryModelRegistry implements ModelRegistry {
 

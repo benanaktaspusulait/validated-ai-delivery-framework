@@ -1,14 +1,12 @@
-package com.vaiddf.core.spi;
+package com.vaiddf.api.impl;
 
 import com.vaiddf.core.model.Model;
 import com.vaiddf.core.model.ModelStatus;
+import com.vaiddf.core.spi.PolicyEngine;
+import com.vaiddf.core.spi.PolicyResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Map;
 
-/**
- * Default policy engine implementation.
- * Enforces basic governance rules.
- */
 @ApplicationScoped
 public class DefaultPolicyEngine implements PolicyEngine {
 
