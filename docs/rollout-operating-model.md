@@ -41,14 +41,34 @@ The product produces decision-grade operational signals, not laboratory-grade ca
 | 4 | Enforcement on High-confidence metrics (>= 90); 70-89 warn only | Decision-grade only |
 | 5 | Advanced intelligence (telemetry, trust calibration) | Variable, labelled |
 
+## AI ownership model
+
+The rollout uses central governance with distributed execution. The platform team owns standards, approved tooling, measurement, policy, confidence gates and rollback paths. Domain teams own use-case selection, context artifacts, review judgement and production accountability.
+
+Operating-model reference: `docs/ai-operating-model.md`.
+
+Phase-specific ownership checks:
+
+```text
+Phase 0: map who owns the pilot, AI tooling, context artifacts, review depth and Shadow AI inventory.
+Phase 1: collect only the metadata needed for team-level confidence and ownership; no developer-facing interpretation.
+Phase 2: surface ownership-boundary, reviewer-load and contextual-risk signals read-only.
+Phase 3: calibrate review depth with Agent Reviewers before any enforcement.
+Phase 4: enforce only confidence-gated policies, with emergency override and clear owner escalation.
+Phase 5: scale hub/spoke responsibilities, context registry hygiene and Token FinOps across teams.
+```
+
 ## Weekly RACI
 
 | Role | Weekly responsibility |
 |---|---|
 | Platform Engineer | Build the week's collector, engine, API, dashboard or policy work |
+| AI Platform Engineer | Maintain approved AI tooling, context/eval pipeline, token observability and operating-model artefacts |
 | Platform Lead | Monitor data confidence, triage feedback and decide threshold changes |
 | Engineering Manager | Interpret team-level metrics, protect psychological safety and run retros |
 | Tech Lead | Review high-risk PRs, validate recommendations and coach explainable AI usage |
+| Context Engineer | Maintain domain context artifacts, registry metadata, quality feedback and stale-context remediation |
+| Agent Reviewer | Review AI-assisted changes where risk or ownership confidence requires deeper domain judgement |
 | Developer | Declare AI usage honestly; respond to in-PR guidance; maintain ownership of AI-assisted changes |
 | Data Steward | Review data retention, access and override logs |
 | Security Lead | Review security-sensitive paths, prompt leakage signals and incident linkage |
@@ -127,8 +147,9 @@ Agenda:
 4. Delivery trend: Validated Delivery Trend (VDT) signal (correlational, not ROI).
 5. Risk posture: dependency risk, security signals and policy overrides.
 6. Psychological safety pulse trend.
-7. Policy adjustments: thresholds, new policies and retired policies.
-8. 90-day roadmap.
+7. Operating-model health: owner coverage, single-person dependencies, context registry age and Token FinOps.
+8. Policy adjustments: thresholds, new policies and retired policies.
+9. 90-day roadmap.
 ```
 
 Outputs:

@@ -15,8 +15,10 @@ Engineering leaders cannot tell whether AI-assisted PRs create real delivery val
 | Persona | Goal | Primary surface |
 |---|---|---|
 | Platform / DevEx Engineer | Operate the system; keep data trustworthy | Platform view, Integrations, Policy Settings |
+| AI Platform Engineer | Operate approved AI tooling, context/eval pipeline and Token FinOps | Platform view, Integrations, Operating Model |
 | Engineering Manager | Manage team delivery health without surveilling individuals | Team Dashboard, Recommendations |
 | Tech Lead | Catch risky AI-assisted PRs early | PR Risk View, in-PR guidance |
+| Context Engineer / Agent Reviewer | Maintain domain context and calibrate review depth for AI-assisted work | Operating Model, PR Risk View |
 | CTO / VP Engineering | Decide AI investment and rollout pace | Executive Summary |
 | Security / Compliance | Oversee AI usage risk and prompt safety | Security signals, policy overrides |
 | Developer | Merge safely with light, in-PR guidance | GitHub PR (no personal dashboard) |
@@ -27,6 +29,7 @@ Engineering leaders cannot tell whether AI-assisted PRs create real delivery val
 Value validation: track the Validated Delivery Trend (VDT) signal with confidence labels, not a causal ROI figure.
 Risk governance: flag high-risk AI-assisted changes and route the right reviewers.
 Validation-capacity management: detect when AI output outpaces review/test capacity.
+Operating-model scaling: make ownership explicit so pilots do not depend on one champion engineer.
 Graduated policy: move from observation to warnings to confidence-gated enforcement without blocking emergencies.
 Psychological-safety monitoring: ensure adoption does not create surveillance anxiety.
 ```
@@ -81,9 +84,11 @@ FR7  Record every override in an auditable log and surface override trends.
 FR8  Generate team-level recommendations and a playbook with owners.
 FR9  Provide self-service onboarding that starts every new team in Observation Mode.
 FR10 Purge detailed data at 12 months; retain aggregates for 24 months.
+FR11 Maintain operating-model artefacts: approved tool catalogue, ownership map, context registry metadata, review-depth responsibilities and team-level Token FinOps.
 ```
 
 Specifications: data ([docs/data-model.md](docs/data-model.md)), metrics ([docs/metrics-catalogue.md](docs/metrics-catalogue.md)), risk/policy ([docs/risk-policy-engine.md](docs/risk-policy-engine.md)), API ([docs/api-spec.md](docs/api-spec.md)).
+Operating-model detail: [docs/ai-operating-model.md](docs/ai-operating-model.md).
 
 ## 9. Non-functional requirements
 

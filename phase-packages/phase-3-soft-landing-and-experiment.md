@@ -65,13 +65,15 @@ For detailed implementation steps, see [implementation/phase-3/](../implementati
 ## Deliverables
 
 ```text
-PR Comment Bot
-A/B test result
-Psychological safety pulse report
-Human Validation Cost calibration result
-Updated warning copy and threshold recommendations
-Developer in-PR view
-PR-bot and experiment-mode tests
+PR Comment Bot with experiment-group gating (T3.1, T3.2)
+A/B analysis engine and results (T3.3)
+Psychological safety pulse report (T3.5)
+Human Validation Cost calibration result (T3.4)
+Updated warning copy and thresholds (T3.6)
+Developer in-PR view with experiment gating (T3.7)
+Slack/Teams alert integration (T3.8)
+Tests (T3.9)
+Observability counters (T3.10)
 [Phase3]_exit_report.pdf
 [Phase3]_data_dictionary.json
 [Phase3]_config_changes.yaml
@@ -80,7 +82,7 @@ PR-bot and experiment-mode tests
 ## Exit Criteria
 
 ```text
-Psychological safety score > 3.5.
+Psychological safety score >= 3.5.
 Review time for warned PRs not up > 20% without quality gain.
 Developers do not report bot feels punitive.
 Warning thresholds and copy reviewed with pilot team.

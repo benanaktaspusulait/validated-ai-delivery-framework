@@ -54,12 +54,11 @@ Platform support load manageable.
 ## Actions (high-level)
 
 ```text
-Publish self-service onboarding (team-config.yaml).
-Confirm quick-start.md and faq.md are current.
-Run first quarterly governance forum.
-Enable retention purge job (12 months detailed, 24 months aggregates).
-Ship Executive Summary, multi-team navigation, RBAC, self-service onboarding.
-Wire incident-to-Jira-to-PR linkage.
+Week 1: Build RBAC middleware (T5.5). Build retention purge job (T5.7). Build incident integration (T5.8).
+Week 2: Build self-service onboarding (T5.1). Build role-scoped API filtering (T5.6). Build governance pack (T5.9).
+Week 3: Build team config validation (T5.2). Build multi-team dashboard (T5.3). Build executive summary (T5.4).
+         Security pen test begins (T5.10).
+Week 4: Load test (T5.11). Final tests (T5.12). Observability counters (T5.13).
 ```
 
 For detailed implementation steps, see [implementation/phase-5/](../implementation/phase-5/).
@@ -67,14 +66,19 @@ For detailed implementation steps, see [implementation/phase-5/](../implementati
 ## Deliverables
 
 ```text
-Self-service onboarding package
-Quarterly governance pack
-Retention purge job
-Executive summary screen
-Multi-team navigation and RBAC (Keycloak)
-Self-service integration onboarding journey
-Rollout test suite and observability (purge, RBAC, onboarding)
-Security pen test report
+RBAC middleware with Keycloak (T5.5)
+Role-scoped API filtering (T5.6)
+Retention purge job (T5.7)
+Incident integration workflow (T5.8)
+Self-service onboarding flow (T5.1)
+Team config validation (T5.2)
+Multi-team Overview Dashboard (T5.3)
+Executive Summary screen (T5.4)
+Quarterly governance pack generator (T5.9)
+Security pen test report (T5.10)
+Load test results (T5.11)
+Tests (T5.12)
+Observability counters (T5.13)
 [Phase5]_exit_report.pdf
 [Phase5]_data_dictionary.json
 [Phase5]_config_changes.yaml

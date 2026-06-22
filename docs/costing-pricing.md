@@ -10,11 +10,13 @@ Conceptual cost structure and pricing options. All figures are illustrative plan
 | Database | Operational store plus read replicas | Grows with retained detailed data (12-month window) |
 | Event stream / queue | Webhook throughput and replay retention | Grows with peak burst, not average |
 | Storage | Raw events, snapshots, backups | Bounded by retention policy; aggregates kept 24 months |
+| Token and model usage | Approved AI tooling, agent workflows, context/eval runs | Variable; depends on model tier, prompt/context size and usage intensity |
 | Operations | Platform team time, support, on-call | Grows stepwise with team count (see scalability-sla.md) |
 
 ```text
 The largest non-infrastructure cost is platform-team time, not cloud spend, at MVP scale.
 Retention policy is the main lever on storage cost; purging detailed data at 12 months keeps it bounded.
+Token FinOps should be reported by team, workflow, tool and model tier, never as a developer-level cost leaderboard.
 ```
 
 ## Illustrative infrastructure cost bands
@@ -55,6 +57,10 @@ AI review debt analysis
 Governance maturity score
 VDT baseline with confidence label
 Risk register
+AI ownership map
+Shadow AI inventory
+Context registry readiness
+Token FinOps baseline
 90-day roadmap
 ```
 
@@ -78,6 +84,7 @@ Phase 5 (continuous):  0.5 FTE platform engineer (operations and support)
 
 Total to MVP (Phases 1-4): ~14 person-weeks of platform engineering = ~3.5 months of 1 FTE.
 Total including Phase 0 and ongoing Phase 5: ~16-20 person-weeks.
+As adoption scales, plan for 1-2 named AI platform responsibilities inside the existing platform team rather than a separate AI delivery silo.
 ```
 
 ### Illustrative labour cost (UK rates)

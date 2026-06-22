@@ -42,7 +42,8 @@ Metrics and risk: none. No data is interpreted in this phase.
 | Pilot team selection | Platform Lead | Platform Lead | Pilot-team EM | HR/People Lead |
 | PR template + branch protection | Platform Engineer | Platform Lead | Tech Lead | Pilot team |
 | Data retention defaults | Data Steward | Platform Lead | Legal/privacy counsel | Engineering Manager |
-| Psychological-safety briefing | Pilot-team EM | Platform Lead | HR/People Lead | Pilot team |
+| Pilot-team briefing + survey | Platform Lead | Platform Lead | HR/People Lead | Pilot team |
+| Psychological safety analysis | Pilot-team EM | Platform Lead | HR/People Lead | Pilot team |
 
 ## Entry Criteria
 
@@ -69,15 +70,14 @@ For detailed implementation steps, see [implementation/phase-0/](../implementati
 ## Deliverables
 
 ```text
-Signed legal/privacy approval
-Signed HR or People acknowledgement
-Pilot team agreement
-PR template in pilot repositories
-Data retention defaults documented
-Psychological safety baseline score
-[Phase0]_exit_report.pdf
-[Phase0]_data_dictionary.json
-[Phase0]_config_changes.yaml
+Signed legal/privacy approval (T0.6)
+Signed HR or People acknowledgement (T0.7)
+PR template in pilot repositories (T0.3)
+Branch protection registered (T0.4)
+Psychological safety baseline score >= 3.5 (T0.5)
+[Phase0]_exit_report.pdf (assembled by T0.8)
+[Phase0]_data_dictionary.json (assembled by T0.8)
+[Phase0]_config_changes.yaml (created by T0.4, updated by T0.6)
 ```
 
 ## Exit Criteria

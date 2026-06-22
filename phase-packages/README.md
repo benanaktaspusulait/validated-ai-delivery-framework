@@ -19,8 +19,8 @@ Read implementation/ when you're ready to start coding.
 | 0 | Groundwork and Legal Assurance | 2 weeks | Readiness | Legal/HR sign-off + safety baseline >= 3.5 | 8 tasks |
 | 1 | Data Architecture and Raw Collection | 3 weeks | Observation | Data Confidence Score >= 75 | 11 tasks |
 | 2 | Metrics and Risk Engine | 3 weeks | Observation | Core metrics validated | 17 tasks |
-| 3 | Soft Landing and Experiment | 4 weeks | Warning / Recommendation | Psychological safety > 3.5 | 10 tasks |
-| 4 | Automated Guardrails | 4 weeks | Enforcement | Positive VDT trend | 13 tasks |
+| 3 | Soft Landing and Experiment | 4 weeks | Warning / Recommendation | Psychological safety >= 3.5 | 10 tasks |
+| 4 | Automated Guardrails | 4 weeks | Enforcement | Positive VDT trend | 14 tasks |
 | 5 | Enterprise Rollout | Continuous | Staged | >= 30% teams active | 13 tasks |
 
 ## Exit criteria at a glance
@@ -30,7 +30,7 @@ Read implementation/ when you're ready to start coding.
 | 0 | Legal/HR approval stored; safety baseline >= 3.5 |
 | 1 | >= 90% PRs ingested; Data Confidence >= 75; reconciliation < 5% |
 | 2 | Manual 50-PR sample within 30% of computed rate; dashboard matches reality |
-| 3 | Safety > 3.5; review time not up > 20% without quality gain |
+| 3 | Safety >= 3.5; review time not up > 20% without quality gain |
 | 4 | VDT neutral-to-positive over 90 days; emergency-fix < 5% |
 | 5 | >= 30% teams active; support < 5/wk; all new teams in Observation |
 

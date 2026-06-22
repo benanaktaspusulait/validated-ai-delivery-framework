@@ -53,12 +53,11 @@ Pilot repositories and Jira projects identified.
 ## Actions (high-level)
 
 ```text
-Week 1: Install GitHub App, store pull_request and review events as raw JSON.
-Week 2: Connect Jira, collect issue and sprint metadata.
-Week 3: Build ETL for pull_requests, review_analytics, jira_issues.
-         Build Data Confidence Score batch job.
-         Expose /api/v1/teams (initially sparse).
+Week 1: Install GitHub App, store pull_request and review events as raw JSON. Connect Jira.
+Week 2: Build GitHub and Jira backfill scripts (30 days). Build ETL pipeline.
+Week 3: Build Data Confidence Score job. Expose /api/v1/teams.
          Stand up admin shell (SSO + integration connect).
+         Build nightly reconciliation job. Build collector tests and observability counters.
 ```
 
 For detailed implementation steps, see [implementation/phase-1/](../implementation/phase-1/).
@@ -66,14 +65,17 @@ For detailed implementation steps, see [implementation/phase-1/](../implementati
 ## Deliverables
 
 ```text
-Working GitHub event ingestion
-Working Jira event ingestion
-Raw event store
-Normalized pull_requests and review_analytics tables
-Initial Data Confidence Score job
-Admin SSO login and integration connect screen
-Collector tests (unit, integration, contract, load)
-Collector observability counters
+Working GitHub event ingestion (T1.1)
+30-day GitHub backfill (T1.2)
+Working Jira event ingestion (T1.3)
+30-day Jira backfill (T1.4)
+Raw event store + normalized tables (T1.5)
+Data Confidence Score job (T1.6)
+GET /api/v1/teams endpoint (T1.7)
+Admin SSO login and integration connect (T1.8)
+Nightly reconciliation job (T1.9)
+Collector tests (T1.10)
+Observability counters (T1.11)
 [Phase1]_exit_report.pdf
 [Phase1]_data_dictionary.json
 [Phase1]_config_changes.yaml

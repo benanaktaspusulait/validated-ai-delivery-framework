@@ -54,13 +54,13 @@ Emergency override logging implemented.
 ## Actions (high-level)
 
 ```text
-Week 11: Enable AI Metadata Blocker (usage type + confidence required before merge).
-Week 12: Require code owner + senior reviewer for risk score >= 10.
-Week 13: Publish Dynamic AI WIP recommendation.
-Week 14: Run override retro if emergency-fix used > 3 times.
-         Enable prompt leakage scanning (comment-only).
-         Ship Policy Settings and Recommendations/Playbook screens.
-         Create policy_overrides table.
+Week 11: Create policy_overrides table (T4.0). Enable AI Metadata Blocker (T4.1).
+Week 12: Emergency override flow (T4.2). Risk-based reviewer assignment (T4.3).
+         Dynamic AI WIP recommendation (T4.4). Prompt leakage scanner (T4.7).
+Week 13: Override audit log (T4.5). Override retro automation (T4.6).
+         Policy Settings UI (T4.8). Recommendations/Playbook UI (T4.9).
+         Confidence gate integration (T4.10). Policy precedence engine (T4.11).
+Week 14: Tests (T4.12). Observability counters (T4.13).
 ```
 
 For detailed implementation steps, see [implementation/phase-4/](../implementation/phase-4/).
@@ -68,16 +68,20 @@ For detailed implementation steps, see [implementation/phase-4/](../implementati
 ## Deliverables
 
 ```text
-AI Metadata Blocker
-Emergency override audit log (policy_overrides)
-High-risk reviewer assignment
-Dynamic AI WIP recommendation
-Override retro notes (where applicable)
-Prompt leakage scanner (comment-only)
-Policy Settings screen
-Recommendations / Playbook screen
-Policy tests (confidence gate, precedence, override rate limiting)
-Policy observability counters
+policy_overrides table (T4.0)
+AI Metadata Blocker with branch protection activation (T4.1)
+Emergency override flow with rate limiting (T4.2)
+Risk-based reviewer assignment (T4.3)
+Dynamic AI WIP recommendation (T4.4)
+Override audit log dashboard (T4.5)
+Override retro automation (T4.6)
+Prompt leakage scanner — comment-only (T4.7)
+Policy Settings UI (T4.8)
+Recommendations / Playbook UI (T4.9)
+Confidence gate integration (T4.10)
+Policy precedence engine (T4.11)
+Tests (T4.12)
+Observability counters (T4.13)
 [Phase4]_exit_report.pdf
 [Phase4]_data_dictionary.json
 [Phase4]_config_changes.yaml

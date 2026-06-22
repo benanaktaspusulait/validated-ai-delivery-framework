@@ -7,6 +7,8 @@ How to introduce the platform to an organisation so it is trusted and used, not 
 | Module | Audience | Duration | Content |
 |---|---|---|---|
 | Operate the control plane | Platform / DevEx engineers | Half day | Integrations, data confidence, policy configuration, observability, rollback |
+| Operate AI platform capabilities | AI Platform Engineers | 90 minutes | Approved tool catalogue, context/eval pipeline, token observability, provider/tool change control |
+| Own context and agent review | Context Engineers, Agent Reviewers, tech leads | 90 minutes | Context artifact lifecycle, registry metadata, ownership confidence, review-depth calibration |
 | Read the signals | Engineering managers and tech leads | 90 minutes | Team dashboards, review debt, the Validated Delivery Trend, recommendations, what NOT to do (no individual use) |
 | Developer essentials | Developers | 30 minutes | The PR template, in-PR guidance, emergency override, "this is not about scoring you" |
 | Govern and invest | Executives | 45 minutes | Executive summary, ROI with confidence, rollout pace decisions |
@@ -31,6 +33,7 @@ flowchart LR
 ```text
 Pick a pilot of 4-6 engineers doing real but non-critical work (see Phase 0).
 Set explicit success criteria up front (see acceptance criteria in PRD.md).
+Create an ownership map before collection starts: pilot owner, context owner, AI tooling owner, Agent Reviewer and escalation owner.
 Collect feedback every sprint; treat false positives and alert fatigue as defects, not noise.
 Never skip Observation Mode for a new team, even after the pilot succeeds.
 ```
@@ -42,6 +45,7 @@ The pilot team trusts the read-only dashboard before any warnings appear.
 Psychological safety stays above 3.5 throughout (docs/psychological-safety.md).
 At least one concrete improvement is made from a recommendation.
 No team requests individual data; if a manager does, the misuse escalation runs.
+The pilot no longer depends on a single champion engineer for context, agent configuration or review judgement.
 ```
 
 ## Feedback instruments
@@ -62,3 +66,5 @@ Quarterly forum input: trends and policy adjustments (docs/rollout-operating-mod
 | "Will managers use this against me in reviews?" | Prohibited; misuse triggers escalation and removal of access (governance-and-privacy.md). |
 | "The bot flagged something wrong." | Recommendations are guidance; report it and thresholds are tuned. |
 | "We barely use AI; will we look bad?" | Adoption bands are descriptive, never a ranking; low adoption can be the rational choice. |
+| "Who owns AI-generated code?" | The developer and team still own it; AI changes the production mechanism, not accountability. |
+| "Who maintains prompts or context?" | Domain context owners maintain approved context artifacts; the platform team maintains the tooling path and registry. |

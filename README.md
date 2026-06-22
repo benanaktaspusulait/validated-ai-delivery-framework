@@ -46,6 +46,7 @@ The master framework document is split into focused sections:
 | [data-confidence.md](docs/data-confidence.md) | Confidence scoring, decision rule, presentation tiers |
 | [metrics-catalogue.md](docs/metrics-catalogue.md) | Core metrics, Cognitive Load Index, validity guardrails |
 | [risk-policy-engine.md](docs/risk-policy-engine.md) | Risk scoring, policy engine, Dynamic AI WIP, playbook |
+| [ai-operating-model.md](docs/ai-operating-model.md) | Hub/spoke ownership, context lifecycle, agent review, Token FinOps |
 | [ui-ux-spec.md](docs/ui-ux-spec.md) | Role-based views, screens, states, navigation |
 | [governance-and-privacy.md](docs/governance-and-privacy.md) | Non-negotiable rules, privacy, retention, escalation |
 | [psychological-safety.md](docs/psychological-safety.md) | Pulse questions and gating rules |

@@ -53,11 +53,12 @@ Data Confidence Score >= 75.
 ## Actions (high-level)
 
 ```text
-Week 4: Implement 5 core metric functions (ai_pr_rate, review_debt, defect_rate, human_validation_cost, vdt_signal_score).
-Week 5: Implement contextual risk score (10 factors with weights).
-Week 6: Build read-only dashboards (Overview, Team, PR Risk, Metrics Detail).
-         Enable VDT signal. Calculate Cognitive Load Index.
-         Surface Data Confidence label next to every metric.
+Week 4: Implement 5 core metric functions (T2.1-T2.5). Build cost config loader (T2.9).
+Week 5: Implement contextual risk score (T2.6). Build Cognitive Load Index (T2.7).
+         Build metric snapshot writer (T2.8).
+Week 6: Build API endpoints (T2.14). Build read-only dashboards (T2.10-T2.13).
+         Run metric unit tests (T2.15) and manual 50-PR validation (T2.16).
+         Build observability counters (T2.17).
 ```
 
 For detailed implementation steps, see [implementation/phase-2/](../implementation/phase-2/).
@@ -65,14 +66,16 @@ For detailed implementation steps, see [implementation/phase-2/](../implementati
 ## Deliverables
 
 ```text
-Five core metric functions
-Risk scoring function
-Read-only pilot dashboard (Overview, Team, PR Risk, Metrics Detail)
-VDT calculation
-Cognitive Load Index calculation
-Confidence labelling on every metric
-Metric tests (unit, data quality, manual 50-PR validation)
-Metric-engine observability counters
+Five core metric functions (T2.1-T2.5)
+Contextual risk scoring function (T2.6)
+Cognitive Load Index function (T2.7)
+Metric snapshot writer (T2.8)
+Cost config loader (T2.9)
+API endpoints with schemas (T2.14)
+Read-only dashboards: Overview, Team, PR Risk, Metrics Detail (T2.10-T2.13)
+Metric unit tests (T2.15)
+Manual 50-PR validation (T2.16)
+Observability counters (T2.17)
 [Phase2]_exit_report.pdf
 [Phase2]_data_dictionary.json
 [Phase2]_config_changes.yaml

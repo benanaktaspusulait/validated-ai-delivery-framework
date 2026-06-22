@@ -9,6 +9,7 @@
 | Data confidence scoring | [docs/data-confidence.md](../docs/data-confidence.md) |
 | Architecture and stack | [docs/architecture.md](../docs/architecture.md) |
 | Risk scoring, policy engine | [docs/risk-policy-engine.md](../docs/risk-policy-engine.md) |
+| AI operating model | [docs/ai-operating-model.md](../docs/ai-operating-model.md) |
 | UI/UX screens | [docs/ui-ux-spec.md](../docs/ui-ux-spec.md) |
 | Governance and privacy | [docs/governance-and-privacy.md](../docs/governance-and-privacy.md) |
 | Psychological safety | [docs/psychological-safety.md](../docs/psychological-safety.md) |
