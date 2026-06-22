@@ -25,6 +25,8 @@ implementation/
 
 ## Task file format
 
+Each task file contains enough detail for a developer to start coding immediately:
+
 ```markdown
 # T{phase}.{number} — {Title}
 
@@ -34,21 +36,32 @@ implementation/
 **Depends on:** {task IDs}
 
 ## Objective
-{What this task achieves}
+{What this task achieves — one sentence}
 
-## Acceptance criteria
-- [ ] {Criterion 1}
-- [ ] {Criterion 2}
+## Project setup (if first task in phase)
+{Database migrations, environment variables, tech stack decisions}
 
-## Technical notes
-{How to implement it — code, SQL, API calls, UI specs}
+## File structure
+{Exact file paths to create}
+
+## Implementation steps
+{Step-by-step: class names, method signatures, SQL queries, API contracts}
 
 ## Test cases
-{What to test and expected results}
+{Unit tests with @Test annotations, integration tests with expected behavior}
+
+## Validation checklist
+[ ] Checkbox list of what must work before marking done
 
 ## References
-{Which docs/ files to read for full spec}
+{Exact docs/ files to read for full spec}
 ```
+
+**Task detail levels:**
+- **Level 1 (setup tasks):** Acceptance criteria + validation only (e.g. T0.1, T0.2)
+- **Level 2 (implementation tasks):** Full file structure + implementation steps + test cases (e.g. T1.1, T1.5, T2.1, T2.6)
+- **Level 3 (UI tasks):** Screen layout + component descriptions + acceptance criteria (e.g. T2.10, T4.8)
+- **Level 4 (process tasks):** Acceptance criteria + validation only (e.g. T0.6, T3.5, T5.10)
 
 ## Phase overview
 
