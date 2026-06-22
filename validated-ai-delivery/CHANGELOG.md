@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 - Validated AI Delivery Framework lifecycle stages (Discovery → Data → Model → Validation → Integration)
 - Cross-cutting reference documents (architecture, security, compliance, drift monitoring, etc.)
-- Implementation prototype with MLflow, FastAPI, Streamlit, Evidently, Grafana
+- Implementation prototype with MLflow, Quarkus (Java 21), Streamlit, Evidently, Grafana
 - CI/CD pipeline (GitHub Actions) with Trivy security scanning
 - Model registry with promotion rules and rollback scripts
 - Fairness evaluation (Fairlearn) and explainability (SHAP/LIME) integration

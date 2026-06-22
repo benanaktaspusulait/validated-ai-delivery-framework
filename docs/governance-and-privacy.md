@@ -151,7 +151,7 @@ Shadow AI (undetected AI usage):
     - Inference signals (commit message patterns, PR body references) catch some undeclared usage.
     - The platform reports what it can measure; it does not claim to measure everything.
     - Periodically survey developers about actual AI usage patterns to estimate the detection gap.
-    - Use the ownership model in docs/ai-operating-model.md to assign tool, context and review responsibilities.
+    - Use the ownership model in ai-operating-model.md to assign tool, context and review responsibilities.
 ```
 
 ```text

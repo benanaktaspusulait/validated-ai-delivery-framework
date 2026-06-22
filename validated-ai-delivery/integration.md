@@ -67,7 +67,7 @@ Ship the model to production with monitoring, rollback capability and clear owne
 
 ```text
 Concrete implementations for this stage:
-  - API serving: implementation/api/main.py (FastAPI, health/predict/reload endpoints)
+  - API serving: Quarkus (Java 21) with health/predict/reload endpoints
   - Docker Compose: implementation/docker-compose.yml (all services)
   - CI/CD: implementation/.github/workflows/ci.yml, cd.yml
   - Rollback: implementation/scripts/rollback.sh

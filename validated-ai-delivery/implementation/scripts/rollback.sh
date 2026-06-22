@@ -23,5 +23,5 @@ client.transition_model_version_stage('$MODEL_NAME', $PREV_VERSION, 'Production'
 print(f'Promoted v$PREV_VERSION to Production')
 "
 
-curl -s -X POST http://localhost:8000/reload > /dev/null && echo "API model reloaded" || echo "API reload failed"
+curl -s -X POST http://localhost:8080/api/v1/reload > /dev/null && echo "API model reloaded" || echo "API reload failed"
 echo "Rollback complete. Now serving v$PREV_VERSION"

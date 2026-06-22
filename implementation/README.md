@@ -10,11 +10,11 @@ implementation/
 ├── phase-1/   (11 tasks) — Collectors, ETL, confidence scoring
 ├── phase-2/   (17 tasks) — Metrics engine, risk scoring, dashboards
 ├── phase-3/   (10 tasks) — PR bot, experiment mode, calibration
-├── phase-4/   (13 tasks) — Metadata blocker, WIP, scanner, policy UI
+├── phase-4/   (14 tasks) — Metadata blocker, WIP, scanner, policy UI
 └── phase-5/   (13 tasks) — Onboarding, RBAC, purge, pen test
 ```
 
-**Total: 72 tasks across 6 phases.**
+**Total: 73 tasks across 6 phases.**
 
 ## How to use
 

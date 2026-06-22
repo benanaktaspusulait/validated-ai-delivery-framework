@@ -157,16 +157,16 @@ Error budget: 0.5% = ~2.2 hours downtime per month; breach triggers reliability 
 ```text
 Required: GitHub + Jira.
 Do not start with IDE telemetry; it increases privacy, consent and change-management complexity.
-SonarQube, GitLab, CI/CD and notification connectors arrive in Stage 2+ (see docs/rollout-operating-model.md).
+SonarQube, GitLab, CI/CD and notification connectors arrive in Stage 2+ (see rollout-operating-model.md).
 ```
 
 ## Related references
 
 ```text
-docs/data-model.md               - schema the collectors write to
-docs/data-confidence.md          - scoring of collected data
-docs/api-spec.md                 - webhook and read endpoints
-docs/testing-and-observability.md - collector tests and signals
+data-model.md               - schema the collectors write to
+data-confidence.md          - scoring of collected data
+api-spec.md                 - webhook and read endpoints
+testing-and-observability.md - collector tests and signals
 docs/rollout-operating-model.md  - operating modes and phase-to-mode mapping
 docs/risk-policy-engine.md       - policy engine and Dynamic AI WIP
 ```

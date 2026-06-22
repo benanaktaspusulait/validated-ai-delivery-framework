@@ -19,9 +19,9 @@ Detailed analysis of all technologies chosen in the Validated AI Delivery Framew
 | ML/Data | LIME | 0.2.0.0 | **Stale** | Low maintenance; unstable explanations |
 | ML/Data | Fairlearn | 0.10.0 | Current | Evaluation only; no mitigation used |
 | ML/Data | CodeCarbon | 2.3.4 | Current | Estimates only; accuracy varies |
-| API/Serving | FastAPI | 0.111.0 | Current | No built-in batching |
-| API/Serving | Uvicorn | 0.30.0 | Current | Single-process default |
-| API/Serving | Pydantic | 2.7.1 | Current | v2 learning curve |
+| API/Serving | Quarkus | 3.17.5 | Current | Java-only; requires JVM |
+| API/Serving | JDK | 21 (LTS) | Current | LTS until 2027 |
+| API/Serving | Maven | 3.9+ | Current | XML config verbose |
 | Monitoring | Prometheus | v2.51.0 | Current | Pull-based; single-node |
 | Monitoring | Grafana | 10.4.0 | Current | Default admin password |
 | Monitoring | prom-instrumentator | 6.1.0 | Current | HTTP metrics only |
@@ -57,5 +57,5 @@ Detailed analysis of all technologies chosen in the Validated AI Delivery Framew
 3. Add secrets management (Docker secrets, Kubernetes Secrets, or Vault).
 4. Configure TLS (nginx reverse proxy or cloud load balancer).
 5. Add pytest-cov for test coverage reporting in CI.
-6. Add pytest-asyncio for async FastAPI endpoint testing.
+6. Add Quarkus REST client testing support for async endpoints.
 7. Consider BentoML or Triton if model serving performance becomes a bottleneck at scale.

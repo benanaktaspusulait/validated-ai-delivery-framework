@@ -2,7 +2,7 @@
 
 Model serving API endpoints.
 
-Base URL: `http://localhost:8000`
+Base URL: `http://localhost:8080`
 
 Authentication: API key via `X-API-Key` header.
 

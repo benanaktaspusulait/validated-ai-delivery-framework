@@ -8,6 +8,7 @@ Tracks remaining work for the Validated AI Delivery Framework.
 
 - [x] ~~Add Grafana provisioning YAML files~~ DONE
 - [x] ~~Wire API modules into FastAPI main.py~~ DONE (converted to Java/Quarkus with CDI injection)
+- [x] ~~Convert Python API to Java/Quarkus~~ DONE (JDK 21 + Quarkus 3.17.5 + Maven)
 - [x] ~~Fix deprecated MLflow API in rollback.sh~~ DONE
 - [x] ~~Expand security.md with MLSecOps topics~~ DONE
 - [x] ~~Convert Python API to Java/Quarkus~~ DONE (JDK 21 + Quarkus 3.17.5 + Maven)

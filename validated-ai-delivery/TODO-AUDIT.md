@@ -1,50 +1,44 @@
 # validated-ai-delivery Audit TODO
 
-Audit date: 2025-06-22. Total issues found: 65 (30 root .md, 20 implementation, 15 templates/docs).
+Audit date: 2025-06-22. Total issues found: 67 (20 ai-project-plan/docs, 12 framework/examples, 15 implementation, 20 validated-ai-delivery).
 
 ## Completed (fixed in this session)
 
-- [x] Fix broken SECURITY.md casing in README.md, CHANGELOG.md, TODO.md
-- [x] Fix broken paths in integration.md, docs/deployment.md, validation.md
-- [x] Fix principles.md inconsistent implementation/ paths (8 instances)
-- [x] Fix compliance.md "Operations" stage contradiction
-- [x] Fix integration.md internal path inconsistency
-- [x] Update stale TODO.md items (docs/deployment, docs/operations, docs/api-reference)
-- [x] Fix docker-compose.yml: healthchecks (3 services), env vars (MODEL_A/B, AB_SPLIT_RATIO), alerts.yml mount
-- [x] Fix monitoring: prometheus.yml rule_files configuration
-- [x] Fix GitHub Actions cd.yml broken working-directory paths
-- [x] Fix missing locust dependency (tests/requirements.txt created)
-- [x] Fix missing scikit-learn in api/requirements.txt
-- [x] Fix unused requests dependency removed from api/requirements.txt
-- [x] Fix mlflow/Dockerfile missing scikit-learn
-- [x] Fix Grafana provisioning (documented as open in TODO.md — needs YAML files)
-- [x] Fix docs/deployment.md broken monitoring path
-- [x] Fix CONTRIBUTING.md missing CODE_OF_CONDUCT link
-- [x] Update TODO.md with current status
+- [x] Port drift: API port 8000 → 8080 in prometheus.yml, cd.yml, rollback.sh, deployment.md, api-reference.md
+- [x] application.yaml config prefix: model.name → mlflow.model-name (matches MlflowConfig.java)
+- [x] Python file references removed from principles.md (5 references → Java equivalents)
+- [x] cd.yml: pytest reference → Maven verify command
+- [x] framework/08-enterprise-roadmap.md: broken table fixed
+- [x] CHANGELOG.md: "FastAPI" → "Quarkus (Java 21)"
+- [x] TODO.md: stale Python references updated
+- [x] security.md: expanded with MLSecOps topics
+- [x] Grafana provisioning YAML files created
+- [x] docker-compose.yml: healthchecks, env vars, alerts mount
+- [x] CI workflow: JDK 21 + Maven setup
+- [x] All API modules wired into Quarkus main.py via CDI
 
-## Open (not yet fixed)
+## Open
 
 ### High priority
-- [ ] Expand security.md to cover MLSecOps topics (threat model, API security, container scanning, adversarial testing)
-- [ ] Add Grafana provisioning YAML files (monitoring/grafana/provisioning/dashboards/default.yml + datasource config)
-- [ ] Add Prometheus exporter to drift monitor (drift/monitor.py) — alerts reference metrics not exposed
-- [ ] Wire API modules (ab_testing, explainability, fairness, model_card_generator, carbon_tracking) into FastAPI main.py
-- [ ] Fix deprecated MLflow API in scripts/rollback.sh
-- [ ] Add unit tests for untested modules (5 modules)
-- [ ] Add OpenAPI YAML spec file
+- [ ] Fix TODO.md stale reference in ai-project-plan/README.md (TODO.md doesn't exist at root)
+- [ ] Fix faq.md "AI Signal Trend" → "Validated Delivery Trend" naming contradiction
+- [ ] Fix docs/ wrong relative paths (10 instances using docs/ prefix inside docs/)
+- [ ] Fix implementation/ task count mismatches (phase-4: 13→14, total: 72→73)
+- [ ] Fix phase-4 T4.12 circular dependency (depends on itself)
+- [ ] Fix phase-0 T0.1 Python JWT code → Java equivalent
+- [ ] Fix phase-1 T1.1 FastAPI reference → Java-only options
+- [ ] Add execution order sections to phase-2 README
 
 ### Medium priority
-- [ ] Add missing fields to templates (regulatory classification, re-validation conditions, detection method)
+- [ ] Add missing "Related references" sections to 4 docs/ files
 - [ ] Add cross-references from templates back to lifecycle stage files
-- [ ] Add cross-references from docs/ files to lifecycle and cross-cutting files
+- [ ] Standardize section naming (Dependency flow → Execution order) across phase READMEs
+- [ ] Fix VDT gate phrasing contradiction across 3 framework files
+- [ ] Add missing example file references to framework/05-technical-references.md
+- [ ] Add glossary.md to phase-packages/README.md cross-references
+
+### Low priority
 - [ ] Add Kubernetes HPA manifests
 - [ ] Add ONNX model conversion example
 - [ ] Add feature store (Feast) integration example
-
-### Low priority
-- [ ] Add federated learning example
-- [ ] Add differential privacy integration
-- [ ] Add Streamlit drift visualization tab
-- [ ] Add fairness metrics display to Streamlit app
-- [ ] Add model card auto-population from fairness/explainability
-- [ ] Add Prometheus cost tracking metrics
+- [ ] Convert remaining Python components to Java (training, drift, tests)

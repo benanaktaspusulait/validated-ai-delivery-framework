@@ -45,7 +45,7 @@ The product produces decision-grade operational signals, not laboratory-grade ca
 
 The rollout uses central governance with distributed execution. The platform team owns standards, approved tooling, measurement, policy, confidence gates and rollback paths. Domain teams own use-case selection, context artifacts, review judgement and production accountability.
 
-Operating-model reference: `docs/ai-operating-model.md`.
+Operating-model reference: `ai-operating-model.md`.
 
 Phase-specific ownership checks:
 
@@ -78,8 +78,8 @@ Phase 5: scale hub/spoke responsibilities, context registry hygiene and Token Fi
 Do not move to the next phase if any of these are true:
 
 ```text
-Data Confidence Score is below 70 for 2 consecutive weeks (see docs/data-confidence.md).
-Psychological safety score is below 3.5 (see docs/psychological-safety.md).
+Data Confidence Score is below 70 for 2 consecutive weeks (see data-confidence.md).
+Psychological safety score is below 3.5 (see psychological-safety.md).
 Platform alert volume exceeds 10 actionable alerts per week.
 Developers report that AI metadata feels punitive.
 Emergency overrides exceed 3 per sprint without retro review.
@@ -114,7 +114,7 @@ Stop and revert criteria:
 
 ```text
 On any rollback signal, immediately downgrade the affected team to the previous mode (Enforcement to Warning, or Warning to Observation).
-Use the fast reversal paths in docs/disaster-recovery.md: per-team downgrade or the global enforcement-off switch.
+Use the fast reversal paths in disaster-recovery.md: per-team downgrade or the global enforcement-off switch.
 Keep the emergency-fix override available throughout.
 ```
 

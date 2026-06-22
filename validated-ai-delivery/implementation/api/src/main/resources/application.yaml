@@ -14,10 +14,10 @@ quarkus.http.cors.origins=*
 %prod.mlflow.tracking-uri=${MLFLOW_TRACKING_URI:http://mlflow:5000}
 
 # Model
-%dev.model.name=default-model
-%prod.model.name=${MODEL_NAME:default-model}
-%dev.model.stage=Production
-%prod.model.stage=${MODEL_STAGE:Production}
+%dev.mlflow.model-name=default-model
+%prod.mlflow.model-name=${MODEL_NAME:default-model}
+%dev.mlflow.model-stage=Production
+%prod.mlflow.model-stage=${MODEL_STAGE:Production}
 
 # API Key (simple auth)
 %dev.api.key=changeme-dev

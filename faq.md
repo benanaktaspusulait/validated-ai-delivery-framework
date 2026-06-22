@@ -33,7 +33,7 @@ No, and it will not claim to. It produces decision-grade signals under matched c
 ## For executives (CFO and board)
 
 **How should this be presented to a CFO or the board?**
-Present the AI Signal Trend (VDT), not a "Net AI Value" figure. Show the 90-day trend with its mandatory disclaimer. If the signal has risen for three consecutive months and psychological safety stays high, that is a strong qualitative case to continue investing. The number is never declared as an accounting line item.
+Present the Validated Delivery Trend (VDT), not a "Net AI Value" figure. Show the 90-day trend with its mandatory disclaimer. If the signal has risen for three consecutive months and psychological safety stays high, that is a strong qualitative case to continue investing. The number is never declared as an accounting line item.
 
 **Why not just give us a single ROI number?**
 A single ROI number would imply causation the data cannot support; differences can come from team maturity, task mix or other factors. A defensible signal that you can stand behind in an audit is worth more than a precise-looking number you cannot. Combine VDT with developer surveys for decisions.

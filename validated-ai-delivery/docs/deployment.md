@@ -9,7 +9,7 @@ cd implementation
 docker-compose up -d
 
 # Verify
-curl http://localhost:8000/health
+curl http://localhost:8080/api/v1/health
 open http://localhost:5000   # MLflow
 open http://localhost:8501   # Streamlit
 open http://localhost:3000   # Grafana (admin/admin)
