@@ -1,7 +1,6 @@
 package com.vaiddf.api.ui;
 
 import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -16,7 +15,8 @@ public class DriftDashboardResource {
     Template drift;
 
     @GET
-    public TemplateInstance driftDashboard() {
-        return drift.instance();
+    @Produces(MediaType.TEXT_HTML)
+    public String driftDashboard() {
+        return drift.instance().render();
     }
 }

@@ -3,7 +3,6 @@ package com.vaiddf.api.ui;
 import com.vaiddf.core.model.Model;
 import com.vaiddf.core.spi.ModelRegistry;
 import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -22,9 +21,9 @@ public class ModelsResource {
     ModelRegistry registry;
 
     @GET
-    public TemplateInstance listModels() {
+    @Produces(MediaType.TEXT_HTML)
+    public String listModels() {
         List<Model> allModels = registry.listAll();
-        return models.instance()
-            .data("models", allModels);
+        return models.data("models", allModels).render();
     }
 }

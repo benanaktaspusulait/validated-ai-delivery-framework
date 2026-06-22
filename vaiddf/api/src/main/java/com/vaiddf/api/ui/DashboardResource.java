@@ -3,7 +3,6 @@ package com.vaiddf.api.ui;
 import com.vaiddf.core.model.Model;
 import com.vaiddf.core.spi.ModelRegistry;
 import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -22,15 +21,16 @@ public class DashboardResource {
     ModelRegistry registry;
 
     @GET
-    public TemplateInstance dashboard() {
+    @Produces(MediaType.TEXT_HTML)
+    public String dashboard() {
         List<Model> models = registry.listAll();
         long deployedCount = models.stream()
             .filter(m -> m.status().toString().equals("DEPLOYED"))
             .count();
 
-        return index.instance()
-            .data("models", models)
+        return index.data("models", models)
             .data("deployedCount", deployedCount)
-            .data("driftAlerts", 0);
+            .data("driftAlerts", 0)
+            .render();
     }
 }
