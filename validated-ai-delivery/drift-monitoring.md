@@ -32,7 +32,14 @@ Alert thresholds:
 | NannyML | Open-source | Performance estimation without ground truth |
 | Grafana + Prometheus | Self-hosted | Custom dashboards, alerting |
 
-## Response playbooks
+## Implementation
+
+```text
+See implementation/drift/monitor.py for a complete reference implementation using Evidently AI.
+Run: docker-compose up drift
+Logs drift checks to MLflow every CHECK_INTERVAL_HOURS (default: 24).
+Alerts configured in implementation/monitoring/alerts.yml (DataDriftDetected rule).
+```
 
 ```text
 Data drift detected:

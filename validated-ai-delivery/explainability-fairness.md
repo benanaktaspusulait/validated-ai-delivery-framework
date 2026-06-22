@@ -47,7 +47,19 @@ Rarely:
 | AIF360 | Open-source | Comprehensive metrics, bias mitigation |
 | What-If Tool | Open-source | Visual exploration of model behaviour |
 
-## Fairness report structure
+## Implementation
+
+```text
+Concrete implementations:
+  - SHAP explanations: implementation/api/explainability.py (explain_with_shap function)
+  - LIME explanations: implementation/api/explainability.py (explain_with_lime function)
+  - Fairness evaluation: implementation/api/fairness.py (evaluate_fairness function)
+  - Auto-logged to MLflow for every experiment run.
+
+Run examples:
+  python implementation/api/explainability.py    # generates SHAP explanations for iris
+  python implementation/api/fairness.py           # evaluates fairness across petal length groups
+```
 
 ```text
 1. Protected groups identified (age, gender, race, etc.).

@@ -37,6 +37,19 @@ A process-oriented framework for delivering AI/ML solutions with validated, prod
 | UI/UX and visualisation | [ui-ux.md](ui-ux.md) |
 | Feature store | [feature-store.md](feature-store.md) |
 | Auditability and audit logs | [auditability.md](auditability.md) |
+| Deployment guide | [docs/deployment.md](docs/deployment.md) |
+| Operations guide | [docs/operations.md](docs/operations.md) |
+| API reference | [docs/api-reference.md](docs/api-reference.md) |
+
+## Project status
+
+| Document | Status |
+|---|---|
+| [CHANGELOG.md](CHANGELOG.md) | Version history |
+| [TODO.md](TODO.md) | Remaining work |
+| [SECURITY.md](SECURITY.md) | Vulnerability reporting |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
+| [LICENSE](LICENSE) | MIT License |
 
 ## Templates
 

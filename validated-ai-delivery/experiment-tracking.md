@@ -41,7 +41,13 @@ Every experiment run must log:
 4. Archive comparison results for audit trail.
 ```
 
-## Naming conventions
+## Implementation
+
+```text
+See implementation/mlflow/train.py for a complete MLflow logging example.
+Every run logs: params, metrics, model artefact, evaluation report, fairness report.
+MLflow UI: http://localhost:5000 after docker-compose up.
+```
 
 ```text
 Experiment name: {stage}-{description}-{date}

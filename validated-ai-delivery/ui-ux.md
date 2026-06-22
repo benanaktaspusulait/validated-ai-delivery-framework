@@ -42,7 +42,18 @@ Drift dashboards:
   - Alert status (active/resolved).
 ```
 
-## Design principles
+## Implementation
+
+```text
+Concrete implementations:
+  - Streamlit demo: implementation/streamlit/app.py (experiment browser, inference demo)
+  - Grafana dashboard: implementation/monitoring/grafana/dashboards/ml-overview.json
+  - Prometheus config: implementation/monitoring/prometheus.yml
+
+Start: docker-compose up grafana streamlit
+  Grafana: http://localhost:3000 (admin/admin)
+  Streamlit: http://localhost:8501
+```
 
 ```text
 1. Show the metric, not just the number — trends matter more than snapshots.

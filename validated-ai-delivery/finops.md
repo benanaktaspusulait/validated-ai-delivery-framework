@@ -2,7 +2,13 @@
 
 Tracking, managing and optimising the cost of ML workloads.
 
-## Cost categories
+## Implementation
+
+```text
+See implementation/api/carbon_tracking.py for CodeCarbon integration.
+CO2 tracking is automatic for every training run when using the CarbonTracker context manager.
+Cost data is logged to MLflow alongside metrics.
+```
 
 | Category | What it includes | How to track |
 |---|---|---|

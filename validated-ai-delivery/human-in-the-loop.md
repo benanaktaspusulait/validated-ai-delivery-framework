@@ -27,7 +27,13 @@ Recommended:
 | Feedback loop | User feedback collected and fed back to training | Continuous improvement |
 | Override | Human overrides model prediction; logged | Edge cases, errors |
 
-## Feedback collection
+## Implementation
+
+```text
+See implementation/api/main.py for the /reload endpoint (manual model swap).
+See implementation/api/ab_testing.py for shadow deployment (human reviews disagreements).
+Feedback collection endpoint can be added to the FastAPI app following the same pattern.
+```
 
 ```text
 In-product feedback:

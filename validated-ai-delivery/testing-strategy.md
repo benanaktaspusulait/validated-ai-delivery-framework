@@ -53,16 +53,25 @@ Integration tests (every deployment):
 ## Test automation
 
 ```text
-CI pipeline:
-  1. Code linting and formatting.
-  2. Unit tests (data transforms, prediction logic).
-  3. Data validation tests (on sample data).
-  4. Security scanning (dependencies, containers).
+CI pipeline (implementation/.github/workflows/ci.yml):
+  1. Code linting (ruff check).
+  2. Unit tests (pytest implementation/tests/test_data_validation.py).
+  3. Unit tests (pytest implementation/tests/test_model.py).
+  4. Security scanning (Trivy).
 
-CD pipeline:
-  1. Integration tests (staging environment).
-  2. Fairness tests (on validation dataset).
-  3. Load tests (target throughput).
-  4. Shadow deployment comparison.
-  5. Promote to production (if all pass).
+CD pipeline (implementation/.github/workflows/cd.yml):
+  1. Build Docker images.
+  2. Deploy to staging.
+  3. Integration tests (pytest implementation/tests/test_api.py).
+  4. Load tests (implementation/tests/load_test.py).
+  5. Promote to production (manual approval).
 ```
+
+## Concrete test files
+
+| Test file | What it tests |
+|---|---|
+| `implementation/tests/test_data_validation.py` | Schema, nulls, ranges, balance, leakage (7 tests) |
+| `implementation/tests/test_model.py` | Prediction shape, type, edge cases, determinism, batch (6 tests) |
+| `implementation/tests/test_api.py` | Health, predict, invalid input, response format (5 tests) |
+| `implementation/tests/load_test.py` | Locust load test with weighted tasks |

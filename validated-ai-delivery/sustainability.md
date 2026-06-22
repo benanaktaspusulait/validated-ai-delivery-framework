@@ -39,7 +39,15 @@ Data:
   - Deduplicate data.
 ```
 
-## Reporting
+## Implementation
+
+```text
+See implementation/api/carbon_tracking.py for CodeCarbon integration.
+Usage:
+  from api.carbon_tracking import CarbonTracker
+  with CarbonTracker("my-training-run"):
+      model.fit(X_train, y_train)  # CO2 automatically tracked and logged to MLflow
+```
 
 ```text
 Per model:
