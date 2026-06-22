@@ -55,6 +55,12 @@
             <artifactId>quarkus-micrometer-registry-prometheus</artifactId>
         </dependency>
 
+        <!-- Quarkus Qute (HTML templates) -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-qute</artifactId>
+        </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>io.quarkus</groupId>

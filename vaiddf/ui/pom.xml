@@ -20,6 +20,10 @@
             <artifactId>vaiddf-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.vaiddf</groupId>
+            <artifactId>vaiddf-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest</artifactId>
         </dependency>

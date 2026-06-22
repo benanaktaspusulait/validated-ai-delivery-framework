@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAIDDF — AI Delivery Control Plane</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">VAIDDF</div>
+        <div class="nav-links">
+            <a href="/" class="active">Dashboard</a>
+            <a href="/models">Models</a>
+            <a href="/drift">Drift</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>AI Delivery Control Plane</h1>
+        <p class="subtitle">Validated AI Delivery Framework v0.1.0</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Models</h3>
+                <div class="stat-value">{models.size()}</div>
+                <div class="stat-label">Registered</div>
+            </div>
+            <div class="stat-card">
+                <h3>Deployed</h3>
+                <div class="stat-value">{deployedCount}</div>
+                <div class="stat-label">In Production</div>
+            </div>
+            <div class="stat-card">
+                <h3>Drift Alerts</h3>
+                <div class="stat-value">{driftAlerts}</div>
+                <div class="stat-label">Last 24h</div>
+            </div>
+            <div class="stat-card">
+                <h3>Policies</h3>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Active</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Recent Models</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Version</th>
+                        <th>Status</th>
+                        <th>Registry</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#for model in models}
+                    <tr>
+                        <td><code>{model.id}</code></td>
+                        <td>{model.name}</td>
+                        <td>{model.version}</td>
+                        <td><span class="status-badge status-{model.status.toString.toLowerCase}">{model.status}</span></td>
+                        <td>{model.registry}</td>
+                        <td>{model.createdAt.toString.substring(0,10)}</td>
+                    </tr>
+                    {#else}
+                    <tr>
+                        <td colspan="6" class="empty-state">No models registered yet. Use the API to create one.</td>
+                    </tr>
+                    {/for}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <a href="/models" class="action-card">
+                    <h3>Model Registry</h3>
+                    <p>Manage and deploy models</p>
+                </a>
+                <a href="/drift" class="action-card">
+                    <h3>Drift Dashboard</h3>
+                    <p>Monitor data and model drift</p>
+                </a>
+                <a href="/q/health" class="action-card" target="_blank">
+                    <h3>Health Check</h3>
+                    <p>System health status</p>
+                </a>
+                <a href="/q/openapi" class="action-card" target="_blank">
+                    <h3>API Docs</h3>
+                    <p>OpenAPI specification</p>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p>
+    </footer>
+</body>
+</html>

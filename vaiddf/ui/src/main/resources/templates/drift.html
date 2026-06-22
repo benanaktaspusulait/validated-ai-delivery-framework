@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drift Dashboard — VAIDDF</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">VAIDDF</div>
+        <div class="nav-links">
+            <a href="/">Dashboard</a>
+            <a href="/models">Models</a>
+            <a href="/drift" class="active">Drift</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>Drift Dashboard</h1>
+        <p class="subtitle">Monitor data and model drift using PSI (Population Stability Index)</p>
+
+        <div class="section">
+            <h2>Run Drift Check</h2>
+            <div class="card">
+                <form id="driftForm" class="form-grid">
+                    <div class="form-group">
+                        <label>Reference Data (comma-separated)</label>
+                        <input type="text" id="reference" value="5.1,4.9,4.7,4.6,5.0,5.4,4.6,5.0,4.4,4.9" placeholder="5.1,4.9,4.7,...">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Data (comma-separated)</label>
+                        <input type="text" id="current" value="5.2,5.0,4.8,4.7,5.1,5.5,4.7,5.1,4.5,5.0" placeholder="5.2,5.0,4.8,...">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Check Drift</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="section" id="resultSection" style="display:none;">
+            <h2>Result</h2>
+            <div class="card">
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="result-label">Drift Detected</span>
+                        <span id="driftDetected" class="result-value">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">PSI Score</span>
+                        <span id="psiScore" class="result-value">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Severity</span>
+                        <span id="severity" class="result-value">—</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Detector</span>
+                        <span id="detector" class="result-value">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>PSI Thresholds</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>PSI Range</th>
+                        <th>Severity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>< 0.1</td>
+                        <td><span class="status-badge status-none">NONE</span></td>
+                        <td>No action needed</td>
+                    </tr>
+                    <tr>
+                        <td>0.1 — 0.2</td>
+                        <td><span class="status-badge status-low">LOW</span></td>
+                        <td>Monitor closely</td>
+                    </tr>
+                    <tr>
+                        <td>0.2 — 0.4</td>
+                        <td><span class="status-badge status-moderate">MODERATE</span></td>
+                        <td>Investigate and consider retraining</td>
+                    </tr>
+                    <tr>
+                        <td>0.4 — 0.6</td>
+                        <td><span class="status-badge status-high">HIGH</span></td>
+                        <td>Trigger alert, prepare rollback</td>
+                    </tr>
+                    <tr>
+                        <td>> 0.6</td>
+                        <td><span class="status-badge status-critical">CRITICAL</span></td>
+                        <td>Immediate rollback required</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p>
+    </footer>
+
+    <script>
+        document.getElementById('driftForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const reference = document.getElementById('reference').value.split(',').map(Number);
+            const current = document.getElementById('current').value.split(',').map(Number);
+
+            const response = await fetch('/api/v1/drift/check', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reference, current })
+            });
+
+            const result = await response.json();
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('driftDetected').textContent = result.driftDetected ? 'YES' : 'NO';
+            document.getElementById('driftDetected').className = 'result-value ' + (result.driftDetected ? 'text-danger' : 'text-success');
+            document.getElementById('psiScore').textContent = result.overallScore.toFixed(4);
+            document.getElementById('severity').textContent = result.severity;
+            document.getElementById('detector').textContent = result.detectorName;
+        });
+    </script>
+</body>
+</html>
