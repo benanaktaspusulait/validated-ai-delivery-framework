@@ -203,6 +203,7 @@ Review Load                (open PRs per reviewer)
 Policy Violations          (missing metadata, large PR, missing reviewer, coverage drop)
 Cognitive Load Index       (review effort vs comparable non-AI PRs)
 Post-Merge Defect Linkage  (bugs linked to a merged PR's component/story/release)
+Agentic Harness Maturity   (readiness of shared agent instructions, skills, scripts, hooks and workflow gates)
 ```
 
 ## Expanded metrics (Stage 2+)
@@ -213,6 +214,7 @@ Additional metrics defined in the framework document or to be specified before S
 |---|---|---|
 | AI Dependency Risk | framework/04-expanded-metrics.md | Stage 2+ |
 | AI-assisted PR Quality Gap | framework/04-expanded-metrics.md | Stage 2+ |
+| Agentic Harness Maturity | framework/04-expanded-metrics.md and docs/ai-operating-model.md | Stage 2+ |
 | Trust Calibration Gap | To be specified | Stage 4 |
 | Prompt Efficiency Score | To be specified | Stage 4 |
 | AI Test Quality Score | To be specified | Stage 4 |

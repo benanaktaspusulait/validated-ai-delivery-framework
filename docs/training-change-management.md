@@ -7,7 +7,7 @@ How to introduce the platform to an organisation so it is trusted and used, not 
 | Module | Audience | Duration | Content |
 |---|---|---|---|
 | Operate the control plane | Platform / DevEx engineers | Half day | Integrations, data confidence, policy configuration, observability, rollback |
-| Operate AI platform capabilities | AI Platform Engineers | 90 minutes | Approved tool catalogue, context/eval pipeline, token observability, provider/tool change control |
+| Operate AI platform capabilities | AI Platform Engineers | 90 minutes | Approved tool catalogue, agentic harness, context/eval pipeline, token observability, provider/tool change control |
 | Own context and agent review | Context Engineers, Agent Reviewers, tech leads | 90 minutes | Context artifact lifecycle, registry metadata, ownership confidence, review-depth calibration |
 | Read the signals | Engineering managers and tech leads | 90 minutes | Team dashboards, review debt, the Validated Delivery Trend, recommendations, what NOT to do (no individual use) |
 | Developer essentials | Developers | 30 minutes | The PR template, in-PR guidance, emergency override, "this is not about scoring you" |
@@ -46,6 +46,7 @@ Psychological safety stays above 3.5 throughout (docs/psychological-safety.md).
 At least one concrete improvement is made from a recommendation.
 No team requests individual data; if a manager does, the misuse escalation runs.
 The pilot no longer depends on a single champion engineer for context, agent configuration or review judgement.
+The team's agentic harness has a named owner and does not rely on copy-pasted instructions, skills or scripts.
 ```
 
 ## Feedback instruments

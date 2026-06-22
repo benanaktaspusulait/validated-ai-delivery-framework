@@ -30,6 +30,7 @@ Value validation: track the Validated Delivery Trend (VDT) signal with confidenc
 Risk governance: flag high-risk AI-assisted changes and route the right reviewers.
 Validation-capacity management: detect when AI output outpaces review/test capacity.
 Operating-model scaling: make ownership explicit so pilots do not depend on one champion engineer.
+Harness maturity: assess whether agent instructions, skills, scripts and quality gates are structured enough to support safe scaling.
 Graduated policy: move from observation to warnings to confidence-gated enforcement without blocking emergencies.
 Psychological-safety monitoring: ensure adoption does not create surveillance anxiety.
 ```
@@ -85,6 +86,7 @@ FR8  Generate team-level recommendations and a playbook with owners.
 FR9  Provide self-service onboarding that starts every new team in Observation Mode.
 FR10 Purge detailed data at 12 months; retain aggregates for 24 months.
 FR11 Maintain operating-model artefacts: approved tool catalogue, ownership map, context registry metadata, review-depth responsibilities and team-level Token FinOps.
+FR12 Assess Agentic Harness Maturity at team/repository level; use low maturity for enablement recommendations, not individual scoring or automatic enforcement.
 ```
 
 Specifications: data ([docs/data-model.md](docs/data-model.md)), metrics ([docs/metrics-catalogue.md](docs/metrics-catalogue.md)), risk/policy ([docs/risk-policy-engine.md](docs/risk-policy-engine.md)), API ([docs/api-spec.md](docs/api-spec.md)).

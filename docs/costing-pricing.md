@@ -59,6 +59,7 @@ VDT baseline with confidence label
 Risk register
 AI ownership map
 Shadow AI inventory
+Agentic harness maturity score
 Context registry readiness
 Token FinOps baseline
 90-day roadmap

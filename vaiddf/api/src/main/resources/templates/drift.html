@@ -20,17 +20,55 @@
         <h1>Drift Dashboard</h1>
         <p class="subtitle">Monitor data and model drift using PSI (Population Stability Index)</p>
 
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Checks</h3>
+                <div class="stat-value">{totalCount}</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <h3>Drift Detected</h3>
+                <div class="stat-value" style="color: {#if detectedCount > 0}var(--danger){#else}var(--success){/if}">{detectedCount}</div>
+                <div class="stat-label">Alerts</div>
+            </div>
+            <div class="stat-card">
+                <h3>Models Monitored</h3>
+                <div class="stat-value">2</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat-card">
+                <h3>Last Check</h3>
+                <div class="stat-value" style="font-size:1rem;">
+                    {#if history.size() > 0}
+                    {history.get(0).checkedAt.toString.substring(0,10)}
+                    {#else}
+                    Never
+                    {/if}
+                </div>
+                <div class="stat-label">Date</div>
+            </div>
+        </div>
+
         <div class="section">
             <h2>Run Drift Check</h2>
             <div class="card">
                 <form id="driftForm" class="form-grid">
                     <div class="form-group">
-                        <label>Reference Data (comma-separated)</label>
-                        <input type="text" id="reference" value="5.1,4.9,4.7,4.6,5.0,5.4,4.6,5.0,4.4,4.9" placeholder="5.1,4.9,4.7,...">
+                        <label>Model Name</label>
+                        <select id="modelName" style="width:100%;padding:0.75rem;border:1px solid var(--gray-300);border-radius:6px;">
+                            <option value="credit-risk-model">credit-risk-model</option>
+                            <option value="fraud-detection-model">fraud-detection-model</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label>Current Data (comma-separated)</label>
-                        <input type="text" id="current" value="5.2,5.0,4.8,4.7,5.1,5.5,4.7,5.1,4.5,5.0" placeholder="5.2,5.0,4.8,...">
+                    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                        <div class="form-group">
+                            <label>Reference Data (comma-separated)</label>
+                            <input type="text" id="reference" value="5.1,4.9,4.7,4.6,5.0,5.4,4.6,5.0,4.4,4.9">
+                        </div>
+                        <div class="form-group">
+                            <label>Current Data (comma-separated)</label>
+                            <input type="text" id="current" value="5.2,5.0,4.8,4.7,5.1,5.5,4.7,5.1,4.5,5.0">
+                        </div>
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">Check Drift</button>
@@ -61,6 +99,38 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="section">
+            <h2>Drift History</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Model</th>
+                        <th>PSI Score</th>
+                        <th>Severity</th>
+                        <th>Drift Detected</th>
+                        <th>Checked By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#for entry in history}
+                    <tr>
+                        <td>{entry.checkedAt.toString.substring(0,16).replace('T',' ')}</td>
+                        <td><code>{entry.modelName}</code></td>
+                        <td>{entry.psiScore}</td>
+                        <td><span class="status-badge status-{entry.severity.toString.toLowerCase}">{entry.severity}</span></td>
+                        <td>{#if entry.driftDetected}⚠️ YES{#else}✓ NO{/if}</td>
+                        <td>{entry.checkedBy}</td>
+                    </tr>
+                    {#else}
+                    <tr>
+                        <td colspan="6" class="empty-state">No drift checks recorded yet.</td>
+                    </tr>
+                    {/for}
+                </tbody>
+            </table>
         </div>
 
         <div class="section">
@@ -111,10 +181,11 @@
     <script>
         document.getElementById('driftForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const modelName = document.getElementById('modelName').value;
             const reference = document.getElementById('reference').value.split(',').map(Number);
             const current = document.getElementById('current').value.split(',').map(Number);
 
-            const response = await fetch('/api/v1/drift/check', {
+            const response = await fetch('/api/v1/drift/check/' + encodeURIComponent(modelName), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ reference, current })
@@ -127,6 +198,8 @@
             document.getElementById('psiScore').textContent = result.overallScore.toFixed(4);
             document.getElementById('severity').textContent = result.severity;
             document.getElementById('detector').textContent = result.detectorName;
+
+            setTimeout(() => location.reload(), 1000);
         });
     </script>
 </body>

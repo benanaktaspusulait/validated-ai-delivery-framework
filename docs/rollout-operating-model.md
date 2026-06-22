@@ -52,10 +52,10 @@ Phase-specific ownership checks:
 ```text
 Phase 0: map who owns the pilot, AI tooling, context artifacts, review depth and Shadow AI inventory.
 Phase 1: collect only the metadata needed for team-level confidence and ownership; no developer-facing interpretation.
-Phase 2: surface ownership-boundary, reviewer-load and contextual-risk signals read-only.
+Phase 2: surface ownership-boundary, reviewer-load, contextual-risk and harness-maturity signals read-only.
 Phase 3: calibrate review depth with Agent Reviewers before any enforcement.
 Phase 4: enforce only confidence-gated policies, with emergency override and clear owner escalation.
-Phase 5: scale hub/spoke responsibilities, context registry hygiene and Token FinOps across teams.
+Phase 5: scale hub/spoke responsibilities, context registry hygiene, harness freshness checks and Token FinOps across teams.
 ```
 
 ## Weekly RACI
@@ -63,7 +63,7 @@ Phase 5: scale hub/spoke responsibilities, context registry hygiene and Token Fi
 | Role | Weekly responsibility |
 |---|---|
 | Platform Engineer | Build the week's collector, engine, API, dashboard or policy work |
-| AI Platform Engineer | Maintain approved AI tooling, context/eval pipeline, token observability and operating-model artefacts |
+| AI Platform Engineer | Maintain approved AI tooling, context/eval pipeline, agentic harness, token observability and operating-model artefacts |
 | Platform Lead | Monitor data confidence, triage feedback and decide threshold changes |
 | Engineering Manager | Interpret team-level metrics, protect psychological safety and run retros |
 | Tech Lead | Review high-risk PRs, validate recommendations and coach explainable AI usage |
@@ -147,7 +147,7 @@ Agenda:
 4. Delivery trend: Validated Delivery Trend (VDT) signal (correlational, not ROI).
 5. Risk posture: dependency risk, security signals and policy overrides.
 6. Psychological safety pulse trend.
-7. Operating-model health: owner coverage, single-person dependencies, context registry age and Token FinOps.
+7. Operating-model health: owner coverage, single-person dependencies, context registry age, harness freshness and Token FinOps.
 8. Policy adjustments: thresholds, new policies and retired policies.
 9. 90-day roadmap.
 ```

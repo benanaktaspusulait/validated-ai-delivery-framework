@@ -154,16 +154,59 @@ If developers hide AI usage or managers resist adoption because the purpose is u
 
 The goal is not a large reorganisation. The goal is to move AI capability from individuals into lightweight roles, artifacts and repeatable routines.
 
+## Agentic Harness Maturity
+
+The harness is the load-bearing layer around coding agents: instructions, skills, scripts, hooks, workflow lanes, quality gates and freshness checks. It does not ship to end users, but it shapes how product software is built. Treat it as a platform asset with its own ownership, versioning and review path.
+
+Agentic Harness Maturity is not a developer productivity score. It is a team or repository-level readiness signal that explains whether AI-assisted delivery has enough structure to scale safely.
+
+| Dimension | What good looks like | Risk when weak |
+|---|---|---|
+| Harness ownership | A named owner and backup maintain the shared agent harness | Rules and scripts drift across repositories |
+| Instruction inheritance | Repositories inherit a core instruction file and override only local exceptions | Every repo carries a different copy of the same rules |
+| Shared skills/scripts | Skills, scripts and hooks live once and are reused or wrapped locally | Guardrails are copy-pasted, stale or missing |
+| Workflow lanes | Common work types have reusable phases and quality gates | Feature, bugfix and hotfix work all rely on ad hoc judgement |
+| Agent specialization | Runtime-specific mechanics are separated from shared intent | Claude/Codex or other agent rules diverge silently |
+| Drift and freshness checks | Changes to skills/scripts verify distribution and detect stale platform copies | A local agent runs old rules without anyone noticing |
+| Evidence trail | Harness changes are reviewed, versioned and linked to observed failure modes | Improvements become tribal knowledge |
+
+Scoring guidance:
+
+```text
+0 = absent: no shared harness; instructions and scripts are local and informal.
+1 = emerging: shared instructions exist, but scripts, hooks or skills are copied manually.
+2 = managed: shared instructions, skills and scripts exist with clear local override patterns.
+3 = governed: workflow lanes, quality gates, freshness checks and owner review are active.
+4 = adaptive: observed failures feed a controlled improvement loop for harness changes.
+```
+
+Recommended survey/checklist inputs:
+
+```text
+core_instruction_file_present
+repo_local_override_policy_present
+shared_skill_or_script_registry_present
+local_wrapper_pattern_used
+workflow_lanes_defined
+quality_hooks_enabled
+freshness_or_drift_check_enabled
+agent_specific_specialization_documented
+harness_owner_and_backup_named
+harness_change_reviewed
+```
+
+Use the score to decide enablement work, not enforcement. A low harness maturity score should lead to platform support, starter harness templates or training before a team receives stricter AI delivery policies.
+
 ## Phase Mapping
 
 | Phase | Operating-model work |
 |---:|---|
-| 0 | Ownership map, approved-tool draft, Shadow AI inventory, no-individual-use commitment |
+| 0 | Ownership map, approved-tool draft, Shadow AI inventory, no-individual-use commitment, harness ownership check |
 | 1 | Capture the metadata needed for team-level ownership and confidence; no developer-facing interpretation |
-| 2 | Show risk, ownership-boundary and reviewer-load signals in read-only mode |
+| 2 | Show risk, ownership-boundary, reviewer-load and harness-maturity signals in read-only mode |
 | 3 | Use warnings and experiments to calibrate review depth with domain reviewers |
 | 4 | Activate confidence-gated policies while preserving emergency override and review-owner escalation |
-| 5 | Roll out hub/spoke ownership, context registry hygiene and token FinOps across teams |
+| 5 | Roll out hub/spoke ownership, context registry hygiene, harness freshness checks and token FinOps across teams |
 
 ## Non-Goals
 
@@ -173,6 +216,7 @@ Do not use token cost, AI usage or review effort for individual performance scor
 Do not store raw prompts in the MVP.
 Do not replace human ownership of AI-assisted code with model/provider accountability.
 Do not move a team into enforcement because a pilot champion can make the process work manually.
+Do not make harness maturity a blocker until starter templates and platform support exist.
 ```
 
 ## Related References
