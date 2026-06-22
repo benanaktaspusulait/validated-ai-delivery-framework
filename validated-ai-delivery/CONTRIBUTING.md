@@ -1,15 +1,16 @@
-# Contributing
+# Contributing to Validated AI Delivery Framework
 
-Thank you for helping improve the Validated AI Delivery Framework.
+Thank you for your interest in contributing!
 
 ## Ways to contribute
 
 ```text
-- Improve existing documentation (clearer wording, more examples).
-- Add real-world case studies from your organisation.
-- Suggest new tools or update tool recommendations.
-- Report gaps or inconsistencies.
-- Translate documentation.
+- Improve documentation (clearer wording, more examples)
+- Add real-world case studies
+- Suggest new tools or update recommendations
+- Report gaps or inconsistencies
+- Add test cases or examples
+- Translate documentation
 ```
 
 ## How to contribute
@@ -23,6 +24,21 @@ Thank you for helping improve the Validated AI Delivery Framework.
 6. Open a Pull Request with a clear description.
 ```
 
+## Development setup
+
+```bash
+# Clone the repo
+git clone <repo-url>
+cd validated-ai-delivery
+
+# Start the development environment
+cd implementation
+docker-compose up -d
+
+# Run tests
+pytest implementation/tests/ -v
+```
+
 ## Style guide
 
 ```text
@@ -33,6 +49,14 @@ Thank you for helping improve the Validated AI Delivery Framework.
 - Keep templates practical and fillable.
 ```
 
+## Pull request checklist
+
+- [ ] Description explains what changed and why.
+- [ ] All existing tests pass.
+- [ ] New documentation follows the style guide.
+- [ ] Cross-references are updated.
+- [ ] Templates remain fillable (not just descriptions).
+
 ## Code of conduct
 
-All participation is governed by respectful, inclusive behaviour. Focus on the ideas, not the people.
+Be respectful, inclusive and constructive. Focus on ideas, not people.

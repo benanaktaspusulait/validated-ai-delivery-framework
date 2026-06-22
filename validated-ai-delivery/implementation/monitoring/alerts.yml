@@ -1,0 +1,60 @@
+groups:
+  - name: ml-model-alerts
+    rules:
+      # API availability
+      - alert: APIHighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "API error rate exceeds 5%"
+          description: "Error rate is {{ $value | humanizePercentage }}"
+
+      # API latency
+      - alert: APIHighLatency
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1.0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API p95 latency exceeds 1 second"
+          description: "Current p95 latency: {{ $value }}s"
+
+      # Data drift
+      - alert: DataDriftDetected
+        expr: drift_detected == 1
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Data drift detected"
+          description: "The drift monitor has detected a distribution shift."
+
+      # Model performance
+      - alert: ModelPerformanceDegraded
+        expr: model_accuracy < 0.8
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Model accuracy below threshold"
+          description: "Current accuracy: {{ $value }}"
+
+      # MLflow availability
+      - alert: MLflowDown
+        expr: up{job="mlflow"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "MLflow server is down"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: container_memory_usage_bytes / container_spec_memory_limit_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container memory usage above 90%"
