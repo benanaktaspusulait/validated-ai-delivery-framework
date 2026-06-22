@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.JsonNode;
 
 @ApplicationScoped
 public class ReactiveModelRegistry {
@@ -24,8 +23,8 @@ public class ReactiveModelRegistry {
         entity.status = ModelStatus.REGISTERED.name();
         entity.createdAt = Instant.now();
         entity.updatedAt = Instant.now();
-        return Panache.withTransaction(entity::persist)
-            .map(e -> toModel(e));
+        return Panache.withTransaction(() -> entity.persist())
+            .map(v -> toModel(entity));
     }
 
     public Uni<Model> update(Model model) {
@@ -34,43 +33,44 @@ public class ReactiveModelRegistry {
                 if (existing == null) {
                     return Uni.createFrom().failure(new IllegalArgumentException("Model not found: " + model.id()));
                 }
-                existing.name = model.name();
-                existing.version = model.version();
-                existing.registry = model.registry();
-                existing.updatedAt = Instant.now();
+                ModelEntity e = (ModelEntity) existing;
+                e.name = model.name();
+                e.version = model.version();
+                e.registry = model.registry();
+                e.updatedAt = Instant.now();
                 if (model.metadata() != null) {
-                    existing.metadata = mapToJson(model.metadata());
+                    e.metadata = mapToJson(model.metadata());
                 }
                 if (model.governance() != null) {
-                    existing.governanceDriftCheck = model.governance().driftCheck();
-                    existing.governanceFairnessRequired = model.governance().fairnessRequired();
-                    existing.governanceMaxDriftPsi = model.governance().maxDriftPSI();
-                    existing.governancePolicy = model.governance().policy();
-                    existing.governanceMinConfidenceScore = model.governance().minConfidenceScore();
+                    e.governanceDriftCheck = model.governance().driftCheck();
+                    e.governanceFairnessRequired = model.governance().fairnessRequired();
+                    e.governanceMaxDriftPsi = model.governance().maxDriftPSI();
+                    e.governancePolicy = model.governance().policy();
+                    e.governanceMinConfidenceScore = model.governance().minConfidenceScore();
                 }
-                return Panache.withTransaction(existing::persist)
-                    .map(e -> toModel(e));
+                return Panache.withTransaction(() -> e.persist())
+                    .map(v -> toModel(e));
             });
     }
 
     public Uni<Model> findById(String id) {
         return ModelEntity.find("modelId = ?1", id).firstResult()
-            .map(e -> e != null ? toModel(e) : null);
+            .map(e -> e != null ? toModel((ModelEntity) e) : null);
     }
 
     public Uni<List<Model>> findByName(String name) {
         return ModelEntity.find("name = ?1", name).list()
-            .map(list -> list.stream().map(this::toModel).toList());
+            .map(list -> list.stream().map(e -> toModel((ModelEntity) e)).toList());
     }
 
     public Uni<List<Model>> listByRegistry(String registry) {
         return ModelEntity.find("registry = ?1", registry).list()
-            .map(list -> list.stream().map(this::toModel).toList());
+            .map(list -> list.stream().map(e -> toModel((ModelEntity) e)).toList());
     }
 
     public Uni<List<Model>> listAll() {
         return ModelEntity.findAll().list()
-            .map(list -> list.stream().map(this::toModel).toList());
+            .map(list -> list.stream().map(e -> toModel((ModelEntity) e)).toList());
     }
 
     public Uni<Boolean> delete(String id) {
@@ -79,7 +79,7 @@ public class ReactiveModelRegistry {
                 if (existing == null) {
                     return Uni.createFrom().item(false);
                 }
-                return Panache.withTransaction(existing::delete)
+                return Panache.withTransaction(() -> existing.delete())
                     .map(v -> true);
             });
     }
@@ -90,10 +90,11 @@ public class ReactiveModelRegistry {
                 if (existing == null) {
                     return Uni.createFrom().failure(new IllegalArgumentException("Model not found: " + id));
                 }
-                existing.status = newStatus.name();
-                existing.updatedAt = Instant.now();
-                return Panache.withTransaction(existing::persist)
-                    .map(e -> toModel(e));
+                ModelEntity e = (ModelEntity) existing;
+                e.status = newStatus.name();
+                e.updatedAt = Instant.now();
+                return Panache.withTransaction(() -> e.persist())
+                    .map(v -> toModel(e));
             });
     }
 
@@ -149,13 +150,10 @@ public class ReactiveModelRegistry {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, String> jsonToMap(String json) {
         try {
-            JsonNode node = mapper.readTree(json);
-            Map<String, String> map = new java.util.HashMap<>();
-            node.fields().forEachRemaining(entry ->
-                map.put(entry.getKey(), entry.getValue().asText()));
-            return map;
+            return mapper.readValue(json, Map.class);
         } catch (Exception e) {
             return Map.of();
         }

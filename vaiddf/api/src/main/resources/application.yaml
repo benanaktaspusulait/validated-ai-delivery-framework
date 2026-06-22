@@ -12,18 +12,18 @@ quarkus:
     export:
       prometheus:
         enabled: true
-
   datasource:
     username: vaiddf
     password: vaiddf
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/vaiddf
     reactive:
       url: vertx:postgresql://localhost:5432/vaiddf
-
+    devservices:
+      enabled: false
   hibernate-orm:
     database:
       generation: drop-and-create
-    sql-load-script: import.sql
-
   flyway:
     migrate-at-start: true
     locations: classpath:db/migration
@@ -31,14 +31,7 @@ quarkus:
 %dev:
   quarkus:
     log:
-      level: DEBUG
-    datasource:
-      username: vaiddf
-      password: vaiddf
-      reactive:
-        url: vertx:postgresql://localhost:5432/vaiddf
-    hibernate-orm:
-      sql-load-script: import.sql
+      level: INFO
 
 %prod:
   quarkus:
@@ -55,5 +48,7 @@ quarkus:
     datasource:
       username: vaiddf
       password: vaiddf
+      jdbc:
+        url: jdbc:postgresql://localhost:5432/vaiddf_test
       reactive:
         url: vertx:postgresql://localhost:5432/vaiddf_test
