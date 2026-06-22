@@ -11,7 +11,7 @@ No "who uses AI most" view.
 No performance-review export.
 No raw prompt storage in MVP.
 No hard enforcement before Phase 4.
-No blocking enforcement from metrics with Data Confidence Score < 70.
+No blocking enforcement except from High-confidence metrics (Data Confidence Score >= 90); metrics below 70 are withheld from decisions.
 No causal claims stronger than the data supports.
 ```
 
@@ -123,7 +123,7 @@ Do not assume a nearby AI-assisted PR caused the incident.
 | Laggard | < 10% | Remove barriers and improve enablement |
 | Explorer | 10-30% | Measure review debt and defects |
 | Adopter | 30-50% | Tune Dynamic AI WIP and policy thresholds |
-| Leader | > 50% | Report Net AI Delivery Value and AI ROI |
+| Leader | > 50% | Report the Validated Delivery Trend (VDT) signal |
 
 ```text
 If the labels create status anxiety, use neutral bands in the UI: Low / Moderate / High / Very high AI adoption.

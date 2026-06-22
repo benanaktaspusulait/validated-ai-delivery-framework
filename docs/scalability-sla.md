@@ -31,7 +31,7 @@ Volumes are bursty around working hours; size for peak, not average.
 | Platform availability | 99.5% for the pilot, revisited before enterprise scale | Internal tool tolerance; raise as adoption grows |
 
 ```text
-SLAs are observation-gated: a metric is only "decision-grade" when its Data Confidence Score is >= 70, regardless of how fresh it is.
+SLAs are observation-gated: a metric is "decision-grade" (may block) only in the High confidence band (>= 90), warn-grade at 70-89, and withheld below 70, regardless of how fresh it is.
 ```
 
 ## Performance and data strategy (conceptual)

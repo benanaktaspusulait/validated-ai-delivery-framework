@@ -24,7 +24,7 @@ Engineering leaders cannot tell whether AI-assisted PRs create real delivery val
 ## 4. Use cases
 
 ```text
-Value validation: measure Net AI Delivery Value and AI ROI with confidence labels.
+Value validation: track the Validated Delivery Trend (VDT) signal with confidence labels, not a causal ROI figure.
 Risk governance: flag high-risk AI-assisted changes and route the right reviewers.
 Validation-capacity management: detect when AI output outpaces review/test capacity.
 Graduated policy: move from observation to warnings to confidence-gated enforcement without blocking emergencies.
@@ -44,7 +44,7 @@ Developer in a PR:
 Open PR -> see in-PR panel (AI-assisted? metadata complete? size/risk? reviewer suggestion?) -> address guidance -> merge. No personal scoring is shown to anyone.
 
 Executive quarterly:
-Open Executive Summary -> read Net AI Delivery Value trend, adoption, risk and ROI (with confidence) -> attend governance forum -> adjust rollout pace and budget.
+Open Executive Summary -> read the Validated Delivery Trend (VDT), adoption and risk (with confidence) -> attend governance forum -> adjust rollout pace and budget.
 ```
 
 ## 6. MVP scope

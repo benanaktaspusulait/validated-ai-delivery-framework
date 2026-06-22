@@ -64,7 +64,7 @@ The enabled policy set and security controls are in `examples/policy-config.yaml
 ```text
 Every policy keeps an exception path. Emergency production fixes must never be blocked by missing AI metadata.
 Every override is recorded (policy_overrides), reviewed and trend-monitored.
-Only rules backed by metrics with Data Confidence Score >= 70 may use a blocking action; the rest warn only.
+Only rules backed by High-confidence metrics (Data Confidence Score >= 90) may use a blocking action; 70-89 may warn only; below 70 the metric is withheld and the rule is auto-disabled.
 The Security Lead owns the sensitive-path map; the Platform Lead wires it into policy checks.
 Risk-sensitive paths add score; security-sensitive ownership rules assign required reviewers.
 ```
@@ -134,7 +134,7 @@ Guardrails:
 ```text
 Never reduce below the configured team minimum automatically.
 Never use low-confidence defect data for automatic high-risk penalties.
-Only metrics with Data Confidence Score >= 70 may trigger blocking enforcement; below 70 warn only; below 50 trend-only.
+Only High-confidence metrics (Data Confidence Score >= 90) may trigger blocking enforcement; 70-89 may warn only; below 70 the metric is withheld and any dependent policy is auto-disabled (see docs/data-confidence.md).
 Show the reason for the WIP recommendation to the team.
 Review penalty thresholds monthly during pilot rollout.
 ```

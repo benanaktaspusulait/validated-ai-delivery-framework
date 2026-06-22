@@ -26,7 +26,7 @@ Optional data scientist or analytics engineer
 ## Work Tracks (this phase)
 
 ```text
-Metrics and risk: five core metric functions, risk scoring, Net AI Delivery Value, Cognitive Load Index (dominant track).
+Metrics and risk: five core metric functions, risk scoring, Validated Delivery Trend (VDT), Cognitive Load Index (dominant track).
 Engineering: read-only dashboards, metric_snapshots population, cost-input configuration.
 Governance and reporting: confidence labels surfaced next to every metric.
 Culture and people: pilot-team lead reality-check of the read-only dashboard. No developer-facing UI yet.
@@ -38,7 +38,7 @@ Culture and people: pilot-team lead reality-check of the read-only dashboard. No
 |---|---|---|---|---|
 | Core metric functions | Platform Engineer | Platform Lead | Data scientist | Engineering Manager |
 | Risk scoring function | Platform Engineer | Platform Lead | Tech Lead, Security Lead | Engineering Manager |
-| Net AI Delivery Value calculator | Platform Engineer | Platform Lead | Engineering Manager | Executive sponsor |
+| Validated Delivery Trend (VDT) | Platform Engineer | Platform Lead | Engineering Manager | Executive sponsor |
 | Read-only dashboards | Platform Engineer | Platform Lead | Pilot-team EM | Pilot team |
 | Dashboard reality validation | Pilot-team EM | Platform Lead | Tech Lead | Platform team |
 

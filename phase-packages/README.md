@@ -12,7 +12,7 @@ Phase files are gate documents: what is done, by whom, with which criteria. Tech
 | 1 | Data Architecture and Raw Collection | 3 weeks | Observation | Data Confidence Score >= 75 | [phase-1-data-architecture-and-raw-collection.md](phase-1-data-architecture-and-raw-collection.md) |
 | 2 | Metrics and Risk Engine | 3 weeks | Observation | Core metrics validated | [phase-2-metrics-and-risk-engine.md](phase-2-metrics-and-risk-engine.md) |
 | 3 | Soft Landing and Experiment | 4 weeks | Warning / Recommendation | Psychological safety > 3.5 | [phase-3-soft-landing-and-experiment.md](phase-3-soft-landing-and-experiment.md) |
-| 4 | Automated Guardrails | 4 weeks | Enforcement | Positive Net AI Delivery Value | [phase-4-automated-guardrails.md](phase-4-automated-guardrails.md) |
+| 4 | Automated Guardrails | 4 weeks | Enforcement | Positive VDT trend | [phase-4-automated-guardrails.md](phase-4-automated-guardrails.md) |
 | 5 | Enterprise Rollout | Continuous | Staged | Open to wider teams | [phase-5-enterprise-rollout.md](phase-5-enterprise-rollout.md) |
 
 ## Exit criteria at a glance
@@ -25,7 +25,7 @@ The single most measurable gate per phase; each phase file holds the complete, m
 | 1 | >= 90% of last-30-day PRs ingested with required fields; average Data Confidence Score >= 75; reconciliation gap < 5% |
 | 2 | Manual 50-PR sample within 30% of computed AI-assisted PR Rate; pilot lead confirms the dashboard matches reality |
 | 3 | Psychological safety > 3.5; warned-PR review time not up more than 20% without quality gain |
-| 4 | Net AI Delivery Value positive or trending positive; emergency-fix usage < 5%; zero emergency fixes delayed by the blocker |
+| 4 | VDT signal neutral-to-positive and trending up over 90 days; emergency-fix usage < 5%; zero emergency fixes delayed by the blocker |
 | 5 | >= 30% of teams (or 10 teams) sending active data; support tickets < 5/week; every new team starts in Observation Mode |
 
 ## Work tracks

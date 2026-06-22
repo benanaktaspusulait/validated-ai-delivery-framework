@@ -51,7 +51,7 @@ Operating-mode definitions and the per-phase confidence roadmap are in [docs/rol
 No individual AI productivity ranking, personal dashboard, "who uses AI most" view or performance-review export.
 No raw prompt storage in MVP.
 No hard enforcement before Phase 4.
-No blocking enforcement from metrics with Data Confidence Score < 70.
+No blocking enforcement except from High-confidence metrics (Data Confidence Score >= 90); metrics below 70 are withheld from decisions.
 No causal claims stronger than the data supports.
 ```
 

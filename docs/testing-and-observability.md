@@ -41,7 +41,7 @@ Tests:
 Unit-test the five core metric functions with fixed input fixtures.
 Unit-test AI Contextual Risk Score factors and boundary values.
 Regression-test Human Validation Cost fallback proxy and confidence downgrade behaviour.
-Regression-test Net AI Delivery Value display metadata: confidence label, input assumptions, baseline method.
+Regression-test Validated Delivery Trend (VDT) presentation: trend-chart only (never a single KPI), mandatory disclaimer present, confidence label shown.
 Integration-test metric_snapshots writes, calculation_version changes and API response shapes.
 Sample-test 50 PRs manually against computed AI-assisted PR Rate.
 ```
@@ -88,7 +88,7 @@ Unit-test policy rule evaluation, confidence gates and Emergency Override handli
 Integration-test GitHub Actions metadata enforcement against sample PR bodies.
 Integration-test high-risk reviewer assignment with representative changed-file sets.
 Regression-test that low-confidence defect data cannot reduce Dynamic AI WIP or block a PR.
-Regression-test that Dynamic AI WIP consumes only Data Confidence Score >= 70 metrics end to end.
+Regression-test that Dynamic AI WIP blocks only on High-confidence (>= 90) metrics and warns on the 70-89 band.
 Exercise metadata_missing behaviour separately from inferred metric confidence (completeness can block in Enforcement Mode).
 ```
 

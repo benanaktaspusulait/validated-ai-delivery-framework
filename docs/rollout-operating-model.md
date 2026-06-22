@@ -29,7 +29,7 @@ The product produces decision-grade operational signals, not laboratory-grade ca
 | 1 | Observable delivery metrics (GitHub/Jira events) | High |
 | 2 | AI usage metadata plus computed metrics and risk | Medium-high (estimates labelled) |
 | 3 | Quality linkage plus calibrated review cost | Medium |
-| 4 | Enforcement on metrics with Data Confidence Score >= 70 | Decision-grade only |
+| 4 | Enforcement on High-confidence metrics (>= 90); 70-89 warn only | Decision-grade only |
 | 5 | Advanced intelligence (telemetry, trust calibration) | Variable, labelled |
 
 ## Weekly RACI
@@ -114,7 +114,7 @@ Agenda:
 1. AI adoption health: AI-assisted PR rate by team.
 2. Validation trends: review debt and validation cost.
 3. Quality trends: defect rate and AI Quality Gap.
-4. Economic trends: Net AI Delivery Value and AI ROI.
+4. Delivery trend: Validated Delivery Trend (VDT) signal (correlational, not ROI).
 5. Risk posture: dependency risk, security signals and policy overrides.
 6. Psychological safety pulse trend.
 7. Policy adjustments: thresholds, new policies and retired policies.

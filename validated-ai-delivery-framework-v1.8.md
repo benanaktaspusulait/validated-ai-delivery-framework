@@ -1015,6 +1015,8 @@ It must not be used for individual performance measurement.
 
 ## 10.5 Net AI Delivery Value
 
+> Superseded: the absolute "Net AI Delivery Value" framing in this section is replaced by the correlational **Validated Delivery Trend (VDT)** in [docs/metrics-catalogue.md](docs/metrics-catalogue.md). Treat any figure below as directional only, never causal.
+
 ```text
 Estimated Net AI Delivery Value =
 Estimated Gross AI Time Saving Value
@@ -1544,6 +1546,8 @@ The full endpoint list and response examples are in [docs/api-spec.md](docs/api-
 ---
 
 ## 18. Data Confidence Rules
+
+> Superseded: confidence scoring now uses the multi-factor model in [docs/data-confidence.md](docs/data-confidence.md) (volume, freshness, completeness, stability), with a two-gate behaviour: warn at >= 70, block only at >= 90, withhold below 70.
 
 Each metric must carry both a data confidence label and a 0-100 Data Confidence Score.
 

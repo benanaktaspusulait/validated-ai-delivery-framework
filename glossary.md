@@ -10,8 +10,8 @@ Short definitions of the terms used across the framework. Full method and formul
 | AI Review Debt Age Ratio | Average AI PR review wait divided by the non-AI baseline wait; the primary review-debt signal. |
 | Post-Merge Defect Rate | Defects linked to merged PRs per merged PR; severity-weighted in the weighted form. |
 | Human Validation Cost | Estimated cost of reviewing AI-assisted work; directional until calibrated. |
-| Net AI Delivery Value | Estimated value of AI assistance after validation, rework, defect, tooling and opportunity costs, plus redirected senior capacity. |
-| AI ROI | Gross value plus counterfactual value divided by total AI delivery cost. |
+| Validated Delivery Trend (VDT) | Correlational trend signal comparing AI-assisted and matched non-AI PRs over time; replaces "Net AI Delivery Value" and makes no causal claim. See `docs/metrics-catalogue.md`. |
+| Directional cost context | Optional internal monetary estimate that carries the VDT disclaimer; never a board KPI or a causal ROI. |
 | Counterfactual Value | Value of higher-leverage work that became possible because AI freed senior capacity. |
 | Cognitive Load Index | Review effort per unit of AI PR size relative to comparable non-AI PRs. |
 | Contextual Risk Score | Weighted score estimating how much control an AI-assisted change needs. See `docs/risk-policy-engine.md`. |

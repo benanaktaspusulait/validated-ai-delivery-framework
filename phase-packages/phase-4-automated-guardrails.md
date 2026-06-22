@@ -84,7 +84,7 @@ Policy observability counters and alert thresholds
 ## Exit Criteria
 
 ```text
-Pilot team's Net AI Delivery Value is positive or trending positive.
+Pilot team's Validated Delivery Trend (VDT) signal is neutral-to-positive and trending up over 90 days.
 Emergency-fix usage is below 5% of total PRs.
 No production emergency fix has been delayed by the metadata blocker.
 Dynamic AI WIP recommendation is visible and explainable.

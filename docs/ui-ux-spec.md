@@ -11,7 +11,7 @@ The platform is a control plane, not only a report screen. It collects data, com
 ```text
 Platform Team view  - operate the system: integrations, data confidence, policy violations, rollout pace.
 Engineering Manager / Tech Lead view - team delivery health and risky PRs.
-Executive view      - Net AI Delivery Value, adoption, risk and ROI summary (no PR-level detail).
+Executive view      - Validated Delivery Trend (VDT), adoption and risk summary (no PR-level detail, no causal ROI).
 Developer view      - lightweight, in-PR guidance only. No personal dashboard.
 ```
 
@@ -54,7 +54,7 @@ Developers never gain a personal dashboard at any phase.
 |---|---|---|---|
 | AI-assisted PR Rate | 34% | up | Healthy |
 | AI Review Debt | 12 PRs | up | Warning |
-| Estimated Net AI Delivery Value | £4,800 | up | Good, confidence shown |
+| Validated Delivery Trend (VDT) | 90-day trend chart | up | Positive signal (shown as a trend, never a single value) |
 | Post-merge Defect Rate | 1.2x baseline | up | Watch |
 | Data Confidence | 82% | flat | Good |
 

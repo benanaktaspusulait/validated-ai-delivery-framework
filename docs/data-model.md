@@ -157,7 +157,7 @@ policy_overrides is created and written in Phase 4.
 
 ## Cost-input configuration
 
-Parameters consumed by Net AI Delivery Value (defined in Phase 1, used in Phase 2). Read from the central configuration service or environment.
+Parameters consumed by the Validated Delivery Trend's directional cost context (defined in Phase 1, used in Phase 2). Read from the central configuration service or environment.
 
 ```yaml
 cost_config:
