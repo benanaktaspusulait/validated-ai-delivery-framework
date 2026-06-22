@@ -47,7 +47,7 @@ A process-oriented framework for delivering AI/ML solutions with validated, prod
 |---|---|
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
 | [TODO.md](TODO.md) | Remaining work |
-| [SECURITY.md](SECURITY.md) | Vulnerability reporting |
+| [SECURITY.md](security.md) | Vulnerability reporting |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
 | [LICENSE](LICENSE) | MIT License |
 

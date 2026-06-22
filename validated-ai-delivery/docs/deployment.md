@@ -45,7 +45,7 @@ CHECK_INTERVAL_HOURS=24
 3. Set up TLS termination (nginx reverse proxy or cloud load balancer).
 4. Configure persistent volumes for PostgreSQL and MinIO.
 5. Set up backup schedule for PostgreSQL (daily).
-6. Configure alerting (see monitoring/alerts.yml).
+6. Configure alerting (see implementation/monitoring/alerts.yml).
 7. Set up log aggregation (ELK, Loki, or cloud logging).
 ```
 
@@ -68,7 +68,7 @@ CHECK_INTERVAL_HOURS=24
 
 ```bash
 # Rollback to previous model version
-./scripts/rollback.sh <previous_version>
+./implementation/scripts/rollback.sh <previous_version>
 
 # Rollback entire deployment
 kubectl rollout undo deployment/api

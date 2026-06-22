@@ -59,4 +59,4 @@ pytest implementation/tests/ -v
 
 ## Code of conduct
 
-Be respectful, inclusive and constructive. Focus on ideas, not people.
+Be respectful, inclusive and constructive. Focus on ideas, not people. See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for full details.

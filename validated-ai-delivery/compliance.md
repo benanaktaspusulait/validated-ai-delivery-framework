@@ -58,8 +58,7 @@ Technical measures:
 | Data | GDPR lawful basis; data minimisation; retention policy |
 | Model | Bias audit; documentation; audit trail |
 | Validation | Fairness validation; explainability; human oversight |
-| Integration | Transparency notices; monitoring; incident reporting |
-| Operations | Post-market monitoring; regular re-validation; audit logs |
+| Integration | Transparency notices; monitoring; incident reporting; post-market monitoring; regular re-validation; audit logs |
 
 ## Audit trail
 

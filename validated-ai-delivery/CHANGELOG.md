@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Load testing (Locust)
 - Data validation tests (pytest)
 - 7 templates for each lifecycle stage
-- CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md, LICENSE
+- CONTRIBUTING.md, CODE_OF_CONDUCT.md, security.md, LICENSE
 
 ### Changed
 - N/A (initial release)

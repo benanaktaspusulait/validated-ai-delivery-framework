@@ -45,6 +45,11 @@ services:
         condition: service_healthy
       minio:
         condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   api:
     build:
@@ -57,8 +62,17 @@ services:
       MODEL_NAME: default-model
       MODEL_STAGE: Production
       API_KEY: changeme-in-production
+      MODEL_A_NAME: model-v1
+      MODEL_B_NAME: model-v2
+      AB_SPLIT_RATIO: "0.5"
     depends_on:
-      - mlflow
+      mlflow:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   streamlit:
     build:
@@ -69,7 +83,8 @@ services:
     environment:
       MLFLOW_TRACKING_URI: http://mlflow:5000
     depends_on:
-      - mlflow
+      mlflow:
+        condition: service_healthy
 
   drift:
     build:
@@ -78,9 +93,10 @@ services:
     environment:
       MLFLOW_TRACKING_URI: http://mlflow:5000
       MODEL_NAME: default-model
-      CHECK_INTERVAL_HOURS: 24
+      CHECK_INTERVAL_HOURS: "24"
     depends_on:
-      - mlflow
+      mlflow:
+        condition: service_healthy
 
   prometheus:
     image: prom/prometheus:v2.51.0
@@ -88,6 +104,7 @@ services:
       - "9090:9090"
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/alerts.yml:/etc/prometheus/alerts.yml
 
   grafana:
     image: grafana/grafana:10.4.0

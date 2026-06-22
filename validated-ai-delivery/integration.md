@@ -57,7 +57,7 @@ Ship the model to production with monitoring, rollback capability and clear owne
 - [ ] CI/CD/CT pipeline operational.
 - [ ] Monitoring dashboards live; alerts configured.
 - [ ] Model registered in model registry.
-- [ ] Rollback mechanism tested (scripts/rollback.sh).
+- [ ] Rollback mechanism tested (implementation/scripts/rollback.sh).
 - [ ] Handover template completed.
 - [ ] Runbook documented.
 - [ ] On-call rotation established.

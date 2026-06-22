@@ -14,9 +14,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Docker images
+        working-directory: implementation
         run: docker-compose build
 
       - name: Deploy to staging
+        working-directory: implementation
         run: |
           docker-compose up -d
           sleep 15
