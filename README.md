@@ -8,7 +8,7 @@ Read this file first, then start Phase 0. The phase packages are the implementat
 
 | If you want to... | Read |
 |---|---|
-| Understand why this exists (thesis, positioning, MVP scope) | [validated-ai-delivery-framework-v1.8.md](validated-ai-delivery-framework-v1.8.md) |
+| Understand why this exists (thesis, positioning, MVP scope) | [validated-ai-delivery-framework-v1.8.md](validated-ai-delivery-framework-v1.8.md) — or dive into [framework/](framework/) for split sections |
 | Know what we are building (product definition) | [PRD.md](PRD.md) |
 | Stand a team up quickly | [quick-start.md](quick-start.md) |
 | Answer common questions | [faq.md](faq.md) |
@@ -19,6 +19,23 @@ Read this file first, then start Phase 0. The phase packages are the implementat
 | Start coding (task breakdown) | [implementation/](implementation/) |
 | Contribute to this repository | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | See what is still open | [TODO.md](TODO.md) |
+
+## Framework sections (split from master document)
+
+The master framework document is split into focused sections:
+
+| Section | File |
+|---|---|
+| Overview and thesis | [framework/01-overview-and-thesis.md](framework/01-overview-and-thesis.md) |
+| Personas | [framework/02-personas.md](framework/02-personas.md) |
+| MVP scope | [framework/03-mvp-scope.md](framework/03-mvp-scope.md) |
+| Expanded metrics | [framework/04-expanded-metrics.md](framework/04-expanded-metrics.md) |
+| Technical references | [framework/05-technical-references.md](framework/05-technical-references.md) |
+| MVP backlog | [framework/06-mvp-backlog.md](framework/06-mvp-backlog.md) |
+| Pilot criteria | [framework/07-pilot-criteria.md](framework/07-pilot-criteria.md) |
+| Enterprise roadmap | [framework/08-enterprise-roadmap.md](framework/08-enterprise-roadmap.md) |
+| Investment logic | [framework/09-investment-logic.md](framework/09-investment-logic.md) |
+| Governance and adoption | [framework/10-governance-and-adoption.md](framework/10-governance-and-adoption.md) |
 
 ## Reference docs (`docs/`)
 
