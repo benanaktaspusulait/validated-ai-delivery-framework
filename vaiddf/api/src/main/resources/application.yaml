@@ -1,0 +1,31 @@
+quarkus:
+  application:
+    name: vaiddf-api
+    version: 0.1.0-SNAPSHOT
+  http:
+    port: 8080
+  rest:
+    path: /
+  smallrye-health:
+    path: /health
+  micrometer:
+    export:
+      prometheus:
+        enabled: true
+
+%dev:
+  quarkus:
+    log:
+      level: DEBUG
+    hibernate:
+      sql: true
+
+%prod:
+  quarkus:
+    log:
+      level: INFO
+
+%test:
+  quarkus:
+    log:
+      level: DEBUG
