@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EU AI Act Mapping — VAIDDF</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .article-card { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 4px solid var(--primary); }
+        .article-card h3 { color: var(--primary); margin-bottom: 0.5rem; }
+        .article-card .mapping { display: inline-block; background: #dcfce7; color: #166534; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .article-card p { color: var(--gray-600); font-size: 0.9rem; }
+        .status-full { background: #dcfce7; color: #166534; }
+        .status-partial { background: #fef3c7; color: #92400e; }
+        .status-planned { background: #e5e7eb; color: #4b5563; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">VAIDDF</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/models">Models</a>
+            <a href="/drift">Drift</a>
+            <a href="/harness">Harness</a>
+            <a href="/comparison">Comparison</a>
+            <a href="/eu-ai-act">EU AI Act</a>
+            <a href="/comparison">Comparison</a>
+            <a href="/eu-ai-act" class="active">EU AI Act</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>EU AI Act Compliance Mapping</h1>
+        <p class="subtitle">How VAIDDF addresses EU AI Act requirements</p>
+
+        <div class="badges" style="margin-bottom:2rem;">
+            <span class="badge-item status-full">Fully Implemented: 6</span>
+            <span class="badge-item status-partial">Partially Implemented: 3</span>
+            <span class="badge-item status-planned">Planned: 2</span>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 9 — Risk Management</span>
+            <h3>Risk Management System</h3>
+            <p><strong>Requirement:</strong> Establish, implement, and maintain a risk management system.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-full">Fully Implemented</span></p>
+            <p>Policy engine with OPA/Rego rules. Risk scoring in drift detection. Automated guardrails in Phase 4.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 10 — Data Governance</span>
+            <h3>Data Governance and Data Quality</h3>
+            <p><strong>Requirement:</strong> Training, validation, and testing datasets meet quality criteria.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-full">Fully Implemented</span></p>
+            <p>Drift detection monitors data quality. PSI scoring for reference vs production data. Feature-level analysis.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 11 — Technical Documentation</span>
+            <h3>Technical Documentation</h3>
+            <p><strong>Requirement:</strong> Keep technical documentation up to date.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-full">Fully Implemented</span></p>
+            <p>Model registry stores metadata. Governance annotations document decisions. OpenAPI spec auto-generated.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 12 — Record-Keeping</span>
+            <h3>Automatic Logging</h3>
+            <p><strong>Requirement:</strong> Automatic recording of events (logs) over the lifetime of the system.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-full">Fully Implemented</span></p>
+            <p>Immutable audit log. Every model creation, deployment, and policy evaluation logged. No deletion possible.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 13 — Transparency</span>
+            <h3>Information to Deployers</h3>
+            <p><strong>Requirement:</strong> Provide deployers with sufficient information for use.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-full">Fully Implemented</span></p>
+            <p>Dashboard shows model status. API documentation via OpenAPI. CLI provides quick access.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 14 — Human Oversight</span>
+            <h3>Human Oversight Measures</h3>
+            <p><strong>Requirement:</strong> Enable effective oversight by humans.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-partial">Partially Implemented</span></p>
+            <p>Model deployment requires approval. Rollback capability. Phase 4 adds automated enforcement with human override.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 15 — Accuracy, Robustness, Cybersecurity</span>
+            <h3>Accuracy and Robustness</h3>
+            <p><strong>Requirement:</strong> Designed for appropriate levels of accuracy and robustness.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-partial">Partially Implemented</span></p>
+            <p>Drift detection monitors accuracy degradation. Fairness checking ensures robustness across groups.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 26 — Deployer Obligations</span>
+            <h3>Obligations of Deployers</h3>
+            <p><strong>Requirement:</strong> Deployers must use AI systems according to instructions.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-full">Fully Implemented</span></p>
+            <p>Governance annotations enforce deployment rules. Policy engine blocks non-compliant models.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 47 — Post-Market Monitoring</span>
+            <h3>Post-Market Monitoring System</h3>
+            <p><strong>Requirement:</strong> Establish a post-market monitoring system.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-full">Fully Implemented</span></p>
+            <p>Continuous drift monitoring. Automated alerts. Model lifecycle tracking from registration to deprecation.</p>
+        </div>
+
+        <div class="article-card">
+            <span class="mapping">Article 50 — Transparency for Certain AI Systems</span>
+            <h3>Transparency Measures</h3>
+            <p><strong>Requirement:</strong> Inform natural persons that they are interacting with an AI system.</p>
+            <p><strong>VAIDDF:</strong> <span class="badge-item status-partial">Partially Implemented</span></p>
+            <p>Model metadata includes AI system information. UI shows model status. Full transparency dashboard planned.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p>
+    </footer>
+</body>
+</html>

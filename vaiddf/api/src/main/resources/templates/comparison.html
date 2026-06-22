@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison — VAIDDF</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .compare-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .compare-table th, .compare-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--gray-200); }
+        .compare-table th { background: var(--gray-100); font-weight: 600; }
+        .compare-table tr:hover { background: var(--gray-50); }
+        .check { color: var(--success); font-weight: bold; }
+        .cross { color: var(--danger); }
+        .highlight { background: #eff6ff; }
+        .section-title { font-size: 1.5rem; margin: 2rem 0 1rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">VAIDDF</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/models">Models</a>
+            <a href="/drift">Drift</a>
+            <a href="/harness">Harness</a>
+            <a href="/comparison">Comparison</a>
+            <a href="/eu-ai-act">EU AI Act</a>
+            <a href="/comparison" class="active">Comparison</a>
+            <a href="/eu-ai-act">EU AI Act</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>How We Compare</h1>
+        <p class="subtitle">VAIDDF vs other AI/ML platforms</p>
+
+        <h2 class="section-title">VAIDDF vs ML Platforms</h2>
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th class="highlight">VAIDDF</th>
+                    <th>MLflow</th>
+                    <th>Kubeflow</th>
+                    <th>Vertex AI</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Model Registry</td>
+                    <td class="highlight check">✓</td>
+                    <td class="check">✓</td>
+                    <td class="check">✓</td>
+                    <td class="check">✓</td>
+                </tr>
+                <tr>
+                    <td>Drift Detection</td>
+                    <td class="highlight check">✓ Built-in</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                </tr>
+                <tr>
+                    <td>Fairness Checking</td>
+                    <td class="highlight check">✓ Built-in</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                    <td>⚠️ Limited</td>
+                </tr>
+                <tr>
+                    <td>Policy Engine</td>
+                    <td class="highlight check">✓ OPA/Rego</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                    <td>⚠️ Rules</td>
+                </tr>
+                <tr>
+                    <td>Immutable Audit Log</td>
+                    <td class="highlight check">✓ EU AI Act</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                    <td>⚠️ Limited</td>
+                </tr>
+                <tr>
+                    <td>Multi-Tenancy</td>
+                    <td class="highlight check">✓ Keycloak</td>
+                    <td class="cross">✗</td>
+                    <td>⚠️ K8s</td>
+                    <td class="check">✓</td>
+                </tr>
+                <tr>
+                    <td>Harness Scanner</td>
+                    <td class="highlight check">✓ 10 dimensions</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                </tr>
+                <tr>
+                    <td>Governance Annotations</td>
+                    <td class="highlight check">✓ @ModelGoverned</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                    <td class="cross">✗</td>
+                </tr>
+                <tr>
+                    <td>Java Native</td>
+                    <td class="highlight check">✓ Quarkus</td>
+                    <td class="cross">✗ Python</td>
+                    <td>⚠️ Mixed</td>
+                    <td class="cross">✗ GCP</td>
+                </tr>
+                <tr>
+                    <td>License</td>
+                    <td class="highlight">Apache 2.0</td>
+                    <td>Apache 2.0</td>
+                    <td>Apache 2.0</td>
+                    <td>Commercial</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">Why VAIDDF?</h2>
+        <div class="features" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;">
+            <div class="feature-card">
+                <h3>Regulatory Compliance</h3>
+                <p>Built for EU AI Act. Immutable audit logs, fairness checks, and governance controls out of the box.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Java-First</h3>
+                <p>Native Java 21 + Quarkus. No Python dependency. Annotation-based governance that integrates with your codebase.</p>
+            </div>
+            <div class="feature-card">
+                <h3>All-in-One</h3>
+                <p>Drift detection, fairness checking, policy engine, and harness scanning in a single platform. No tool sprawl.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Enterprise Ready</h3>
+                <p>Multi-tenancy, RBAC, audit trails, and Docker Compose quickstart. Production-ready from day one.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p>
+    </footer>
+</body>
+</html>

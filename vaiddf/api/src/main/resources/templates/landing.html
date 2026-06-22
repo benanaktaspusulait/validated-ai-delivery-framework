@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAIDDF — AI Delivery Control Plane</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .hero { text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); color: white; margin: -2rem -2rem 2rem -2rem; border-radius: 12px; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.25rem; opacity: 0.9; max-width: 600px; margin: 0 auto 2rem; }
+        .hero .btn { background: white; color: #2563eb; padding: 0.75rem 2rem; font-size: 1rem; }
+        .hero .btn:hover { background: #f3f4f6; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 3rem 0; }
+        .feature-card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .feature-card h3 { color: var(--primary); margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--gray-600); font-size: 0.9rem; }
+        .cta { text-align: center; padding: 3rem; background: var(--gray-100); border-radius: 12px; margin: 2rem 0; }
+        .cta h2 { margin-bottom: 1rem; }
+        .badges { display: flex; gap: 1rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
+        .badge-item { background: white; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; border: 1px solid var(--gray-200); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">VAIDDF</div>
+        <div class="nav-links">
+            <a href="/" class="active">Home</a>
+            <a href="/models">Models</a>
+            <a href="/drift">Drift</a>
+            <a href="/harness">Harness</a>
+            <a href="/comparison">Comparison</a>
+            <a href="/eu-ai-act">EU AI Act</a>
+            <a href="/comparison">Comparison</a>
+            <a href="/eu-ai-act">EU AI Act</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="hero">
+            <h1>AI Delivery Control Plane</h1>
+            <p>Validated AI Delivery Framework for Regulated Java Enterprises. Measure, govern, and improve AI-assisted software delivery.</p>
+            <a href="/models" class="btn">Get Started</a>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>Model Registry</h3>
+                <p>Register, version, and deploy ML models with full governance controls and audit trails.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Drift Detection</h3>
+                <p>Monitor data and model drift using PSI (Population Stability Index) with automated alerts.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Fairness Checking</h3>
+                <p>Ensure model fairness with demographic parity and other bias detection metrics.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Policy Engine</h3>
+                <p>Define and enforce deployment policies using OPA/Rego rules. Block non-compliant models.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Harness Scanner</h3>
+                <p>Assess your repository's agent harness maturity across 10 dimensions.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Immutable Audit Log</h3>
+                <p>EU AI Act compliant audit trail. Every action recorded, nothing deleted.</p>
+            </div>
+        </div>
+
+        <div class="badges">
+            <span class="badge-item">Java 21</span>
+            <span class="badge-item">Quarkus 3.x</span>
+            <span class="badge-item">Reactive PostgreSQL</span>
+            <span class="badge-item">Docker Ready</span>
+            <span class="badge-item">EU AI Act Compliant</span>
+            <span class="badge-item">Apache 2.0</span>
+        </div>
+
+        <div class="cta">
+            <h2>Ready to Govern Your AI Delivery?</h2>
+            <p>Start in 5 minutes with Docker Compose</p>
+            <pre style="text-align:left; max-width:500px; margin:1rem auto; background:white; padding:1rem; border-radius:8px;">git clone https://github.com/vaiddf/vaiddf.git
+cd vaiddf
+docker compose up</pre>
+            <a href="http://localhost:8080/" class="btn btn-primary">Open Dashboard</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p>
+    </footer>
+</body>
+</html>
