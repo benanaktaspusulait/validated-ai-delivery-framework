@@ -1,6 +1,7 @@
 package com.vaiddf.api.ui;
 
 import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -12,11 +13,11 @@ import jakarta.ws.rs.core.MediaType;
 public class EuAiActResource {
 
     @Inject
-    Template euAiAct;
+    Template eu-ai-act;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public String euAiAct() {
-        return euAiAct.instance().render();
+    public TemplateInstance euAiAct() {
+        return eu-ai-act.instance();
     }
 }
