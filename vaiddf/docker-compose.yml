@@ -9,6 +9,9 @@ services:
       - "8080:8080"
     environment:
       QUARKUS_HTTP_HOST: 0.0.0.0
+      QUARKUS_DATASOURCE_REACTIVE_URL: vertx:postgresql://postgres:5432/vaiddf
+      QUARKUS_DATASOURCE_USERNAME: vaiddf
+      QUARKUS_DATASOURCE_PASSWORD: vaiddf
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/q/health"]
       interval: 10s
