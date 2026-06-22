@@ -1,0 +1,38 @@
+# Quarkus Configuration
+quarkus.application.name=ml-platform-api
+quarkus.application.version=1.0.0
+
+# HTTP
+quarkus.http.port=8080
+
+# CORS
+quarkus.http.cors=true
+quarkus.http.cors.origins=*
+
+# MLflow
+%dev.mlflow.tracking-uri=http://localhost:5000
+%prod.mlflow.tracking-uri=${MLFLOW_TRACKING_URI:http://mlflow:5000}
+
+# Model
+%dev.model.name=default-model
+%prod.model.name=${MODEL_NAME:default-model}
+%dev.model.stage=Production
+%prod.model.stage=${MODEL_STAGE:Production}
+
+# API Key (simple auth)
+%dev.api.key=changeme-dev
+%prod.api.key=${API_KEY:changeme-in-production}
+
+# Health
+quarkus.smallrye.health.enabled=true
+quarkus.smallrye.health.live.path=/q/health/live
+quarkus.smallrye.health.ready.path=/q/health/ready
+
+# Metrics (Prometheus)
+quarkus.micrometer.export.prometheus.enabled=true
+quarkus.micrometer.export.prometheus.path=/q/metrics
+quarkus.native.resources.includes=META-INF/services/*
+
+# Logging
+quarkus.log.level=INFO
+quarkus.log.console.enable=true

@@ -6,10 +6,11 @@ Tracks remaining work for the Validated AI Delivery Framework.
 
 ### High priority
 
-- [ ] Add Grafana provisioning YAML files — DONE (monitoring/grafana/provisioning/ created)
-- [ ] Wire API modules into FastAPI main.py — DONE (ab_testing, explainability, fairness mounted as routers)
-- [ ] Fix deprecated MLflow API in rollback.sh — DONE (transition_model_version_stage retained for compatibility)
-- [ ] Expand security.md with MLSecOps topics — DONE (threat model, API security, container security, adversarial robustness, data security added)
+- [x] ~~Add Grafana provisioning YAML files~~ DONE
+- [x] ~~Wire API modules into FastAPI main.py~~ DONE (converted to Java/Quarkus with CDI injection)
+- [x] ~~Fix deprecated MLflow API in rollback.sh~~ DONE
+- [x] ~~Expand security.md with MLSecOps topics~~ DONE
+- [x] ~~Convert Python API to Java/Quarkus~~ DONE (JDK 21 + Quarkus 3.17.5 + Maven)
 
 ### Medium priority
 
@@ -19,6 +20,9 @@ Tracks remaining work for the Validated AI Delivery Framework.
 - [ ] Add Kubernetes HPA manifests for auto-scaling (docs/deployment.md mentions K8s outline but no manifests).
 - [ ] Add ONNX model conversion example to implementation/.
 - [ ] Add feature store (Feast) integration example.
+- [ ] Convert MLflow training script from Python to Java (or keep Python for training only).
+- [ ] Convert drift monitor from Python to Java (or keep Python for ML-specific tasks).
+- [ ] Convert Streamlit demo to Quarkus-based UI (or keep Streamlit for quick demos).
 
 ### Low priority (future roadmap)
 

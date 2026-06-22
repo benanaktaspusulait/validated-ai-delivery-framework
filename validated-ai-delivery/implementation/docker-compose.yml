@@ -56,8 +56,9 @@ services:
       context: ./api
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8080:8080"
     environment:
+      QUARKUS_MLFLOW_TRACKING_URI: http://mlflow:5000
       MLFLOW_TRACKING_URI: http://mlflow:5000
       MODEL_NAME: default-model
       MODEL_STAGE: Production
@@ -69,7 +70,7 @@ services:
       mlflow:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/q/health/live"]
       interval: 10s
       timeout: 5s
       retries: 3

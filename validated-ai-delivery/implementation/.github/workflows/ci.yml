@@ -7,25 +7,25 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: pip install ruff
-      - run: ruff check implementation/
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
         with:
-          python-version: "3.11"
-      - run: pip install pytest mlflow scikit-learn pandas numpy pydantic requests
-      - run: pytest implementation/tests/ -v --tb=short
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and test API
+        working-directory: implementation/api
+        run: ./mvnw verify -B
+
+      - name: Build Docker images
+        working-directory: implementation
+        run: docker-compose build
 
   security:
     runs-on: ubuntu-latest
