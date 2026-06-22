@@ -4,6 +4,51 @@ A platform-team-owned control plane for measuring, governing and improving AI-as
 
 Read this file first, then start Phase 0. The phase packages are the implementation source of truth; `docs/` holds the canonical technical references; `examples/` holds copyable artefacts; the master framework holds the thesis.
 
+## Repository structure
+
+This repository contains two related but distinct projects:
+
+```text
+ai-project-plan/
+├── README.md                          ← You are here
+├── LICENSE                            ← MIT License
+├── SECURITY.md                        ← Vulnerability reporting
+├── CHANGELOG.md                       ← Version history
+├── PRD.md                             ← Product Requirements Document
+├── ROADMAP.md                         ← Release roadmap
+├── faq.md                             ← Frequently asked questions
+├── glossary.md                        ← Key terms and definitions
+├── quick-start.md                     ← Getting started guide
+├── CONTRIBUTING.md                    ← How to contribute
+├── CODE_OF_CONDUCT.md                 ← Community guidelines
+├── .github/                           ← Issue/PR templates, CI, CODEOWNERS
+│
+├── framework/                         ← Thesis split into 10 focused docs
+│   ├── 01-overview-and-thesis.md
+│   ├── 02-personas.md
+│   ├── 03-mvp-scope.md
+│   ├── 04-expanded-metrics.md
+│   ├── 05-technical-references.md
+│   ├── 06-mvp-backlog.md
+│   ├── 07-pilot-criteria.md
+│   ├── 08-enterprise-roadmap.md
+│   ├── 09-investment-logic.md
+│   └── 10-governance-and-adoption.md
+│
+├── docs/                              ← Canonical technical specifications (20 files)
+├── examples/                          ← Copyable templates and configs
+├── phase-packages/                    ← Gate documents (6 phases, 7 files)
+├── implementation/                    ← Task-level breakdown (73 tasks, 6 phases)
+│
+└── validated-ai-delivery/             ← ML platform prototype (separate sub-project)
+    ├── docs/                          ← Deployment, operations, API reference
+    ├── implementation/                ← Java/Quarkus API + Python ML tools
+    ├── templates/                     ← 7 lifecycle templates
+    └── [lifecycle + cross-cutting docs]
+```
+
+**Relationship between projects:** The root-level `ai-project-plan/` defines the **AI Delivery Control Plane** (measuring AI-assisted software delivery). The `validated-ai-delivery/` subdirectory is a reference implementation of an **ML platform prototype** that the control plane measures. They are complementary: the control plane governs AI delivery; the ML platform is one type of AI delivery being governed.
+
 ## Where to go
 
 | If you want to... | Read |

@@ -1,0 +1,20 @@
+# Default reviewers for the entire repo
+* @platform-team-lead
+
+# Docs
+docs/** @tech-lead @platform-team-lead
+
+# Framework
+framework/** @platform-team-lead
+
+# Implementation tasks
+implementation/** @platform-engineer
+
+# Phase packages
+phase-packages/** @platform-team-lead
+
+# Examples
+examples/** @platform-engineer
+
+# Validated AI Delivery (ML platform)
+validated-ai-delivery/** @ml-engineer @platform-team-lead
