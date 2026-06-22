@@ -205,6 +205,19 @@ Cognitive Load Index       (review effort vs comparable non-AI PRs)
 Post-Merge Defect Linkage  (bugs linked to a merged PR's component/story/release)
 ```
 
+## Expanded metrics (Stage 2+)
+
+Additional metrics defined in the framework document or to be specified before Stage 4:
+
+| Metric | Definition location | Stage |
+|---|---|---|
+| AI Dependency Risk | validated-ai-delivery-framework-v1.8.md (Section 7.1) | Stage 2+ |
+| AI-assisted PR Quality Gap | validated-ai-delivery-framework-v1.8.md (Section 7.2) | Stage 2+ |
+| Trust Calibration Gap | To be specified | Stage 4 |
+| Prompt Efficiency Score | To be specified | Stage 4 |
+| AI Test Quality Score | To be specified | Stage 4 |
+| Maintainability Risk Score | To be specified | Stage 4 |
+
 ## Scientific-validity guardrails
 
 Causation vs correlation:

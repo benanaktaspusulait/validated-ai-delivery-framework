@@ -27,7 +27,7 @@ Graduated control: observation to warning to confidence-gated enforcement, with 
 | Segment | Primary driver | How the framework lands |
 |---|---|---|
 | Large enterprise | Governance, audit and risk control over fast AI adoption | Strong fit: policy engine, audit trail, retention, RBAC |
-| Fast-growing SaaS | Keep velocity without accumulating hidden review/quality debt | Strong fit: review-debt and net-value signals, light developer touch |
+| Fast-growing SaaS | Keep velocity without accumulating hidden review/quality debt | Strong fit: review-debt, VDT and validation-cost signals, light developer touch |
 | Public sector / regulated | Compliance and change-resistance management | Fit with care: emphasise privacy basis, slow rollout, observation-first |
 | Small teams / startups | Lightweight insight without bureaucracy | Partial fit: free-tier, Observation Mode only until value is proven |
 

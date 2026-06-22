@@ -34,16 +34,28 @@ Pre-aggregation and time-partitioning (scalability-sla.md) keep per-team margina
 
 ## Pricing options (if offered as a product)
 
-| Tier | Intended for | Boundary |
-|---|---|---|
-| Free / community | Small teams, evaluation, open-source users | Up to a small team count (for example, 10 teams); community support; core metrics only |
-| Team | Single department adopting seriously | Per-team subscription; full MVP feature set; standard support targets |
-| Enterprise | Org-wide governance | Custom; adds SSO/RBAC at scale, audit, retention controls, named support and SLA |
-| Assessment engagement | One-off readiness review | Fixed-scope analysis producing an adoption and risk report |
+| Tier | Intended for | Indicative planning range | Boundary |
+|---|---|---:|---|
+| Free / community | Small teams, evaluation, open-source users | Free | Up to a small team count (for example, 10 teams); community support; core metrics only |
+| Team | Single department adopting seriously | GBP 200 - GBP 500 / month | Per-team subscription; full MVP feature set; standard support targets |
+| Scale-up | Multi-department adoption | GBP 1,000 - GBP 3,000 / month | Per-team pricing with volume discount; adds SonarQube, CI/CD, Slack integration; priority support |
+| Enterprise | Org-wide governance | GBP 20,000 - GBP 100,000+ / year | Custom; adds SSO/RBAC at scale, audit, retention controls, named support and SLA |
+| Assessment engagement | One-off readiness review | GBP 15,000 - GBP 50,000+ one-off | Fixed-scope analysis producing an adoption and risk report |
 
 ```text
 Any paid tier must preserve every non-negotiable rule for free; governance and privacy are not premium features.
 Pricing should reflect value delivered (validated delivery insight), not the number of developers surveilled.
+```
+
+Assessment engagement outputs:
+
+```text
+AI usage heatmap
+AI review debt analysis
+Governance maturity score
+VDT baseline with confidence label
+Risk register
+90-day roadmap
 ```
 
 ## Build cost (if developed as a product)
@@ -54,10 +66,17 @@ The dominant cost is a small, senior platform/full-stack team across Phases 1-5,
 Treat the MVP as internal tooling first; defer the cost of multi-tenancy, billing and SOC2-grade controls until value is proven.
 ```
 
+Planning baseline:
+
+```text
+Example platform team cost: GBP 200,000 - GBP 600,000 per year.
+Potential ROI range after local calibration: 1.5x - 3x. Do not infer this from VDT alone.
+```
+
 ## Cost-of-not-acting (the counter-case)
 
 ```text
 Ungoverned AI adoption has its own cost: rework from AI-assisted defects, senior over-validation, review-debt delays and incident remediation.
 The framework's value case is avoided cost and safer scaling, not seat licences.
-Quantify this locally during the pilot using the net-value and defect signals (metrics-catalogue.md) before committing to any pricing.
+Quantify this locally during the pilot using VDT, validation-cost and defect signals (metrics-catalogue.md) before committing to any pricing.
 ```

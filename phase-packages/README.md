@@ -2,7 +2,7 @@
 
 Stage-gate implementation plan for the Validated AI Delivery Framework v1.8. Each phase is a mini-project with entry/exit/fail criteria and a gate. A phase does not start until the previous phase passes its gate.
 
-Phase files are gate documents: what is done, by whom, with which criteria. Technical detail lives in `../docs/` and copyable artefacts in `../examples/`; each phase links to the ones it needs under "Reference Docs".
+Phase files are gate documents: what is done, by whom, with which criteria. Each phase file now includes an **Implementation guidance** section with concrete tech decisions, code structure suggestions, and step-by-step build instructions. Technical specs live in `../docs/` and copyable artefacts in `../examples/`; each phase links to the ones it needs under "Reference Docs".
 
 ## Master stage-gate map
 

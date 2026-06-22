@@ -9,10 +9,11 @@ The platform is a control plane, not only a report screen. It collects data, com
 ## Role-based views
 
 ```text
-Platform Team view  - operate the system: integrations, data confidence, policy violations, rollout pace.
+Platform Team view     - operate the system: integrations, data confidence, policy violations, rollout pace.
 Engineering Manager / Tech Lead view - team delivery health and risky PRs.
-Executive view      - Validated Delivery Trend (VDT), adoption and risk summary (no PR-level detail, no causal ROI).
-Developer view      - lightweight, in-PR guidance only. No personal dashboard.
+Executive view         - Validated Delivery Trend (VDT), adoption and risk summary (no PR-level detail, no causal ROI).
+Developer view         - lightweight, in-PR guidance only. No personal dashboard.
+Security / Compliance view - risk and control oversight: security-sensitive changes, prompt leakage signals, policy overrides, incident linkage.
 ```
 
 ## Screens and when they ship
@@ -31,6 +32,19 @@ Developer view      - lightweight, in-PR guidance only. No personal dashboard.
 | Multi-team navigation + RBAC | Phase 5 | Scale across teams with role-scoped access |
 
 Full navigation (enterprise): Dashboard, Teams, Pull Requests, Metrics, Risks, Policies, Recommendations, Integrations, Reports, Settings. Settings includes RBAC via Keycloak so each role sees only the right view.
+
+## Security / Compliance view
+
+```text
+Purpose: risk and control oversight. Available from Phase 4.
+Widgets:
+- AI-generated security-sensitive changes (flagged PRs touching auth/payment/infra paths)
+- Prompt leakage alerts (pattern matches in PR text, comment-only mode)
+- Policy override audit log (who overrode what, when, why)
+- Incident-to-PR linkage candidates (post-incident review, not automatic blame)
+- SAST/DAST findings on AI-assisted PRs (Stage 2+, when security integrations are wired)
+- Audit trail completeness (data retention, access logs, override trends)
+```
 
 ## What is visible by phase
 

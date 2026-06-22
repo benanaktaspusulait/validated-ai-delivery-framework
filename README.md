@@ -8,7 +8,7 @@ Read this file first, then start Phase 0. The phase packages are the implementat
 
 | If you want to... | Read |
 |---|---|
-| Understand why this exists (thesis, formulas, positioning) | [validated-ai-delivery-framework-v1.8.md](validated-ai-delivery-framework-v1.8.md) |
+| Understand why this exists (thesis, positioning, MVP scope) | [validated-ai-delivery-framework-v1.8.md](validated-ai-delivery-framework-v1.8.md) |
 | Know what we are building (product definition) | [PRD.md](PRD.md) |
 | Stand a team up quickly | [quick-start.md](quick-start.md) |
 | Answer common questions | [faq.md](faq.md) |

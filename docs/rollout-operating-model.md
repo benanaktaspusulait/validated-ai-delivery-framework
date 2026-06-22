@@ -11,12 +11,21 @@ Recommendation Mode = team-level recommendations and playbooks.
 Enforcement Mode    = calibrated blocking checks with Emergency Override.
 ```
 
+Additional operating concepts (not distinct modes, but used within modes):
+
+```text
+Experiment Mode     = randomly assigns a subset of PRs to receive warnings; compares outcomes vs control.
+                      Used within Warning Mode (Phase 3) to validate policy effectiveness before enforcement.
+Enterprise Rollout  = staged expansion across teams; every new team starts in Observation Mode.
+                      Not a separate mode but the rollout strategy for Phase 5+.
+```
+
 | Phase | Operating mode |
 |---:|---|
 | 0 | Readiness only |
 | 1 | Observation Mode |
 | 2 | Observation Mode |
-| 3 | Warning Mode and Recommendation Mode |
+| 3 | Warning Mode and Recommendation Mode (with optional Experiment Mode) |
 | 4 | Enforcement Mode |
 | 5 | Staged rollout across modes |
 
@@ -40,6 +49,7 @@ The product produces decision-grade operational signals, not laboratory-grade ca
 | Platform Lead | Monitor data confidence, triage feedback and decide threshold changes |
 | Engineering Manager | Interpret team-level metrics, protect psychological safety and run retros |
 | Tech Lead | Review high-risk PRs, validate recommendations and coach explainable AI usage |
+| Developer | Declare AI usage honestly; respond to in-PR guidance; maintain ownership of AI-assisted changes |
 | Data Steward | Review data retention, access and override logs |
 | Security Lead | Review security-sensitive paths, prompt leakage signals and incident linkage |
 
@@ -132,6 +142,17 @@ Data confidence improvement actions
 ```
 
 The review focuses on system learning, not individual developer performance.
+
+Manager misuse escalation (full procedure in `docs/governance-and-privacy.md`):
+
+```text
+If a manager attempts to use individual AI metrics for performance scoring:
+1. Pause expansion for that team.
+2. Notify Platform Lead and HR/People Lead.
+3. Re-brief the manager and team.
+4. Remove individual-level exports from that manager's access.
+5. Resume only after misuse risk is addressed.
+```
 
 ## Onboarding rule for new teams
 
