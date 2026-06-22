@@ -6,22 +6,38 @@ The score is a transparent, multi-factor weighted value: every point traces back
 
 ## Confidence Score engine
 
-The score is the weighted average of four components, each scored 0-100.
+The score is the weighted average of four components, each scored 0-100. Confidence is computed **per team, per metric** (not aggregated across teams or metrics), because different metrics have different data dependencies.
 
 | Component | Weight | Measures | Scoring rule |
 |---|---:|---|---|
 | Data Volume | 30% | Relevant events (PRs, reviews, deploys) in the last 30 days | `min(100, (events_last_30d / 100) x 100)` — 100+ events score full |
-| Data Freshness | 25% | Minutes since the most recent event | `max(0, 100 - (minutes_since_last_event / 1440) x 100)` — 24h+ scores 0 |
+| Data Freshness | 25% | Minutes since the most recent event | Piecewise decay (see below) |
 | Completeness | 25% | Share of required fields populated on incoming events | `(populated_required_fields / expected_required_fields) x 100` |
-| Statistical Stability | 20% | Variability of the metric over the last 7 days (coefficient of variation, CV) | CV < 10% → 100; 10-30% → 75; 30-50% → 50; > 50% → 20 |
+| Statistical Stability | 20% | Variability of the metric over the last 7 days (coefficient of variation, CV) | Requires minimum sample size (see below) |
 
-Required fields for completeness include at least `event_type`, `user_id` (pseudonymised), `repo_id` and `timestamp`.
+Required fields for completeness (checked on `pull_requests` table): at least `event_type` (from raw_events), `author_id`, `repository_id` and `source_timestamp`.
+
+Minimum sample size for statistical stability: at least 5 data points in the 7-day window. Below 5, stability defaults to a score of 30 and `confidence_issue = "insufficient_sample_size"`.
 
 Final score:
 
 ```text
 Confidence Score = (Volume x 0.30) + (Freshness x 0.25) + (Completeness x 0.25) + (Stability x 0.20)
 ```
+
+## Freshness decay function
+
+The freshness component uses a piecewise linear decay rather than a cliff:
+
+| Time since last event | Score | Band |
+|---|---:|---|
+| 0 - 6 hours | 100 | Fresh |
+| 6 - 12 hours | 75 | Acceptable |
+| 12 - 24 hours | 50 | Stale |
+| 24 - 48 hours | 25 | Outdated |
+| 48+ hours | 0 | Dead |
+
+This provides early warnings instead of a sudden cliff at 24 hours. Low-volume teams (e.g. weekly deployers) should configure their expected event frequency in `team-config.yaml` to avoid being penalised for predictable gaps.
 
 ## Worked example (step by step)
 
@@ -36,16 +52,16 @@ Inputs:
 ```
 
 | Component | Raw input | Component score | Weighted |
-|---|---|---:|---:|
+|---|---|---|---:|
 | Volume | 80 events | min(100, 80) = 80 | 24.0 |
-| Freshness | 60 min | 100 - (60/1440)x100 ≈ 96 | 24.0 |
+| Freshness | 60 min | 100 (0-6h band) | 25.0 |
 | Completeness | 19/20 | 95 | 23.75 |
 | Stability | CV 12% (10-30% band) | 75 | 15.0 |
-| Total | | | 86.75 |
+| Total | | | 87.75 |
 
 ```text
-Confidence Score ≈ 87 → Medium. The metric may inform warnings and recommendations, but may not block.
-Stored in metric_snapshots: data_confidence_score = 87, data_confidence = "medium", confidence_issue = "stability CV 12% this week".
+Confidence Score ≈ 88 → Medium. The metric may inform warnings and recommendations, but may not block.
+Stored in metric_snapshots: data_confidence_score = 88, data_confidence = "medium", confidence_issue = "stability CV 12% this week".
 ```
 
 ## Score bands, badges and behaviour
@@ -74,11 +90,18 @@ This is deliberately stricter than a single "70" gate: 70-89 can inform but neve
 | Manual or self-reported input | Completeness, Stability | Stays Low/Medium by design; never blocks |
 | Metric swings week to week | Stability | High CV caps the score; investigate before acting |
 
-Automatic degradation rule:
+Automatic degradation and recovery rule:
 
 ```text
 When a metric's Confidence Score drops below 70, any automated policy that depends on it is disabled automatically.
-Re-enabling that policy requires a manual, audited override by a platform administrator or data steward.
+
+Recovery options (configurable per policy):
+  Option A (recommended): Policy auto-re-enables when confidence returns to >= 90 for 2 consecutive evaluation cycles.
+    - Data Steward receives a notification: "Policy <name> re-enabled for team <team>; confidence recovered."
+  Option B: Policy stays disabled until manually re-enabled by a platform administrator.
+    - Data Steward receives a daily reminder until the policy is re-enabled or the data issue is resolved.
+
+Default: Option A for warnings and recommendations; Option B for blocking enforcement (extra caution).
 ```
 
 This autonomic behaviour — the system removes its own authority when its data is weak — is cross-referenced in `docs/governance-and-privacy.md` and enforced by the policy engine (`docs/risk-policy-engine.md`). It is a strong audit argument: the platform cannot act on data it does not trust.
