@@ -62,7 +62,7 @@ CI pipeline (implementation/.github/workflows/ci.yml):
 CD pipeline (implementation/.github/workflows/cd.yml):
   1. Build Docker images.
   2. Deploy to staging.
-  3. Integration tests (pytest implementation/tests/test_api.py).
+  3. Integration tests (cd api && ./mvnw test).
   4. Load tests (implementation/tests/load_test.py).
   5. Promote to production (manual approval).
 ```
@@ -73,5 +73,5 @@ CD pipeline (implementation/.github/workflows/cd.yml):
 |---|---|
 | `implementation/tests/test_data_validation.py` | Schema, nulls, ranges, balance, leakage (7 tests) |
 | `implementation/tests/test_model.py` | Prediction shape, type, edge cases, determinism, batch (6 tests) |
-| `implementation/tests/test_api.py` | Health, predict, invalid input, response format (5 tests) |
+| `HealthResourceTest.java` | Quarkus health, metrics and reload endpoints |
 | `implementation/tests/load_test.py` | Locust load test with weighted tasks |

@@ -30,8 +30,8 @@ Recommended:
 ## Implementation
 
 ```text
-See implementation/api/main.py for the /reload endpoint (manual model swap).
-See implementation/api/ab_testing.py for shadow deployment (human reviews disagreements).
+See implementation/api/src/main/java/com/mlplatform/webhooks/HealthResource.java for the /reload endpoint (manual model swap).
+See implementation/api/src/main/java/com/mlplatform/webhooks/ExperimentResource.java for shadow deployment (human reviews disagreements).
 Feedback collection endpoint can be added to the Quarkus API following the same pattern.
 ```
 

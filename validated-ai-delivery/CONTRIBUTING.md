@@ -27,16 +27,7 @@ Thank you for your interest in contributing!
 ## Development setup
 
 ```bash
-# Clone the repo
-git clone <repo-url>
-cd validated-ai-delivery
-
-# Start the development environment
-cd implementation
-docker-compose up -d
-
-# Run tests
-pytest implementation/tests/ -v
+cd api && ./mvnw test
 ```
 
 ## Style guide

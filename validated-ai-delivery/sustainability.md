@@ -42,7 +42,7 @@ Data:
 ## Implementation
 
 ```text
-See implementation/api/carbon_tracking.py for CodeCarbon integration.
+See implementation/mlflow/train.py for training with cost tracking. Energy measurement is integrated into the training pipeline.
 Usage:
   from api.carbon_tracking import CarbonTracker
   with CarbonTracker("my-training-run"):

@@ -104,7 +104,6 @@ implementation/
 ├── tests/
 │   ├── test_data_validation.py
 │   ├── test_model.py
-│   ├── test_api.py
 │   ├── load_test.py
 │   └── requirements.txt
 ├── scripts/

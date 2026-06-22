@@ -18,7 +18,7 @@ Read this file first, then start Phase 0. The phase packages are the implementat
 | Copy a template or config | [examples/](examples/) |
 | Start coding (task breakdown) | [implementation/](implementation/) |
 | Contribute to this repository | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| See what is still open | [TODO.md](TODO.md) |
+| See what is still open | [validated-ai-delivery/TODO.md](validated-ai-delivery/TODO.md) |
 
 ## Framework sections (split from master document)
 

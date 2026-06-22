@@ -66,9 +66,9 @@ Prove the model works correctly, fairly and safely under real-world conditions â
 
 ```text
 Concrete implementations for this stage:
-  - Fairness evaluation: implementation/api/fairness.py (Fairlearn, disparity ratio)
-  - Explainability: implementation/api/explainability.py (SHAP, LIME)
-  - A/B testing: implementation/api/ab_testing.py (traffic split, shadow deployment)
+  - Fairness evaluation: implementation/api/src/main/java/com/mlplatform/webhooks/FairnessResource.java (Fairlearn, disparity ratio)
+  - Explainability: implementation/api/src/main/java/com/mlplatform/webhooks/ExplainabilityResource.java (SHAP, LIME)
+  - A/B testing: implementation/api/src/main/java/com/mlplatform/webhooks/ExperimentResource.java (traffic split, shadow deployment)
   - Robustness tests: implementation/tests/test_model.py (edge cases, determinism)
   - Load testing: implementation/tests/load_test.py (Locust)
   - Security scanning: .github/workflows/ci.yml (Trivy)

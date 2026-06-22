@@ -5,7 +5,7 @@ Tracking, managing and optimising the cost of ML workloads.
 ## Implementation
 
 ```text
-See implementation/api/carbon_tracking.py for CodeCarbon integration.
+See implementation/mlflow/train.py for training cost tracking. Carbon tracking is integrated into the training pipeline.
 CO2 tracking is automatic for every training run when using the CarbonTracker context manager.
 Cost data is logged to MLflow alongside metrics.
 ```

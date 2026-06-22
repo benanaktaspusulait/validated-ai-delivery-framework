@@ -51,14 +51,14 @@ Rarely:
 
 ```text
 Concrete implementations:
-  - SHAP explanations: implementation/api/explainability.py (explain_with_shap function)
-  - LIME explanations: implementation/api/explainability.py (explain_with_lime function)
-  - Fairness evaluation: implementation/api/fairness.py (evaluate_fairness function)
+  - SHAP explanations: implementation/api/src/main/java/com/mlplatform/webhooks/ExplainabilityResource.java (explain_with_shap method)
+  - LIME explanations: implementation/api/src/main/java/com/mlplatform/webhooks/ExplainabilityResource.java (explain_with_lime method)
+  - Fairness evaluation: implementation/api/src/main/java/com/mlplatform/webhooks/FairnessResource.java (evaluate_fairness method)
   - Auto-logged to MLflow for every experiment run.
 
 Run examples:
-  python implementation/api/explainability.py    # generates SHAP explanations for iris
-  python implementation/api/fairness.py           # evaluates fairness across petal length groups
+  # Explainability and fairness endpoints are now Java/Quarkus resources
+  # See implementation/api/src/main/java/com/mlplatform/webhooks/ for the source code
 ```
 
 ```text
