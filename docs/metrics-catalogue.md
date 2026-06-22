@@ -211,8 +211,8 @@ Additional metrics defined in the framework document or to be specified before S
 
 | Metric | Definition location | Stage |
 |---|---|---|
-| AI Dependency Risk | validated-ai-delivery-framework-v1.8.md (Section 7.1) | Stage 2+ |
-| AI-assisted PR Quality Gap | validated-ai-delivery-framework-v1.8.md (Section 7.2) | Stage 2+ |
+| AI Dependency Risk | framework/04-expanded-metrics.md | Stage 2+ |
+| AI-assisted PR Quality Gap | framework/04-expanded-metrics.md | Stage 2+ |
 | Trust Calibration Gap | To be specified | Stage 4 |
 | Prompt Efficiency Score | To be specified | Stage 4 |
 | AI Test Quality Score | To be specified | Stage 4 |

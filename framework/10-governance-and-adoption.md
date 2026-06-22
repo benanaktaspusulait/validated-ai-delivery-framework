@@ -18,15 +18,16 @@ Full detail: [docs/governance-and-privacy.md](../docs/governance-and-privacy.md)
 
 | Phase | Name | Duration | Mode | Gate |
 |---:|---|---:|---|---|
-| 0 | Groundwork and Legal | 2 weeks | Readiness | Legal/HR + safety >= 3.5 |
+| 0 | Groundwork and Legal | 2 weeks | Readiness | Legal/HR + safety >= 3.5 (see docs/psychological-safety.md) |
 | 1 | Data Architecture | 3 weeks | Observation | Confidence >= 75 |
 | 2 | Metrics and Risk | 3 weeks | Observation | Metrics validated |
-| 3 | Soft Landing | 4 weeks | Warning | Safety > 3.5 |
+| 3 | Soft Landing | 4 weeks | Warning | Safety > 3.5 (see docs/psychological-safety.md) |
 | 4 | Guardrails | 4 weeks | Enforcement | VDT positive |
 | 5 | Enterprise Rollout | Continuous | Staged | >= 30% teams |
 
 Gate details: [phase-packages/README.md](../phase-packages/README.md)
 Task breakdown: [implementation/](../implementation/)
+Pilot success and failure criteria: [07-pilot-criteria.md](07-pilot-criteria.md)
 
 ## Safe AI Usage Examples
 

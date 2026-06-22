@@ -42,3 +42,7 @@ Executive Summary, multi-team navigation     — Phase 5
 ```
 
 Details: [docs/ui-ux-spec.md](../docs/ui-ux-spec.md)
+
+Implementation sequence: [06-mvp-backlog.md](06-mvp-backlog.md)
+
+Expanded metrics for later stages: [04-expanded-metrics.md](04-expanded-metrics.md)

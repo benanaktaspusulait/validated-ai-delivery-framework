@@ -31,7 +31,7 @@
 | Start coding | [implementation/README.md](implementation/README.md) |
 | Look up a spec | [docs/](docs/) |
 | Copy a template | [examples/](examples/) |
-| See what's still open | [TODO.md](TODO.md) |
+| See what's still open | [validated-ai-delivery/TODO.md](validated-ai-delivery/TODO.md) |
 
 ## Non-negotiable rules
 

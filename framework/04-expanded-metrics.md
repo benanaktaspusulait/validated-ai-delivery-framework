@@ -7,6 +7,19 @@ Beyond the five core MVP metrics, later stages include:
 | Cognitive Load Index | [docs/metrics-catalogue.md](../docs/metrics-catalogue.md) |
 | Dynamic AI WIP Limit | [docs/risk-policy-engine.md](../docs/risk-policy-engine.md) |
 
+## Stage 4+ metrics (to be specified)
+
+The following metrics are planned for Stage 4 but not yet fully specified:
+
+| Metric | Status |
+|---|---|
+| Trust Calibration Gap | Definition pending |
+| Prompt Efficiency Score | Definition pending |
+| AI Test Quality Score | Definition pending |
+| Maintainability Risk Score | Definition pending |
+
+See [docs/metrics-catalogue.md](../docs/metrics-catalogue.md) for the expanded metrics table.
+
 ## AI Dependency Risk
 
 ```text

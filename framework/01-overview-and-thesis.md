@@ -36,3 +36,9 @@ Not an AI assistant — it measures delivery impact of tools like Copilot.
 Not just DORA — adds AI-specific dimensions: validation cost, review debt, trust calibration.
 Not a static checklist — thresholds adapt by team maturity, defects and review capacity.
 ```
+
+## Next steps
+
+- Personas and role-based views: [02-personas.md](02-personas.md)
+- What to build (MVP scope): [03-mvp-scope.md](03-mvp-scope.md)
+- Non-negotiable rules and phases: [10-governance-and-adoption.md](10-governance-and-adoption.md)
