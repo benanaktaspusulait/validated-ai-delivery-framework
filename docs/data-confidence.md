@@ -8,22 +8,104 @@ The score is a transparent, multi-factor weighted value: every point traces back
 
 The score is the weighted average of four components, each scored 0-100. Confidence is computed **per team, per metric** (not aggregated across teams or metrics), because different metrics have different data dependencies.
 
-| Component | Weight | Measures | Scoring rule |
-|---|---:|---|---|
-| Data Volume | 30% | Relevant events (PRs, reviews, deploys) in the last 30 days | `min(100, (events_last_30d / 100) x 100)` — 100+ events score full |
-| Data Freshness | 25% | Minutes since the most recent event | Piecewise decay (see below) |
-| Completeness | 25% | Share of required fields populated on incoming events | `(populated_required_fields / expected_required_fields) x 100` |
-| Statistical Stability | 20% | Variability of the metric over the last 7 days (coefficient of variation, CV) | Requires minimum sample size (see below) |
+### Component definitions
 
-Required fields for completeness (checked on `pull_requests` table): at least `event_type` (from raw_events), `author_id`, `repository_id` and `source_timestamp`.
+| Component | Weight | Measures | Scoring rule | Min | Max |
+|---|---:|---|---|---:|---:|
+| Data Volume | 30% | Relevant events (PRs, reviews, deploys) in the last 30 days | `min(100, (events_last_30d / 100) x 100)` — 100+ events score full | 0 | 100 |
+| Data Freshness | 25% | Minutes since the most recent event | Piecewise decay (see freshness table below) | 0 | 100 |
+| Completeness | 25% | Share of required fields populated on incoming events | `(populated_required_fields / expected_required_fields) x 100` | 0 | 100 |
+| Statistical Stability | 20% | Variability of the metric over the last 7 days (coefficient of variation, CV) | Band-based (see stability table below) | 0 | 100 |
 
-Minimum sample size for statistical stability: at least 5 data points in the 7-day window. Below 5, stability defaults to a score of 30 and `confidence_issue = "insufficient_sample_size"`.
-
-Final score:
+### Volume scoring
 
 ```text
-Confidence Score = (Volume x 0.30) + (Freshness x 0.25) + (Completeness x 0.25) + (Stability x 0.20)
+Volume_Score = min(100, (events_last_30d / 100) x 100)
+
+Examples:
+  10 events  -> min(100, 10)  = 10
+  50 events  -> min(100, 50)  = 50
+  100 events -> min(100, 100) = 100
+  200 events -> min(100, 200) = 100 (capped)
 ```
+
+### Freshness scoring (piecewise decay)
+
+| Time since last event | Score | Band |
+|---|---:|---|
+| 0 - 6 hours | 100 | Fresh |
+| 6 - 12 hours | 75 | Acceptable |
+| 12 - 24 hours | 50 | Stale |
+| 24 - 48 hours | 25 | Outdated |
+| 48+ hours | 0 | Dead |
+
+This provides early warnings instead of a sudden cliff at 24 hours. Low-volume teams (e.g. weekly deployers) should configure their expected event frequency in `team-config.yaml` to avoid being penalised for predictable gaps.
+
+### Completeness scoring
+
+```text
+Required fields for completeness (checked on pull_requests table):
+  - event_type (from raw_events)
+  - author_id
+  - repository_id
+  - source_timestamp
+
+Completeness_Score = (populated_required_fields / expected_required_fields) x 100
+
+Examples:
+  20/20 fields populated -> 100
+  19/20 fields populated -> 95
+  15/20 fields populated -> 75
+  10/20 fields populated -> 50
+```
+
+### Statistical stability scoring
+
+```text
+Minimum sample size: at least 5 data points in the 7-day window.
+Below 5: Stability_Score = 30, confidence_issue = "insufficient_sample_size".
+
+Coefficient of Variation (CV) = standard_deviation / mean x 100
+
+| CV range | Stability_Score | Band |
+|---|---:|---|
+| < 10% | 100 | Very stable |
+| 10-30% | 75 | Stable |
+| 30-50% | 50 | Volatile |
+| > 50% | 20 | Highly volatile |
+
+Example:
+  Metric values over 7 days: [12, 13, 11, 14, 12, 13, 12]
+  Mean = 12.43, StdDev = 0.98
+  CV = 0.98 / 12.43 x 100 = 7.9%
+  CV < 10% -> Stability_Score = 100
+```
+
+### Final score formula
+
+```text
+Confidence_Score = (Volume_Score x 0.30)
+                + (Freshness_Score x 0.25)
+                + (Completeness_Score x 0.25)
+                + (Stability_Score x 0.20)
+
+Round to nearest integer.
+Range: 0-100.
+```
+
+### Label assignment
+
+```text
+| Score range | Label   | Behaviour |
+|---|---|---|
+| 90-100 | high    | Blocking enforcement permitted |
+| 70-89  | medium  | Warnings only; blocking forbidden |
+| 0-69   | low     | Metric hidden from dashboards |
+```
+
+### Required fields for completeness (checked on `pull_requests` table): at least `event_type` (from raw_events), `author_id`, `repository_id` and `source_timestamp`.
+
+Minimum sample size for statistical stability: at least 5 data points in the 7-day window. Below 5, stability defaults to a score of 30 and `confidence_issue = "insufficient_sample_size"`.
 
 ## Freshness decay function
 

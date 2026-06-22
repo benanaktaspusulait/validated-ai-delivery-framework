@@ -21,12 +21,12 @@ The single most measurable gate per phase; each phase file holds the complete, m
 
 | Phase | Headline measurable gate |
 |---:|---|
-| 0 | Written legal/privacy and HR approval stored; psychological safety baseline recorded and >= 3.5 |
-| 1 | >= 90% of last-30-day PRs ingested with required fields; average Data Confidence Score >= 75; reconciliation gap < 5% |
-| 2 | Manual 50-PR sample within 30% of computed AI-assisted PR Rate; pilot lead confirms the dashboard matches reality |
-| 3 | Psychological safety > 3.5; warned-PR review time not up more than 20% without quality gain |
-| 4 | VDT signal neutral-to-positive and trending up over 90 days; emergency-fix usage < 5%; zero emergency fixes delayed by the blocker |
-| 5 | >= 30% of teams (or 10 teams) sending active data; support tickets < 5/week; every new team starts in Observation Mode |
+| 0 | Written legal/privacy and HR approval stored; psychological safety baseline recorded and >= 3.5 (100% survey participation) |
+| 1 | >= 90% of last-30-day PRs ingested with required fields; average Data Confidence Score >= 75; reconciliation gap < 5%; webhook p99 latency < 5 seconds |
+| 2 | Manual 50-PR sample within 30% of computed AI-assisted PR Rate; pilot lead confirms the dashboard matches reality; all 5 core metrics computed for last 2 sprints |
+| 3 | Psychological safety > 3.5 (same 6 questions); warned-PR review time not up more than 20% vs control without quality gain; A/B analysis statistically powered (n >= 20 per group) |
+| 4 | VDT signal neutral-to-positive and trending up over 90 days (>= 3 sprint data points); emergency-fix usage < 5% of total PRs; zero emergency fixes delayed by the blocker |
+| 5 | >= 30% of teams (or 10 teams) sending active data; support tickets < 5/week; every new team starts in Observation Mode; RBAC tested for all 6 roles |
 
 ## Work tracks
 

@@ -45,6 +45,32 @@ The PR template and AI metadata mechanism (examples/pr-template.md) work on any 
 Where a provider lacks a native concept (for example, draft state semantics differ), the adapter maps to the closest equivalent and records the approximation as a confidence note.
 ```
 
+## Field mapping table (critical fields)
+
+The 10 most important fields and their equivalents across providers:
+
+| Platform field | GitHub | GitLab | Azure DevOps | Bitbucket |
+|---|---|---|---|---|
+| PR/MR ID | `pull_request.number` | `merge_request.iid` | `pullRequestId` | `pullrequest.id` |
+| Author | `pull_request.user.login` | `merge_request.author_id` | `createdBy.displayName` | `pullrequest.author.display_name` |
+| Created date | `pull_request.created_at` | `merge_request.created_at` | `createdDate` | `pullrequest.created_on` |
+| Merged date | `pull_request.merged_at` | `merge_request.merged_at` | `mergedDate` | `pullrequest.updated_on` (when status=FULFILLED) |
+| Changed files | `pull_request.changed_files` | `changes_count` (diff stats) | `changeCounts[File]` | `pullrequest.comment_count` (compute from diff) |
+| Changed lines | `pull_request.additions + deletions` | `diff_stats.additions + deletions` | `changeCounts[Line]` | Compute from diff endpoint |
+| Review state | `pull_request_review.state` | `merge_request.approval_state` | `vote` (10=approved, -10=reject) | `pullrequest.participants[].approved` |
+| Labels/tags | `pull_request.labels[]` | `merge_request.labels[]` | `System.Tags` | `pullrequest.labels[]` |
+| Branch name | `pull_request.head.ref` | `merge_request.source_branch` | `sourceRefName` | `pullrequest.source.branch.name` |
+| Commit SHA | `pull_request.head.sha` | `merge_request.sha` | `lastMergeCommit.commitId` | `pullrequest.commit` |
+
+```text
+Field mapping rules:
+  - Timestamps: always normalise to UTC ISO 8601 (TIMESTAMPTZ).
+  - Author/reviewer: pseudonymise using the same hash function across all providers.
+  - Changed lines: compute from diff stats if not directly available.
+  - Labels: normalise to lowercase; platform-specific labels are prefixed (e.g. "gitlab::bug").
+  - Missing fields: leave NULL rather than guessing; this lowers the Data Confidence Score.
+```
+
 ## Normalization rules
 
 ```text

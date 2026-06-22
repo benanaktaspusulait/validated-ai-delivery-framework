@@ -66,10 +66,40 @@ The dominant cost is a small, senior platform/full-stack team across Phases 1-5,
 Treat the MVP as internal tooling first; defer the cost of multi-tenancy, billing and SOC2-grade controls until value is proven.
 ```
 
+### Labour cost breakdown
+
+```text
+Phase 0 (2 weeks):     0.5 FTE platform engineer + legal/HR time (not counted here)
+Phase 1 (3 weeks):     1 FTE platform engineer
+Phase 2 (3 weeks):     1 FTE platform engineer + 0.25 FTE data scientist
+Phase 3 (4 weeks):     1 FTE platform engineer + pilot team time (reviewers for calibration study)
+Phase 4 (4 weeks):     1 FTE platform engineer + 0.25 FTE security engineer
+Phase 5 (continuous):  0.5 FTE platform engineer (operations and support)
+
+Total to MVP (Phases 1-4): ~14 person-weeks of platform engineering = ~3.5 months of 1 FTE.
+Total including Phase 0 and ongoing Phase 5: ~16-20 person-weeks.
+```
+
+### Illustrative labour cost (UK rates)
+
+```text
+Platform engineer:  GBP 600 - 900 / day  (senior contractor or internal allocation)
+Data scientist:     GBP 700 - 1,000 / day
+Security engineer:  GBP 650 - 950 / day
+
+MVP build cost estimate (Phases 1-4):
+  Low:  14 weeks x GBP 600/day x 5 days = GBP 42,000
+  High: 14 weeks x GBP 900/day x 5 days = GBP 63,000
+
+Ongoing operations (Phase 5+):
+  0.5 FTE = ~GBP 60,000 - 90,000 / year
+```
+
 Planning baseline:
 
 ```text
-Example platform team cost: GBP 200,000 - GBP 600,000 per year.
+Total MVP build cost (labour + infrastructure): GBP 50,000 - 100,000
+Annual operations cost: GBP 80,000 - 150,000 (0.5 FTE + infrastructure)
 Potential ROI range after local calibration: 1.5x - 3x. Do not infer this from VDT alone.
 ```
 
