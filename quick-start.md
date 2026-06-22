@@ -35,7 +35,7 @@ Executive: check the Executive Summary at the quarterly governance forum.
 ```text
 AI-assisted PR Rate     - share of PRs using AI.
 AI Review Debt          - extra review load from AI output (ratio vs non-AI baseline).
-Net AI Delivery Value   - estimated economic impact after validation/rework/defect/tooling costs.
+Validated Delivery Trend (VDT) - 90-day correlational trend versus matched non-AI PRs; shown as a chart, never a single value, never a causal ROI.
 Data Confidence Score   - reliability of each metric. Below 70 = trend only, not for decisions.
 ```
 

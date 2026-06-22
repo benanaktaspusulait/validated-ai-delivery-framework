@@ -51,7 +51,7 @@ Open Executive Summary -> read the Validated Delivery Trend (VDT), adoption and 
 
 ```text
 Integrations: GitHub (PRs, reviews, webhooks) + Jira (issues, defects, sprints).
-Core metrics: AI-assisted PR Rate, AI Review Debt, Post-Merge Defect Rate, Human Validation Cost, Net AI Delivery Value (+ Data Confidence on each).
+Core metrics: AI-assisted PR Rate, AI Review Debt, Post-Merge Defect Rate, Human Validation Cost, Validated Delivery Trend (VDT) (+ Data Confidence on each).
 Screens: Overview, Team, PR Risk, Metrics Detail (Phase 2); Developer in-PR view (Phase 3); Policy Settings, Recommendations/Playbook (Phase 4); Executive Summary (Phase 5).
 Guardrails: PR comment bot (warn), AI Metadata Blocker with emergency override, risk-based reviewer assignment, Dynamic AI WIP recommendation.
 ```
@@ -89,7 +89,7 @@ Specifications: data ([docs/data-model.md](docs/data-model.md)), metrics ([docs/
 
 ```text
 NFR1 Privacy: pseudonymise identifiers; team-level views by default; no raw prompt storage. (docs/governance-and-privacy.md)
-NFR2 Trust: only metrics with Data Confidence Score >= 70 may drive enforcement.
+NFR2 Trust: blocking enforcement requires High confidence (Data Confidence Score >= 90); 70-89 may warn only; below 70 the metric is withheld.
 NFR3 Reliability: webhook idempotency; nightly source reconciliation gap < 5%; webhook lag < 1 hour.
 NFR4 Observability: every collector, metric job and policy rule emits the counters in docs/testing-and-observability.md.
 NFR5 Security: Keycloak SSO + RBAC; signed webhooks; least-privilege service accounts.
@@ -127,7 +127,7 @@ These are product-usage events; they are team/role-scoped and never used for ind
 Data Confidence Score >= 75 for core metrics in the pilot.
 Manual 50-PR sample is within 30% of computed AI-assisted PR Rate.
 Psychological safety score > 3.5 in pilot teams.
-Net AI Delivery Value is positive or trending positive.
+Validated Delivery Trend (VDT) is non-negative or improving over the trailing 90 days.
 0% of production emergency fixes delayed by platform blockers.
 Every new team starts in Observation Mode.
 ```

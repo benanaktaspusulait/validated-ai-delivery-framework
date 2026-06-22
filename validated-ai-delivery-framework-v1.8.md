@@ -527,8 +527,8 @@ Policy enforcement must include an exception path. Emergency production fixes sh
 Confidence gate:
 
 ```text
-Only metrics with Data Confidence Score >= 70 may trigger blocking enforcement.
-Metrics below 70 may warn only.
+Only High-confidence metrics (Data Confidence Score >= 90) may trigger blocking enforcement.
+Metrics at 70-89 may warn only; below 70 they are withheld (see docs/data-confidence.md).
 Metrics below 50 are trend-only and not decision-grade.
 ```
 
@@ -1728,7 +1728,7 @@ Apply dynamic AI WIP limits
 Allow Emergency Override
 ```
 
-Only metrics with Data Confidence Score >= 70 may trigger blocking enforcement. Metrics below 70 may warn only. Metrics below 50 are trend-only and not decision-grade.
+Only High-confidence metrics (Data Confidence Score >= 90) may trigger blocking enforcement. Metrics at 70-89 may warn only. Below 70 the metric is withheld (see docs/data-confidence.md).
 
 ### Enterprise Rollout Mode
 
@@ -1854,14 +1854,14 @@ A pilot is successful if, after 4-6 sprints:
 4. Engineering managers find the recommendations useful.
 5. Developers do not report psychological safety concerns.
 6. At least one actionable improvement is made from the dashboard.
-7. Net AI Delivery Value can be estimated with Data Confidence Score >= 70.
+7. The Validated Delivery Trend (VDT) can be computed with at least Medium data confidence (>= 70).
 8. Human Validation Cost has been calibrated with a small manual study or accepted as directional.
 ```
 
 Business success criteria:
 
 ```text
-Net AI Delivery Value is positive or trending positive.
+The Validated Delivery Trend (VDT) is non-negative or improving over the trailing 90 days.
 AI-assisted defect rate is not materially worse than comparable non-AI work.
 Review debt does not exceed 2x normal PR wait time for more than one sprint.
 ```

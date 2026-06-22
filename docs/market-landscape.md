@@ -15,7 +15,7 @@ Where this framework sits among adjacent tools, how it differs and who it serves
 ## Differentiation
 
 ```text
-AI-specific: measures validation cost, review debt, AI-assisted defect linkage and net delivery value, not generic productivity.
+AI-specific: measures validation cost, review debt, AI-assisted defect linkage and the Validated Delivery Trend, not generic productivity.
 Governs the delivery system, not the model: complements coding assistants instead of competing with them.
 Psychological safety as a first-class gate: adoption pauses if trust drops, which surveillance-style tools ignore.
 Confidence-honest: every estimate carries a Data Confidence Score; it claims decision-grade signals, not causal proof.

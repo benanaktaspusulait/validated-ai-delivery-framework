@@ -7,7 +7,7 @@ How to introduce the platform to an organisation so it is trusted and used, not 
 | Module | Audience | Duration | Content |
 |---|---|---|---|
 | Operate the control plane | Platform / DevEx engineers | Half day | Integrations, data confidence, policy configuration, observability, rollback |
-| Read the signals | Engineering managers and tech leads | 90 minutes | Team dashboards, review debt, net value, recommendations, what NOT to do (no individual use) |
+| Read the signals | Engineering managers and tech leads | 90 minutes | Team dashboards, review debt, the Validated Delivery Trend, recommendations, what NOT to do (no individual use) |
 | Developer essentials | Developers | 30 minutes | The PR template, in-PR guidance, emergency override, "this is not about scoring you" |
 | Govern and invest | Executives | 45 minutes | Executive summary, ROI with confidence, rollout pace decisions |
 | Oversee risk | Security and compliance | 60 minutes | Sensitive-path policies, prompt-leakage scanning, retention, incident linkage |

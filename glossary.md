@@ -20,7 +20,7 @@ Short definitions of the terms used across the framework. Full method and formul
 | Ownership Boundary | Whether a change crosses team or service ownership; crossing it raises risk. |
 | Dynamic AI WIP Limit | Recommended cap on concurrent AI-assisted work, adjusted by defects, review debt and seniority. |
 | Data Confidence Score | 0-100 reliability score per metric, driving how it may be used. See `docs/data-confidence.md`. |
-| Decision-grade | A metric trustworthy enough (confidence >= 70) to drive enforcement. |
+| Decision-grade | A metric in the High confidence band (>= 90), trustworthy enough to drive blocking enforcement. |
 | Trend-only | A signal (confidence < 50, or inherently weak) usable only as direction, never for decisions. |
 | Operating Mode | Observation, Warning, Recommendation or Enforcement; defines how much the platform intervenes. |
 | Observation Mode | Collect and compute only; no developer-facing warnings or blocks. |

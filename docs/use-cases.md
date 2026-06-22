@@ -31,7 +31,7 @@ Primary concern: AI output outpacing the team's capacity to review and test it.
 | Aspect | How the framework applies |
 |---|---|
 | Rollout pace | Faster; move through phases as soon as gates pass |
-| Signals that matter most | AI Review Debt age ratio, Cognitive Load Index, net delivery value, dynamic AI WIP |
+| Signals that matter most | AI Review Debt age ratio, Cognitive Load Index, Validated Delivery Trend, dynamic AI WIP |
 | Policies emphasised | Large-PR warnings and split recommendations; WIP recommendation to protect reviewers |
 | Governance | Lightweight; emphasis on developer-friendly, in-PR guidance |
 | Risk if mishandled | Alert fatigue and a punitive feel; mitigated by experiment mode and feedback loops |

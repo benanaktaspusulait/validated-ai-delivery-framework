@@ -106,6 +106,7 @@ Right: "Estimated AI delivery value: £12,400. Data confidence: Medium."
 
 ```text
 Insufficient data:        "Not enough data yet. Continue collecting for N more sprints."
-Data Confidence < 70:     "Directional only. Not suitable for policy enforcement."
+Data Confidence 70-89:    "Warn-grade only. Blocking is disabled at this confidence."
+Data Confidence < 70:     metric hidden from dashboards; a Data Quality Alert is sent to the data steward only.
 Low AI metadata coverage: "AI usage declaration coverage is below threshold. Improve metadata before interpreting AI impact."
 ```

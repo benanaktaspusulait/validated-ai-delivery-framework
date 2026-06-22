@@ -56,7 +56,7 @@ Data Confidence Score is at least 75.
 Week 4: Implement fn_ai_pr_rate(), fn_review_debt_ratio(), fn_defect_rate_weighted(), fn_human_validation_cost_estimate() and fn_net_ai_delivery_value_estimate().
 Week 5: Implement the contextual risk score (PR size, security path regex, 6-month codebase familiarity).
 Week 6: Build the read-only role-based screens: Overview, Team, Pull Request Risk and Metrics Detail.
-Enable Net AI Delivery Value with cost inputs read from cost_config.
+Enable the Validated Delivery Trend (VDT) signal; the optional directional cost context reads cost_config.
 Calculate Cognitive Load Index using the required complexity filter.
 Surface a Data Confidence label next to every metric.
 ```
@@ -70,7 +70,7 @@ Surface a Data Confidence label next to every metric.
 Five core metric functions
 Risk scoring function
 Read-only pilot dashboard (Overview, Team, PR Risk, Metrics Detail)
-Net AI Delivery Value calculator
+Validated Delivery Trend (VDT) calculation
 Cognitive Load Index calculation
 Measurement confidence labelling applied to every metric
 Metric function unit tests, API integration tests and manual 50-PR sample validation
@@ -115,7 +115,7 @@ docs/risk-policy-engine.md       - contextual risk score, weights and proxies (r
 docs/data-confidence.md          - confidence scoring, decision rule and presentation tiers
 docs/ui-ux-spec.md               - the four read-only screens, examples, empty/low-confidence states
 docs/api-spec.md                 - Phase 2 metrics, risk and recommendations read endpoints
-docs/data-model.md               - cost_config inputs for Net AI Delivery Value
+docs/data-model.md               - cost_config inputs for the VDT directional cost context
 docs/testing-and-observability.md - Phase 2 tests and signals
 Master framework: sections 7.2, 7.3, 10, 11, 18, 21
 ```
