@@ -192,6 +192,47 @@ Standard error codes:
       404: { error: TEAM_NOT_FOUND }
 ```
 
+## Phase 3 — soft landing, experiment and PR comments
+
+```yaml
+/api/v1/experiments/assign:
+  post:
+    description: Assign a PR to treatment or control group for A/B testing
+    request:
+      body: { pr_id, team_id }
+    response:
+      200: { pr_id, group: "treatment" | "control", model_version }
+    notes: "Deterministic assignment based on PR number hash."
+
+/api/v1/experiments/{experimentId}/results:
+  get:
+    description: Get A/B experiment results (review time, rework, defects per group)
+    parameters:
+      - name: experimentId
+        in: path
+        required: true
+    response:
+      200: { experiment_id, treatment_n, control_n, primary_metric: { control, treatment, p_value, significant } }
+
+/api/v1/teams/{teamId}/pr-comments:
+  get:
+    description: List PR comments posted by the bot for a team
+    parameters:
+      - name: teamId
+        in: path
+        required: true
+    response:
+      200: { comments: [...] }
+
+/api/v1/human-validation-calibration:
+  post:
+    description: Submit calibration study results (logged review time vs estimated)
+    request:
+      body: { pr_id, actual_hours, estimated_hours, reviewer }
+    response:
+      201: { calibration_id }
+```
+
 ## Phase 4 — policies, overrides and recommendation management
 
 ```yaml
@@ -278,9 +319,9 @@ Standard error codes:
     {
       "name": "AI Review Debt Age Ratio",
       "value": 1.4,
-      "confidence": "medium-high",
+      "confidence": "medium",
       "confidence_score": 78,
-      "decision_grade": true
+      "decision_grade": false
     }
   ],
   "total_count": 1,
@@ -347,7 +388,8 @@ Standard error codes:
 {
   "error": {
     "code": "TEAM_NOT_FOUND",
-    "message": "No team found with id 'unknown-team'"
+    "message": "No team found with id 'unknown-team'",
+    "details": {}
   }
 }
 ```

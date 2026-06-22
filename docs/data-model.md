@@ -233,6 +233,8 @@ metric_lineage.metric_snapshot_id -> ON DELETE CASCADE
 
 ## Metric name catalogue
 
+Canonical metric names (used in `metric_snapshots.metric_name`). Full definitions in `docs/metrics-catalogue.md`.
+
 ```text
 Canonical metric names (used in metric_snapshots.metric_name):
   ai_assisted_pr_rate

@@ -13,9 +13,9 @@ The score is the weighted average of four components, each scored 0-100. Confide
 | Component | Weight | Measures | Scoring rule | Min | Max |
 |---|---:|---|---|---:|---:|
 | Data Volume | 30% | Relevant events (PRs, reviews, deploys) in the last 30 days | `min(100, (events_last_30d / 100) x 100)` — 100+ events score full | 0 | 100 |
-| Data Freshness | 25% | Minutes since the most recent event | Piecewise decay (see freshness table below) | 0 | 100 |
+| Data Freshness | 25% | Minutes since the most recent event | Piecewise decay (see table below) | 0 | 100 |
 | Completeness | 25% | Share of required fields populated on incoming events | `(populated_required_fields / expected_required_fields) x 100` | 0 | 100 |
-| Statistical Stability | 20% | Variability of the metric over the last 7 days (coefficient of variation, CV) | Band-based (see stability table below) | 0 | 100 |
+| Statistical Stability | 20% | Variability of the metric over the last 7 days (CV) | Band-based (see table below) | 0 | 100 |
 
 ### Volume scoring
 
@@ -53,10 +53,10 @@ Required fields for completeness (checked on pull_requests table):
 Completeness_Score = (populated_required_fields / expected_required_fields) x 100
 
 Examples:
-  20/20 fields populated -> 100
-  19/20 fields populated -> 95
-  15/20 fields populated -> 75
-  10/20 fields populated -> 50
+  4/4 fields populated -> 100
+  3/4 fields populated -> 75
+  2/4 fields populated -> 50
+  1/4 fields populated -> 25
 ```
 
 ### Statistical stability scoring
@@ -89,37 +89,16 @@ Confidence_Score = (Volume_Score x 0.30)
                 + (Completeness_Score x 0.25)
                 + (Stability_Score x 0.20)
 
-Round to nearest integer.
-Range: 0-100.
+Round to nearest integer. Range: 0-100.
 ```
 
 ### Label assignment
 
-```text
-| Score range | Label   | Behaviour |
+| Score range | Label | Behaviour |
 |---|---|---|
-| 90-100 | high    | Blocking enforcement permitted |
-| 70-89  | medium  | Warnings only; blocking forbidden |
-| 0-69   | low     | Metric hidden from dashboards |
-```
-
-### Required fields for completeness (checked on `pull_requests` table): at least `event_type` (from raw_events), `author_id`, `repository_id` and `source_timestamp`.
-
-Minimum sample size for statistical stability: at least 5 data points in the 7-day window. Below 5, stability defaults to a score of 30 and `confidence_issue = "insufficient_sample_size"`.
-
-## Freshness decay function
-
-The freshness component uses a piecewise linear decay rather than a cliff:
-
-| Time since last event | Score | Band |
-|---|---:|---|
-| 0 - 6 hours | 100 | Fresh |
-| 6 - 12 hours | 75 | Acceptable |
-| 12 - 24 hours | 50 | Stale |
-| 24 - 48 hours | 25 | Outdated |
-| 48+ hours | 0 | Dead |
-
-This provides early warnings instead of a sudden cliff at 24 hours. Low-volume teams (e.g. weekly deployers) should configure their expected event frequency in `team-config.yaml` to avoid being penalised for predictable gaps.
+| 90-100 | high | Blocking enforcement permitted |
+| 70-89 | medium | Warnings only; blocking forbidden |
+| 0-69 | low | Metric hidden from dashboards |
 
 ## Worked example (step by step)
 
@@ -129,7 +108,7 @@ Scenario: confidence of AI Review Debt for one team this sprint.
 Inputs:
 - 80 relevant events in the last 30 days.
 - Most recent event 60 minutes ago.
-- 19 of 20 required fields populated on incoming events.
+- 3 of 4 required fields populated (author_id missing).
 - Week-over-week metric variability CV = 12%.
 ```
 
@@ -137,13 +116,13 @@ Inputs:
 |---|---|---|---:|
 | Volume | 80 events | min(100, 80) = 80 | 24.0 |
 | Freshness | 60 min | 100 (0-6h band) | 25.0 |
-| Completeness | 19/20 | 95 | 23.75 |
+| Completeness | 3/4 | 75 | 18.75 |
 | Stability | CV 12% (10-30% band) | 75 | 15.0 |
-| Total | | | 87.75 |
+| Total | | | 82.75 |
 
 ```text
-Confidence Score ≈ 88 → Medium. The metric may inform warnings and recommendations, but may not block.
-Stored in metric_snapshots: data_confidence_score = 88, data_confidence = "medium", confidence_issue = "stability CV 12% this week".
+Confidence Score ≈ 83 → Medium. The metric may inform warnings and recommendations, but may not block.
+Stored in metric_snapshots: data_confidence_score = 83, data_confidence = "medium", confidence_issue = "completeness: author_id missing, stability CV 12%".
 ```
 
 ## Score bands, badges and behaviour

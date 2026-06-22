@@ -23,7 +23,7 @@ Volumes are bursty around working hours; size for peak, not average.
 
 | Dimension | Target | Rationale |
 |---|---|---|
-| Webhook ingestion lag (p95) | Under 1 hour | Already an exit criterion in Phase 1 |
+| Webhook ingestion lag (p95) | Under 5 seconds | Matches architecture.md SLO; exit criterion in Phase 1 |
 | Event processing throughput | Sustain 3x average daily peak without backlog growth | Absorbs working-hour bursts |
 | Dashboard read latency (p95) | Within target under 50+ concurrent team views | Matches Phase 5 load test |
 | Metric freshness | Snapshot available within one collection cycle of source events | Keeps decisions current |

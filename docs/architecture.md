@@ -163,8 +163,10 @@ SonarQube, GitLab, CI/CD and notification connectors arrive in Stage 2+ (see doc
 ## Related references
 
 ```text
-docs/data-model.md          - schema the collectors write to
-docs/data-confidence.md     - scoring of collected data
-docs/api-spec.md            - webhook and read endpoints
+docs/data-model.md               - schema the collectors write to
+docs/data-confidence.md          - scoring of collected data
+docs/api-spec.md                 - webhook and read endpoints
 docs/testing-and-observability.md - collector tests and signals
+docs/rollout-operating-model.md  - operating modes and phase-to-mode mapping
+docs/risk-policy-engine.md       - policy engine and Dynamic AI WIP
 ```

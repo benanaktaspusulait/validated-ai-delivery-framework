@@ -2,6 +2,8 @@
 
 Canonical test-strategy and observability requirements per phase. Phase gates cannot pass on narrative confidence alone; they require the evidence below.
 
+> **Note:** Platform SLOs (webhook p99 < 5s, API p95 < 200ms, 99.5% availability) are defined in `docs/architecture.md` and duplicated here for testability.
+
 ## Programme rule
 
 ```text

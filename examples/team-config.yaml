@@ -50,6 +50,8 @@ policies:
   high_risk_requires_senior_review: true
   emergency_override_label: emergency-fix
   override_reason_required: true
+  override_soft_limit_per_sprint: 3
+  override_hard_limit_per_sprint: 5
   prompt_sensitive_data_scanning: true
 
 data:

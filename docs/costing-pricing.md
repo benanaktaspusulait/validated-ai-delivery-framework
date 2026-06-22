@@ -98,7 +98,9 @@ Ongoing operations (Phase 5+):
 Planning baseline:
 
 ```text
-Total MVP build cost (labour + infrastructure): GBP 50,000 - 100,000
+Labour cost:  GBP 42,000 - 63,000 (from above)
+Infrastructure: GBP 8,000 - 37,000 (cloud compute, database, storage for pilot)
+Total MVP build cost: GBP 50,000 - 100,000
 Annual operations cost: GBP 80,000 - 150,000 (0.5 FTE + infrastructure)
 Potential ROI range after local calibration: 1.5x - 3x. Do not infer this from VDT alone.
 ```

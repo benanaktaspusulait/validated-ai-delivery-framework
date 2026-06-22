@@ -58,8 +58,8 @@ The product produces decision-grade operational signals, not laboratory-grade ca
 Do not move to the next phase if any of these are true:
 
 ```text
-Data Confidence Score is below 70 for 2 consecutive weeks.
-Psychological safety score is below 3.5.
+Data Confidence Score is below 70 for 2 consecutive weeks (see docs/data-confidence.md).
+Psychological safety score is below 3.5 (see docs/psychological-safety.md).
 Platform alert volume exceeds 10 actionable alerts per week.
 Developers report that AI metadata feels punitive.
 Emergency overrides exceed 3 per sprint without retro review.

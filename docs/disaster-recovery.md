@@ -47,6 +47,7 @@ The highest-risk operational event is a policy that blocks merges incorrectly. I
 ```text
 Every policy change is versioned; the previous version can be restored with one action.
 A global "enforcement off" switch downgrades all blocking policies to warning mode immediately, per team or platform-wide.
+Per-team downgrade: set the team's enforcement mode back to the previous mode (Enforcement → Warning, or Warning → Observation) via the admin API or UI.
 The emergency-fix override (docs/risk-policy-engine.md) remains available at all times as the per-PR escape hatch.
 After any rollback, record what triggered it and review thresholds before re-enabling.
 ```

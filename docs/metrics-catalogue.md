@@ -1,6 +1,6 @@
 # Metrics Catalogue
 
-Canonical definitions for every metric the platform computes. Implemented in Phase 2. Confidence handling lives in `docs/data-confidence.md`; risk and WIP live in `docs/risk-policy-engine.md`.
+Canonical definitions for every metric the platform computes. Implemented in Phase 2. Confidence handling lives in `docs/data-confidence.md`; risk and WIP live in `docs/risk-policy-engine.md`; governance constraints in `docs/governance-and-privacy.md`.
 
 ## Five core MVP metrics
 
