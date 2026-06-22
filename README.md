@@ -16,6 +16,7 @@ Read this file first, then start Phase 0. The phase packages are the implementat
 | Implement, in order, with gates | [phase-packages/README.md](phase-packages/README.md) |
 | Look up a technical spec | [docs/](docs/) |
 | Copy a template or config | [examples/](examples/) |
+| Start coding (task breakdown) | [implementation/](implementation/) |
 | Contribute to this repository | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | See what is still open | [TODO.md](TODO.md) |
 
