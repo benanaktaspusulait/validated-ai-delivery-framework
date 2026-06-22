@@ -1,6 +1,15 @@
 # Technology Stack Analysis
 
-Detailed analysis of all technologies chosen in the Validated AI Delivery Framework.
+Detailed analysis of all technologies chosen in the Validated AI Delivery Framework. Uses a **hybrid architecture**: Java/Quarkus for API serving, Python for ML-specific components.
+
+## Architecture Decision
+
+```text
+Java/Quarkus → API serving layer (production-grade, type-safe, high-performance)
+Python       → ML layer (training, drift, explainability, fairness, demo UI)
+Why hybrid:  MLflow, Evidently, SHAP, LIME, Fairlearn, Streamlit are Python-only.
+             Converting to Java (DJL/Tribuo) would sacrifice ecosystem maturity.
+```
 
 ## Summary
 
