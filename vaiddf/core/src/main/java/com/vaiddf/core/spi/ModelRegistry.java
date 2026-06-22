@@ -37,6 +37,11 @@ public interface ModelRegistry {
     List<Model> listByRegistry(String registry);
 
     /**
+     * List all models across all registries.
+     */
+    List<Model> listAll();
+
+    /**
      * Delete a model by ID.
      */
     boolean delete(String id);

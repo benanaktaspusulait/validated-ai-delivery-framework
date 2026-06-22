@@ -73,6 +73,11 @@ public class InMemoryModelRegistry implements ModelRegistry {
     }
 
     @Override
+    public List<Model> listAll() {
+        return List.copyOf(models.values());
+    }
+
+    @Override
     public boolean delete(String id) {
         return models.remove(id) != null;
     }

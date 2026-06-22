@@ -21,7 +21,7 @@ public class ModelResource {
 
     @GET
     public List<Model> list() {
-        return registry.listByRegistry("default");
+        return registry.listAll();
     }
 
     @GET
