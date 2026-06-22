@@ -47,11 +47,21 @@ Build models systematically with tracked experiments, clear evaluation criteria 
 
 ```text
 - [ ] Experiment tracking active; all runs logged.
-- [ ] Primary metric meets minimum threshold.
+- [ ] Primary metric meets minimum threshold (e.g. accuracy >= 0.90).
 - [ ] Model card completed.
 - [ ] Training pipeline is reproducible from recorded inputs.
 - [ ] Known limitations documented.
 - [ ] Training cost logged.
+```
+
+## Implementation reference
+
+```text
+Concrete implementations for this stage:
+  - Training pipeline: implementation/mlflow/train.py (complete MLflow pipeline with HP search)
+  - Experiment tracking: MLflow UI at http://localhost:5000 after docker-compose up
+  - Model registration: implementation/scripts/register_model.py
+  - Hyperparameter search: implementation/mlflow/train.py run_hyperparameter_search()
 ```
 
 ## Deliverables

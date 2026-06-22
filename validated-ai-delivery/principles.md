@@ -19,15 +19,15 @@ Founding principles of the Validated AI Delivery Framework. Every decision, tool
 
 ## How principles map to lifecycle stages
 
-| Principle | Discovery | Data | Model | Validation | Integration |
-|---|---|---|---|---|---|
-| Validation over speed | Feasibility gate | Data quality gates | Evaluation gates | Robustness testing | Staged rollout |
-| Reproducibility | Problem documented | Data versioned | Experiment tracked | Validation reproducible | Deployment scripted |
-| Transparency | Success criteria defined | Data lineage recorded | Model card written | Fairness report published | Runbook maintained |
-| Fairness by design | Bias risks identified | Representation audited | Bias metrics computed | Fairness validated | Monitoring active |
-| Human oversight | Escalation paths defined | Labelling reviewed | Human evaluation | A/B with human review | Override mechanisms |
-| Incremental trust | Pilot scope agreed | Small dataset validated | Shadow deployment | Staged validation | Canary rollout |
-| Operational excellence | Deployment plan | Quality monitoring | Model registry | Drift monitoring | SLO tracking |
-| Cost awareness | Budget agreed | Storage costs tracked | Training costs logged | Inference costs estimated | FinOps dashboard |
-| Security | Threat model | Data encryption | Weight protection | Adversarial testing | RBAC + API security |
-| Sustainability | Compute budget set | Efficient data pipeline | Efficient training | Green inference | Carbon tracking |
+| Principle | How it is enforced | Evidence |
+|---|---|---|
+| Validation over speed | Gate criteria in every lifecycle stage; no promotion without passing tests | `validation.md` gate criteria, `tests/test_*.py` |
+| Reproducibility | DVC for data versioning, MLflow for experiment tracking, code + data + model hash logged | `implementation/dvc-config.md`, `mlflow/train.py` |
+| Transparency | Model cards auto-generated from MLflow metadata, decision logs in audit trail | `api/model_card_generator.py`, `auditability.md` |
+| Fairness by design | Fairlearn metrics computed before every staging promotion | `api/fairness.py`, `validation.md` fairness section |
+| Human oversight | HITL review queue for low-confidence predictions, override mechanism | `human-in-the-loop.md`, `api/main.py` |
+| Incremental trust | Promotion gates: dev→staging→production with evidence at each step | `model-registry.md` promotion rules |
+| Operational excellence | Grafana dashboards, Prometheus alerts, drift monitoring running continuously | `monitoring/`, `drift/monitor.py` |
+| Cost awareness | CodeCarbon tracks CO2 per training run, cost logged in MLflow | `api/carbon_tracking.py`, `finops.md` |
+| Security | Threat model, API key auth, container scanning (Trivy), input validation | `security.md`, `.github/workflows/ci.yml` |
+| Sustainability | CodeCarbon integration, efficient model techniques documented | `api/carbon_tracking.py`, `scalability.md` |

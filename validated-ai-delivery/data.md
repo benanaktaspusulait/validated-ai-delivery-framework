@@ -56,6 +56,15 @@ Ensure data is reliable, representative, versioned and ethically sourced before 
 - [ ] Feature engineering decisions documented.
 ```
 
+## Implementation reference
+
+```text
+Concrete implementations for this stage:
+  - Data validation tests: implementation/tests/test_data_validation.py
+  - Data versioning: implementation/dvc-config.md (DVC setup)
+  - Great Expectations: pip install great_expectations; see test_data_validation.py for patterns
+```
+
 ## Deliverables
 
 ```text

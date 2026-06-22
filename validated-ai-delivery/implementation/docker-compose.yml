@@ -30,15 +30,16 @@ services:
       - minio_data:/data
 
   mlflow:
-    build: ./mlflow
+    build:
+      context: ./mlflow
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     environment:
       MLFLOW_BACKEND_STORE_URI: postgresql://mlflow:mlflow@postgres:5432/mlflow
-      MLFLOW_ARTIFACT_STORE_URI: s3://mlflow-artifacts
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
       AWS_ACCESS_KEY_ID: minioadmin
       AWS_SECRET_ACCESS_KEY: minioadmin
-      AWS_REGION: us-east-1
     depends_on:
       postgres:
         condition: service_healthy
@@ -46,18 +47,23 @@ services:
         condition: service_started
 
   api:
-    build: ./api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
       MLFLOW_TRACKING_URI: http://mlflow:5000
       MODEL_NAME: default-model
       MODEL_STAGE: Production
+      API_KEY: changeme-in-production
     depends_on:
       - mlflow
 
   streamlit:
-    build: ./streamlit
+    build:
+      context: ./streamlit
+      dockerfile: Dockerfile
     ports:
       - "8501:8501"
     environment:
@@ -65,15 +71,26 @@ services:
     depends_on:
       - mlflow
 
+  drift:
+    build:
+      context: ./drift
+      dockerfile: Dockerfile
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+      MODEL_NAME: default-model
+      CHECK_INTERVAL_HOURS: 24
+    depends_on:
+      - mlflow
+
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:v2.51.0
     ports:
       - "9090:9090"
     volumes:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:10.4.0
     ports:
       - "3000:3000"
     environment:
@@ -81,15 +98,6 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
-
-  drift-monitor:
-    build: ./drift
-    environment:
-      MLFLOW_TRACKING_URI: http://mlflow:5000
-      MODEL_NAME: default-model
-      CHECK_INTERVAL_HOURS: 24
-    depends_on:
-      - mlflow
 
 volumes:
   postgres_data:

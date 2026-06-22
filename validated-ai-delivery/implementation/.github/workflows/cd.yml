@@ -7,34 +7,24 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build and push Docker images
-        run: |
-          docker-compose build
-          # In production: tag and push to registry
-          # docker tag implementation-api:latest registry.example.com/ml-api:${{ github.sha }}
-          # docker push registry.example.com/ml-api:${{ github.sha }}
+      - name: Build Docker images
+        run: docker-compose build
 
       - name: Deploy to staging
         run: |
-          # Deploy to staging environment
           docker-compose up -d
-          # Wait for health check
-          sleep 10
+          sleep 15
           curl -f http://localhost:8000/health || exit 1
 
       - name: Run integration tests
-        run: |
-          pytest implementation/tests/test_api.py -v
+        run: pytest implementation/tests/test_api.py -v
 
-      - name: Promote to production (manual approval)
-        if: github.ref == 'refs/heads/main'
-        run: |
-          echo "Promoting to production..."
-          # In production: trigger production deployment
-          # python scripts/promote_model.py --model default-model --from Staging --to Production
+      - name: Notify deployment
+        if: success()
+        run: echo "Deployment to staging successful"

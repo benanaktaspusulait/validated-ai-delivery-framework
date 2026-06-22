@@ -1,5 +1,11 @@
-fastapi==0.108.0
-uvicorn==0.25.0
-mlflow==2.10.0
-numpy==1.26.2
-pydantic==2.5.2
+fastapi==0.111.0
+uvicorn==0.30.0
+mlflow==2.14.0
+numpy==1.26.4
+pydantic==2.7.1
+requests==2.32.3
+shap==0.45.0
+lime==0.2.0.0
+fairlearn==0.10.0
+prometheus-fastapi-instrumentator==6.1.0
+codecarbon==2.3.4

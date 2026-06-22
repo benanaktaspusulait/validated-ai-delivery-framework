@@ -53,14 +53,28 @@ Ship the model to production with monitoring, rollback capability and clear owne
 ## Gate criteria (deployment complete)
 
 ```text
-- [ ] API deployed with SLAs defined.
+- [ ] API deployed with SLAs defined (p95 < 100ms, 99.5% availability).
 - [ ] CI/CD/CT pipeline operational.
 - [ ] Monitoring dashboards live; alerts configured.
 - [ ] Model registered in model registry.
-- [ ] Rollback mechanism tested.
+- [ ] Rollback mechanism tested (scripts/rollback.sh).
 - [ ] Handover template completed.
 - [ ] Runbook documented.
 - [ ] On-call rotation established.
+```
+
+## Implementation reference
+
+```text
+Concrete implementations for this stage:
+  - API serving: implementation/api/main.py (FastAPI, health/predict/reload endpoints)
+  - Docker Compose: implementation/docker-compose.yml (all services)
+  - CI/CD: implementation/.github/workflows/ci.yml, cd.yml
+  - Rollback: implementation/scripts/rollback.sh
+  - Model promotion: implementation/scripts/promote_model.py
+  - Monitoring: implementation/monitoring/ (Prometheus + Grafana)
+  - Drift detection: implementation/drift/monitor.py
+  - Streamlit demo: implementation/streamlit/app.py
 ```
 
 ## Deliverables

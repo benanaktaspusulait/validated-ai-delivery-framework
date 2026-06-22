@@ -54,12 +54,24 @@ Prove the model works correctly, fairly and safely under real-world conditions â
 
 ```text
 - [ ] Robustness tests pass defined thresholds.
-- [ ] Fairness metrics within acceptable bounds (or documented exception).
+- [ ] Fairness metrics within acceptable bounds (disparity ratio > 0.8).
 - [ ] Explanations generated and validated.
 - [ ] A/B test design approved; results analysed (if run).
-- [ ] Shadow deployment completed with acceptable disagreement rate.
+- [ ] Shadow deployment completed with acceptable disagreement rate (< 5%).
 - [ ] Security testing completed; critical findings resolved.
 - [ ] Validation report completed (use templates/validation_report_template.md).
+```
+
+## Implementation reference
+
+```text
+Concrete implementations for this stage:
+  - Fairness evaluation: implementation/api/fairness.py (Fairlearn, disparity ratio)
+  - Explainability: implementation/api/explainability.py (SHAP, LIME)
+  - A/B testing: implementation/api/ab_testing.py (traffic split, shadow deployment)
+  - Robustness tests: implementation/tests/test_model.py (edge cases, determinism)
+  - Load testing: implementation/tests/load_test.py (Locust)
+  - Security scanning: .github/workflows/ci.yml (Trivy)
 ```
 
 ## Deliverables

@@ -1,109 +1,13 @@
 {
-  "annotations": {
-    "list": [
-      {
-        "datasource": "Prometheus",
-        "enable": true,
-        "name": "Annotations"
-      }
-    ]
-  },
+  "annotations": { "list": [{ "datasource": "Prometheus", "enable": true, "name": "Annotations" }] },
   "panels": [
-    {
-      "title": "API Request Rate",
-      "type": "timeseries",
-      "targets": [
-        {
-          "expr": "rate(http_requests_total[5m])",
-          "legendFormat": "{{method}} {{endpoint}}"
-        }
-      ],
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
-    },
-    {
-      "title": "API Latency (p95)",
-      "type": "timeseries",
-      "targets": [
-        {
-          "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
-          "legendFormat": "p95 latency"
-        }
-      ],
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
-    },
-    {
-      "title": "API Error Rate",
-      "type": "timeseries",
-      "targets": [
-        {
-          "expr": "rate(http_requests_total{status=~'5..'}[5m])",
-          "legendFormat": "5xx errors"
-        }
-      ],
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 }
-    },
-    {
-      "title": "MLflow Experiments",
-      "type": "stat",
-      "targets": [
-        {
-          "expr": "mlflow_experiment_total",
-          "legendFormat": "Experiments"
-        }
-      ],
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 8 }
-    },
-    {
-      "title": "Active Runs",
-      "type": "stat",
-      "targets": [
-        {
-          "expr": "mlflow_run_total{status='RUNNING'}",
-          "legendFormat": "Running"
-        }
-      ],
-      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 8 }
-    },
-    {
-      "title": "Model Predictions per Minute",
-      "type": "timeseries",
-      "targets": [
-        {
-          "expr": "rate(model_predictions_total[5m]) * 60",
-          "legendFormat": "predictions/min"
-        }
-      ],
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 }
-    },
-    {
-      "title": "Drift Status",
-      "type": "stat",
-      "targets": [
-        {
-          "expr": "drift_detected",
-          "legendFormat": "Drift detected"
-        }
-      ],
-      "fieldConfig": {
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "Value" },
-            "properties": [
-              {
-                "id": "thresholds",
-                "value": {
-                  "steps": [
-                    { "color": "green", "value": null },
-                    { "color": "red", "value": 1 }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 16 }
-    }
+    { "title": "API Request Rate", "type": "timeseries", "targets": [{ "expr": "rate(http_requests_total[5m])", "legendFormat": "{{method}} {{endpoint}}" }], "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 } },
+    { "title": "API Latency (p95)", "type": "timeseries", "targets": [{ "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))", "legendFormat": "p95" }], "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 } },
+    { "title": "API Error Rate", "type": "timeseries", "targets": [{ "expr": "rate(http_requests_total{status=~'5..'}[5m])", "legendFormat": "5xx" }], "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 } },
+    { "title": "Drift Detected", "type": "stat", "targets": [{ "expr": "drift_detected", "legendFormat": "Drift" }], "gridPos": { "h": 4, "w": 6, "x": 12, "y": 8 } },
+    { "title": "MLflow Experiments", "type": "stat", "targets": [{ "expr": "mlflow_experiment_total", "legendFormat": "Experiments" }], "gridPos": { "h": 4, "w": 6, "x": 18, "y": 8 } },
+    { "title": "Predictions per Minute", "type": "timeseries", "targets": [{ "expr": "rate(model_predictions_total[5m]) * 60", "legendFormat": "pred/min" }], "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 } },
+    { "title": "Model Accuracy", "type": "gauge", "targets": [{ "expr": "model_accuracy", "legendFormat": "Accuracy" }], "fieldConfig": { "overrides": [{ "matcher": { "id": "byName", "options": "Value" }, "properties": [{ "id": "thresholds", "value": { "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 0.8 }, { "color": "green", "value": 0.9 }] } }] }] }, "gridPos": { "h": 8, "w": 6, "x": 12, "y": 16 } }
   ],
   "time": { "from": "now-24h", "to": "now" },
   "refresh": "30s",

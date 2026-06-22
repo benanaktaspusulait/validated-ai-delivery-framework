@@ -2,11 +2,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY conda.yaml .
 RUN pip install --no-cache-dir \
-    mlflow==2.10.0 \
-    scikit-learn==1.3.2 \
-    boto3
+    mlflow==2.14.0 \
+    psycopg2-binary==2.9.9 \
+    boto3==1.34.69
 
 EXPOSE 5000
 
