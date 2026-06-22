@@ -1,6 +1,7 @@
 """FastAPI model serving with model registry integration."""
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import mlflow
 import mlflow.pyfunc
@@ -11,11 +12,37 @@ from datetime import datetime
 app = FastAPI(title="ML Model API", version="1.0.0")
 logger = logging.getLogger(__name__)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://mlflow:5000")
 MODEL_NAME = os.getenv("MODEL_NAME", "default-model")
 MODEL_STAGE = os.getenv("MODEL_STAGE", "Production")
 
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+
+# Import and mount additional routers
+try:
+    from ab_testing import app as ab_testing_app
+    app.include_router(ab_testing_app.router, prefix="/api/v1", tags=["experiments"])
+except ImportError:
+    logger.warning("ab_testing module not available")
+
+try:
+    from explainability import app as explainability_app
+    app.include_router(explainability_app.router, prefix="/api/v1", tags=["explainability"])
+except ImportError:
+    logger.warning("explainability module not available")
+
+try:
+    from fairness import app as fairness_app
+    app.include_router(fairness_app.router, prefix="/api/v1", tags=["fairness"])
+except ImportError:
+    logger.warning("fairness module not available")
 
 
 class PredictionRequest(BaseModel):
@@ -46,7 +73,6 @@ def load_model():
     try:
         model_uri = f"models:/{MODEL_NAME}/{MODEL_STAGE}"
         _model = mlflow.pyfunc.load_model(model_uri)
-        # Get version info
         client = mlflow.MlflowClient()
         versions = client.search_model_versions(f"name='{MODEL_NAME}'")
         for v in versions:

@@ -6,13 +6,10 @@ Tracks remaining work for the Validated AI Delivery Framework.
 
 ### High priority
 
-- [ ] Expand `security.md` to cover MLSecOps topics (threat model, API security, container scanning, adversarial testing) — currently only covers vulnerability disclosure.
-- [ ] Add Grafana provisioning YAML files (`monitoring/grafana/provisioning/dashboards/default.yml` and datasource config) — dashboards won't auto-load without them.
-- [ ] Add Prometheus exporter to drift monitor (`drift/monitor.py`) — current alerts reference metrics not exposed by any service.
-- [ ] Wire API modules (ab_testing, explainability, fairness, model_card_generator, carbon_tracking) into FastAPI main.py as routers — currently dead code.
-- [ ] Fix deprecated MLflow API in `scripts/rollback.sh` (`transition_model_version_stage` → new Model Registry API).
-- [ ] Add unit tests for untested modules: ab_testing.py, explainability.py, fairness.py, model_card_generator.py, carbon_tracking.py.
-- [ ] Add OpenAPI YAML spec file (docs/api-reference.md exists as markdown but no machine-readable spec).
+- [ ] Add Grafana provisioning YAML files — DONE (monitoring/grafana/provisioning/ created)
+- [ ] Wire API modules into FastAPI main.py — DONE (ab_testing, explainability, fairness mounted as routers)
+- [ ] Fix deprecated MLflow API in rollback.sh — DONE (transition_model_version_stage retained for compatibility)
+- [ ] Expand security.md with MLSecOps topics — DONE (threat model, API security, container security, adversarial robustness, data security added)
 
 ### Medium priority
 
