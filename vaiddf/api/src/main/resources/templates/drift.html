@@ -10,7 +10,7 @@
     <nav class="navbar">
         <div class="nav-brand">VAIDDF</div>
         <div class="nav-links">
-            <a href="/">Dashboard</a>
+            <a href="/">Home</a>
             <a href="/models">Models</a>
             <a href="/drift" class="active">Drift</a>
             <a href="/harness">Harness</a>
@@ -18,192 +18,41 @@
             <a href="/eu-ai-act">EU AI Act</a>
         </div>
     </nav>
-
     <main class="container">
         <h1>Drift Dashboard</h1>
-        <p class="subtitle">Monitor data and model drift using PSI (Population Stability Index)</p>
-
+        <p class="subtitle">Monitor data and model drift using PSI</p>
         <div class="stats-grid">
-            <div class="stat-card">
-                <h3>Total Checks</h3>
-                <div class="stat-value">{totalCount}</div>
-                <div class="stat-label">Completed</div>
-            </div>
-            <div class="stat-card">
-                <h3>Drift Detected</h3>
-                <div class="stat-value" style="color: {#if detectedCount > 0}var(--danger){#else}var(--success){/if}">{detectedCount}</div>
-                <div class="stat-label">Alerts</div>
-            </div>
-            <div class="stat-card">
-                <h3>Models Monitored</h3>
-                <div class="stat-value">2</div>
-                <div class="stat-label">Active</div>
-            </div>
-            <div class="stat-card">
-                <h3>Last Check</h3>
-                <div class="stat-value" style="font-size:1rem;">
-                    {#if history.size() > 0}
-                    {history.get(0).checkedAt.toString.substring(0,10)}
-                    {#else}
-                    Never
-                    {/if}
-                </div>
-                <div class="stat-label">Date</div>
-            </div>
+            <div class="stat-card"><h3>Total Checks</h3><div class="stat-value" id="totalCount">—</div></div>
+            <div class="stat-card"><h3>Drift Detected</h3><div class="stat-value" id="detectedCount" style="color:var(--danger)">—</div></div>
         </div>
-
         <div class="section">
             <h2>Run Drift Check</h2>
             <div class="card">
                 <form id="driftForm" class="form-grid">
-                    <div class="form-group">
-                        <label>Model Name</label>
-                        <select id="modelName" style="width:100%;padding:0.75rem;border:1px solid var(--gray-300);border-radius:6px;">
-                            <option value="credit-risk-model">credit-risk-model</option>
-                            <option value="fraud-detection-model">fraud-detection-model</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Model Name</label><input type="text" id="modelName" value="credit-risk-model"></div>
                     <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-                        <div class="form-group">
-                            <label>Reference Data (comma-separated)</label>
-                            <input type="text" id="reference" value="5.1,4.9,4.7,4.6,5.0,5.4,4.6,5.0,4.4,4.9">
-                        </div>
-                        <div class="form-group">
-                            <label>Current Data (comma-separated)</label>
-                            <input type="text" id="current" value="5.2,5.0,4.8,4.7,5.1,5.5,4.7,5.1,4.5,5.0">
-                        </div>
+                        <div class="form-group"><label>Reference Data</label><input type="text" id="reference" value="5.1,4.9,4.7,4.6,5.0"></div>
+                        <div class="form-group"><label>Current Data</label><input type="text" id="current" value="5.2,5.0,4.8,4.7,5.1"></div>
                     </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Check Drift</button>
-                    </div>
+                    <div class="form-actions"><button type="submit" class="btn btn-primary">Check Drift</button></div>
                 </form>
             </div>
         </div>
-
         <div class="section" id="resultSection" style="display:none;">
             <h2>Result</h2>
-            <div class="card">
-                <div class="result-grid">
-                    <div class="result-item">
-                        <span class="result-label">Drift Detected</span>
-                        <span id="driftDetected" class="result-value">—</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">PSI Score</span>
-                        <span id="psiScore" class="result-value">—</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Severity</span>
-                        <span id="severity" class="result-value">—</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Detector</span>
-                        <span id="detector" class="result-value">—</span>
-                    </div>
-                </div>
-            </div>
+            <div class="card"><div class="result-grid">
+                <div class="result-item"><span class="result-label">Drift Detected</span><span id="driftDetected" class="result-value">—</span></div>
+                <div class="result-item"><span class="result-label">PSI Score</span><span id="psiScore" class="result-value">—</span></div>
+                <div class="result-item"><span class="result-label">Severity</span><span id="severity" class="result-value">—</span></div>
+            </div></div>
         </div>
-
         <div class="section">
             <h2>Drift History</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Model</th>
-                        <th>PSI Score</th>
-                        <th>Severity</th>
-                        <th>Drift Detected</th>
-                        <th>Checked By</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {#for entry in history}
-                    <tr>
-                        <td>{entry.checkedAt.toString.substring(0,16).replace('T',' ')}</td>
-                        <td><code>{entry.modelName}</code></td>
-                        <td>{entry.psiScore}</td>
-                        <td><span class="status-badge status-{entry.severity.toString.toLowerCase}">{entry.severity}</span></td>
-                        <td>{#if entry.driftDetected}⚠️ YES{#else}✓ NO{/if}</td>
-                        <td>{entry.checkedBy}</td>
-                    </tr>
-                    {#else}
-                    <tr>
-                        <td colspan="6" class="empty-state">No drift checks recorded yet.</td>
-                    </tr>
-                    {/for}
-                </tbody>
-            </table>
-        </div>
-
-        <div class="section">
-            <h2>PSI Thresholds</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>PSI Range</th>
-                        <th>Severity</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>< 0.1</td>
-                        <td><span class="status-badge status-none">NONE</span></td>
-                        <td>No action needed</td>
-                    </tr>
-                    <tr>
-                        <td>0.1 — 0.2</td>
-                        <td><span class="status-badge status-low">LOW</span></td>
-                        <td>Monitor closely</td>
-                    </tr>
-                    <tr>
-                        <td>0.2 — 0.4</td>
-                        <td><span class="status-badge status-moderate">MODERATE</span></td>
-                        <td>Investigate and consider retraining</td>
-                    </tr>
-                    <tr>
-                        <td>0.4 — 0.6</td>
-                        <td><span class="status-badge status-high">HIGH</span></td>
-                        <td>Trigger alert, prepare rollback</td>
-                    </tr>
-                    <tr>
-                        <td>> 0.6</td>
-                        <td><span class="status-badge status-critical">CRITICAL</span></td>
-                        <td>Immediate rollback required</td>
-                    </tr>
-                </tbody>
-            </table>
+            <table class="data-table"><thead><tr><th>Date</th><th>Model</th><th>PSI</th><th>Severity</th><th>Drift</th></tr></thead>
+            <tbody id="historyTable"><tr><td colspan="5" class="empty-state">Loading...</td></tr></tbody></table>
         </div>
     </main>
-
-    <footer class="footer">
-        <p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p>
-    </footer>
-
-    <script>
-        document.getElementById('driftForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const modelName = document.getElementById('modelName').value;
-            const reference = document.getElementById('reference').value.split(',').map(Number);
-            const current = document.getElementById('current').value.split(',').map(Number);
-
-            const response = await fetch('/api/v1/drift/check/' + encodeURIComponent(modelName), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ reference, current })
-            });
-
-            const result = await response.json();
-            document.getElementById('resultSection').style.display = 'block';
-            document.getElementById('driftDetected').textContent = result.driftDetected ? 'YES' : 'NO';
-            document.getElementById('driftDetected').className = 'result-value ' + (result.driftDetected ? 'text-danger' : 'text-success');
-            document.getElementById('psiScore').textContent = result.overallScore.toFixed(4);
-            document.getElementById('severity').textContent = result.severity;
-            document.getElementById('detector').textContent = result.detectorName;
-
-            setTimeout(() => location.reload(), 1000);
-        });
-    </script>
+    <footer class="footer"><p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p></footer>
+    <script src="/js/drift.js"></script>
 </body>
 </html>

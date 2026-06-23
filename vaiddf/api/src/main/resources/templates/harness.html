@@ -10,207 +10,49 @@
     <nav class="navbar">
         <div class="nav-brand">VAIDDF</div>
         <div class="nav-links">
-            <a href="/">Dashboard</a>
+            <a href="/">Home</a>
             <a href="/models">Models</a>
             <a href="/drift">Drift</a>
-            <a href="/harness">Harness</a>
+            <a href="/harness" class="active">Harness</a>
             <a href="/comparison">Comparison</a>
             <a href="/eu-ai-act">EU AI Act</a>
-            <a href="/harness" class="active">Harness</a>
         </div>
     </nav>
-
     <main class="container">
         <h1>Agentic Harness Maturity</h1>
         <p class="subtitle">Assess your repository's agent harness readiness</p>
-
         <div class="stats-grid">
-            <div class="stat-card">
-                <h3>Latest Score</h3>
-                <div class="stat-value" id="latestScore">—</div>
-                <div class="stat-label" id="latestLevel">No assessment yet</div>
-            </div>
-            <div class="stat-card">
-                <h3>Coverage</h3>
-                <div class="stat-value" id="coverage">—</div>
-                <div class="stat-label">Dimensions present</div>
-            </div>
-            <div class="stat-card">
-                <h3>Recommendations</h3>
-                <div class="stat-value" id="recCount">—</div>
-                <div class="stat-label">Actions needed</div>
-            </div>
+            <div class="stat-card"><h3>Latest Score</h3><div class="stat-value" id="latestScore">—</div><div class="stat-label" id="latestLevel">No assessment yet</div></div>
+            <div class="stat-card"><h3>Coverage</h3><div class="stat-value" id="coverage">—</div><div class="stat-label">Dimensions present</div></div>
+            <div class="stat-card"><h3>Recommendations</h3><div class="stat-value" id="recCount">—</div><div class="stat-label">Actions needed</div></div>
         </div>
-
         <div class="section">
             <h2>Run Assessment</h2>
             <div class="card">
                 <form id="assessForm" class="form-grid">
-                    <div class="form-group">
-                        <label>Repository Name</label>
-                        <input type="text" id="repoName" value="vaiddf" placeholder="my-project">
-                    </div>
-                    <div class="form-group">
-                        <label>Repository Path</label>
-                        <input type="text" id="repoPath" value="/Users/benanaktas/project/home-office/ai-project-plan" placeholder="/path/to/repo">
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Assess Harness</button>
-                    </div>
+                    <div class="form-group"><label>Repository Name</label><input type="text" id="repoName" value="vaiddf"></div>
+                    <div class="form-group"><label>Repository Path</label><input type="text" id="repoPath" value="/Users/benanaktas/project/home-office/ai-project-plan"></div>
+                    <div class="form-actions"><button type="submit" class="btn btn-primary">Assess Harness</button></div>
                 </form>
             </div>
         </div>
-
         <div class="section" id="resultSection" style="display:none;">
-            <h2>Assessment Result</h2>
-            <div class="card">
-                <div class="result-grid">
-                    <div class="result-item">
-                        <span class="result-label">Level</span>
-                        <span id="resultLevel" class="result-value">—</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Score</span>
-                        <span id="resultScore" class="result-value">—</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Coverage</span>
-                        <span id="resultCoverage" class="result-value">—</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Dimensions</span>
-                        <span id="resultDimensions" class="result-value">—</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section" id="evidenceSection" style="display:none;">
             <h2>Evidence</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Dimension</th>
-                        <th>Present</th>
-                        <th>Confidence</th>
-                        <th>Evidence</th>
-                        <th>Recommendation</th>
-                    </tr>
-                </thead>
-                <tbody id="evidenceTable">
-                </tbody>
-            </table>
+            <table class="data-table"><thead><tr><th>Dimension</th><th>Present</th><th>Confidence</th><th>Evidence</th></tr></thead>
+            <tbody id="evidenceTable"></tbody></table>
         </div>
-
         <div class="section" id="recSection" style="display:none;">
             <h2>Recommendations</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Dimension</th>
-                        <th>Action</th>
-                        <th>Priority</th>
-                    </tr>
-                </thead>
-                <tbody id="recTable">
-                </tbody>
-            </table>
+            <table class="data-table"><thead><tr><th>Dimension</th><th>Action</th><th>Priority</th></tr></thead>
+            <tbody id="recTable"></tbody></table>
         </div>
-
         <div class="section">
             <h2>Assessment History</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Repository</th>
-                        <th>Level</th>
-                        <th>Score</th>
-                        <th>Coverage</th>
-                    </tr>
-                </thead>
-                <tbody id="historyTable">
-                    <tr>
-                        <td colspan="5" class="empty-state">No assessments yet. Run one above.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <table class="data-table"><thead><tr><th>Date</th><th>Repository</th><th>Level</th><th>Score</th><th>Coverage</th></tr></thead>
+            <tbody id="historyTable"><tr><td colspan="5" class="empty-state">No assessments yet.</td></tr></tbody></table>
         </div>
     </main>
-
-    <footer class="footer">
-        <p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p>
-    </footer>
-
-    <script>
-        async function loadHistory() {
-            const res = await fetch('/api/v1/harness-maturity');
-            const data = await res.json();
-            const tbody = document.getElementById('historyTable');
-            if (data.length === 0) return;
-            tbody.innerHTML = data.map(a => `
-                <tr>
-                    <td>${a.assessedAt.substring(0,10)}</td>
-                    <td><code>${a.repositoryName}</code></td>
-                    <td><span class="status-badge status-${a.level.toLowerCase}">${a.level}</span></td>
-                    <td>${a.numericScore}/4</td>
-                    <td>${(a.coverage * 100).toFixed(0)}%</td>
-                </tr>
-            `).join('');
-            const latest = data[0];
-            document.getElementById('latestScore').textContent = latest.numericScore + '/4';
-            document.getElementById('latestLevel').textContent = latest.level;
-            document.getElementById('coverage').textContent = (latest.coverage * 100).toFixed(0) + '%';
-            document.getElementById('recCount').textContent = latest.recommendations.length;
-        }
-
-        document.getElementById('assessForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const repoName = document.getElementById('repoName').value;
-            const repoPath = document.getElementById('repoPath').value;
-            const res = await fetch('/api/v1/harness-maturity/assess', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ repositoryName: repoName, repositoryPath: repoPath })
-            });
-            if (!res.ok) {
-                const err = await res.json();
-                alert(err.error || 'Assessment failed');
-                return;
-            }
-            const result = await res.json();
-            document.getElementById('resultSection').style.display = 'block';
-            document.getElementById('evidenceSection').style.display = 'block';
-            document.getElementById('recSection').style.display = 'block';
-            document.getElementById('resultLevel').textContent = result.level;
-            document.getElementById('resultScore').textContent = result.numericScore + '/4';
-            document.getElementById('resultCoverage').textContent = (result.coverage * 100).toFixed(0) + '%';
-            document.getElementById('resultDimensions').textContent = result.presentDimensions + '/' + result.totalDimensions;
-
-            const evidenceTbody = document.getElementById('evidenceTable');
-            evidenceTbody.innerHTML = result.evidence.map(e => `
-                <tr>
-                    <td>${e.dimension}</td>
-                    <td>${e.present ? '✓' : '✗'}</td>
-                    <td><span class="status-badge status-${e.confidence.toLowerCase}">${e.confidence}</span></td>
-                    <td>${e.evidenceSummary}</td>
-                    <td>${e.recommendation}</td>
-                </tr>
-            `).join('');
-
-            const recTbody = document.getElementById('recTable');
-            recTbody.innerHTML = result.recommendations.map(r => `
-                <tr>
-                    <td>${r.dimension}</td>
-                    <td>${r.action}</td>
-                    <td><span class="status-badge status-${r.priority.toLowerCase}">${r.priority}</span></td>
-                </tr>
-            `).join('');
-
-            loadHistory();
-        });
-
-        loadHistory();
-    </script>
+    <footer class="footer"><p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p></footer>
+    <script src="/js/harness.js"></script>
 </body>
 </html>

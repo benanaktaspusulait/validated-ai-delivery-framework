@@ -1,15 +1,16 @@
 package com.vaiddf.api.resource;
 
-import com.vaiddf.api.impl.PSIDetector;
+import com.vaiddf.api.entity.DriftHistoryEntity;
 import com.vaiddf.api.impl.ReactiveDriftHistoryService;
+import com.vaiddf.api.impl.PSIDetector;
 import com.vaiddf.core.model.DriftHistory;
 import com.vaiddf.core.model.DriftResult;
+import io.quarkus.hibernate.reactive.panache.Panache;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
 import java.util.List;
 
 @Path("/api/v1/drift")
@@ -30,23 +31,19 @@ public class ReactiveDriftResource {
     @GET
     @Path("/history")
     public Uni<List<DriftHistory>> getHistory() {
-        return historyService.getAll();
+        return Panache.withTransaction(() ->
+            DriftHistoryEntity.findAll().list()
+                .map(list -> list.stream().map(this::toHistory).toList())
+        );
     }
 
     @GET
     @Path("/history/{model}")
-    public Uni<List<DriftHistory>> getHistoryByModel(@QueryParam("model") String modelName) {
-        return historyService.getByModel(modelName);
-    }
-
-    @GET
-    @Path("/stats")
-    public Uni<DriftStats> getStats() {
-        return Uni.combine().all().unis(
-            historyService.totalCount(),
-            historyService.countDetected()
-        ).asTuple()
-        .map(tuple -> new DriftStats(tuple.getItem1(), tuple.getItem2()));
+    public Uni<List<DriftHistory>> getHistoryByModel(String modelName) {
+        return Panache.withTransaction(() ->
+            DriftHistoryEntity.find("modelName = ?1 order by checkedAt desc", modelName).list()
+                .map(list -> list.stream().map(this::toHistory).toList())
+        );
     }
 
     @POST
@@ -65,5 +62,12 @@ public class ReactiveDriftResource {
             .map(v -> result);
     }
 
-    public record DriftStats(long totalChecks, long driftDetected) {}
+    private DriftHistory toHistory(Object entity) {
+        var e = (com.vaiddf.api.entity.DriftHistoryEntity) entity;
+        return new DriftHistory(
+            e.recordId, e.modelName, e.psiScore,
+            DriftResult.DriftSeverity.valueOf(e.severity),
+            e.driftDetected, e.checkedAt, e.checkedBy
+        );
+    }
 }

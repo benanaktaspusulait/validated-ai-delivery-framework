@@ -13,11 +13,11 @@ import jakarta.ws.rs.core.MediaType;
 public class EuAiActResource {
 
     @Inject
-    Template eu-ai-act;
+    Template euAiAct;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance euAiAct() {
-        return eu-ai-act.instance();
+        return euAiAct.instance();
     }
 }

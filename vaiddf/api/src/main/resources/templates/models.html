@@ -10,7 +10,7 @@
     <nav class="navbar">
         <div class="nav-brand">VAIDDF</div>
         <div class="nav-links">
-            <a href="/">Dashboard</a>
+            <a href="/">Home</a>
             <a href="/models" class="active">Models</a>
             <a href="/drift">Drift</a>
             <a href="/harness">Harness</a>
@@ -18,78 +18,17 @@
             <a href="/eu-ai-act">EU AI Act</a>
         </div>
     </nav>
-
     <main class="container">
         <div class="page-header">
             <h1>Model Registry</h1>
-            <span class="badge">{models.size()} models</span>
+            <span class="badge" id="modelCount">Loading...</span>
         </div>
-
         <table class="data-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Version</th>
-                    <th>Status</th>
-                    <th>Registry</th>
-                    <th>Drift Check</th>
-                    <th>Fairness</th>
-                    <th>Created</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {#for model in models}
-                <tr>
-                    <td><code>{model.id}</code></td>
-                    <td>{model.name}</td>
-                    <td>{model.version}</td>
-                    <td><span class="status-badge status-{model.status.toString.toLowerCase}">{model.status}</span></td>
-                    <td>{model.registry}</td>
-                    <td>{#if model.governance.driftCheck}✓{#else}—{/if}</td>
-                    <td>{#if model.governance.fairnessRequired}✓{#else}—{/if}</td>
-                    <td>{model.createdAt.toString.substring(0,10)}</td>
-                    <td>
-                        {#if model.status.toString == "REGISTERED"}
-                        <button class="btn btn-sm btn-primary" onclick="deployModel('{model.id}')">Deploy</button>
-                        {/if}
-                        {#if model.status.toString == "DEPLOYED"}
-                        <button class="btn btn-sm btn-danger" onclick="rollbackModel('{model.id}')">Rollback</button>
-                        {/if}
-                    </td>
-                </tr>
-                {#else}
-                <tr>
-                    <td colspan="9" class="empty-state">
-                        No models registered.
-                        <pre>curl -X POST http://localhost:8080/api/v1/models \
-  -H "Content-Type: application/json" \
-  -d '&#123;"id": "my-model", "name": "my-model", "version": "1.0", "registry": "default"&#125;'</pre>
-                    </td>
-                </tr>
-                {/for}
-            </tbody>
+            <thead><tr><th>ID</th><th>Name</th><th>Version</th><th>Status</th><th>Registry</th><th>Actions</th></tr></thead>
+            <tbody id="modelTable"><tr><td colspan="6" class="empty-state">Loading...</td></tr></tbody>
         </table>
     </main>
-
-    <footer class="footer">
-        <p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p>
-    </footer>
-
-    <script>
-        async function deployModel(id) {
-            if (confirm('Deploy model ' + id + '?')) {
-                await fetch('/api/v1/models/' + id + '/deploy', { method: 'POST' });
-                location.reload();
-            }
-        }
-        async function rollbackModel(id) {
-            if (confirm('Rollback model ' + id + '?')) {
-                await fetch('/api/v1/models/' + id + '/rollback', { method: 'POST' });
-                location.reload();
-            }
-        }
-    </script>
+    <footer class="footer"><p>VAIDDF — AI Delivery Control Plane for Regulated Java Enterprises</p></footer>
+    <script src="/js/models.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.vaiddf.api.ui;
 
 import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -16,7 +17,7 @@ public class DashboardResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public String dashboard() {
-        return landing.instance().render();
+    public TemplateInstance dashboard() {
+        return landing.instance();
     }
 }
